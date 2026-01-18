@@ -1,3 +1,4 @@
+// app/page.tsx
 import Section from "../components/Section";
 import LeadForm from "../components/LeadForm";
 import FAQ from "../components/FAQ";
@@ -9,16 +10,15 @@ export default function Page() {
         <div className="container">
           <div className="nav">
             <div className="brand">
-              <span
+              <img
+                src="/brand/newpath-auto-finance.png"
+                alt="NewPath Auto Finance"
                 style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 999,
-                  background: "var(--accent)",
-                  boxShadow: "0 0 18px rgba(24,214,200,0.55)"
+                  height: 34,
+                  width: "auto",
+                  display: "block"
                 }}
               />
-              <span>NewPath</span>
             </div>
             <div className="badge">Simple. Clear. Actionable.</div>
           </div>
