@@ -26,6 +26,7 @@ export default function Page() {
           </div>
 
           <div className="gridHero">
+            {/* HERO ONLY — remove the immediate form ask */}
             <div className="card">
               <div className="cardInner">
                 <h1 className="h1">
@@ -33,8 +34,8 @@ export default function Page() {
                 </h1>
 
                 <p className="sub">
-                  Leave the old pattern behind, get clear on what matters today, and take one clean next step
-                  forward—guided by the Co-Pilot and the BALANCE Cipher.
+                  NewPath exists to help get you approved—by using the BALANCE Cipher and the Co-Pilot to turn your
+                  situation into one clear next step.
                 </p>
 
                 <div className="pills">
@@ -44,34 +45,23 @@ export default function Page() {
                 </div>
 
                 <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
-                  Choose one door below. Each one routes you to the same short form.
+                  Choose one door below. When you’re ready, you can share the basics at the bottom.
                 </div>
-              </div>
-            </div>
-
-            <div className="card" id="get-started">
-              <div className="cardInner">
-                <h2 className="sectionTitle" style={{ marginTop: 0 }}>
-                  Tell us where you’re at
-                </h2>
-                <p className="sectionDesc">We only ask for what we need. You’ll get a follow-up with the next step.</p>
-                <LeadForm sourcePage="newpath-landing" sourceCta="hero-form" />
               </div>
             </div>
           </div>
         </div>
       </header>
 
-      {/* 4 CTA PILLARS — ARCHITECTURE ONLY (NO EXTRA BUTTONS ANYWHERE ELSE) */}
+      {/* 4 CTA PILLARS — ARCHITECTURE ONLY */}
       <Section
         id="pillars"
         title="Choose your door"
         desc="Four clean paths. One clear next step—powered by the BALANCE Cipher and guided by the Co-Pilot."
       >
-        {/* Make the "Choose your door" title feel like a hero headline */}
+        {/* Make the Section title for this block read like a hero line */}
         <div style={{ marginTop: -8 }}>
           <style>{`
-            /* Scoped boost: make the Section title for this block read like a hero line */
             #pillars .sectionTitle {
               font-size: clamp(34px, 5vw, 52px);
               line-height: 1.05;
@@ -95,7 +85,7 @@ export default function Page() {
                 Break free from what didn’t work before, learn what matters today, and move forward with clarity.
               </p>
               <a className="btn btnPrimary" href="#get-started">
-                Buy the right way →
+                Click here →
               </a>
             </div>
           </div>
@@ -110,7 +100,7 @@ export default function Page() {
                 We position you for approval by aligning your next move with the Cipher—translated by the Co-Pilot.
               </p>
               <a className="btn btnPrimary" href="#get-started">
-                Get approved →
+                Click here →
               </a>
             </div>
           </div>
@@ -125,7 +115,7 @@ export default function Page() {
                 The BALANCE Cipher helps you see why outcomes repeat; the Co-Pilot turns it into one clear next step.
               </p>
               <a className="btn btnPrimary" href="#get-started">
-                Show me clarity →
+                Click here →
               </a>
             </div>
           </div>
@@ -140,19 +130,19 @@ export default function Page() {
                 If buying today isn’t right, we map the next move to become ready—then execute with clarity.
               </p>
               <a className="btn btnPrimary" href="#get-started">
-                Build my path →
+                Click here →
               </a>
             </div>
           </div>
         </div>
       </Section>
 
-      {/* KEEP THE REST AS-IS FOR NOW (NO EXTRA CTA BUTTONS ADDED) */}
       <Section title="FAQ" desc="Quick answers. Clear expectations.">
         <FAQ />
       </Section>
 
-      <Section title="Ready to take the next step?" desc="Drop your info and we’ll route it correctly.">
+      {/* FORM ONLY AT THE BOTTOM */}
+      <Section id="get-started" title="Ready to take the next step?" desc="Share the basics and we’ll route it correctly.">
         <div className="card">
           <div className="cardInner">
             <LeadForm sourcePage="newpath-landing" sourceCta="bottom-cta" />
