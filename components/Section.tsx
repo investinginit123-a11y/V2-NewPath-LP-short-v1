@@ -1,3 +1,6 @@
+// components/Section.tsx
+import React from "react";
+
 type Props = {
   id?: string;
   title: string;
@@ -16,4 +19,3 @@ export default function Section({ id, title, desc, children }: Props) {
     </section>
   );
 }
-
