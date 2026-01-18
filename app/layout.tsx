@@ -1,3 +1,4 @@
+// app/layout.tsx
 import "./globals.css";
 import type { Metadata } from "next";
 
@@ -11,7 +12,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="body">
         <div className="page">
           {children}
           <footer className="footer">
@@ -19,7 +20,9 @@ export default function RootLayout({
               <div className="muted">
                 © {new Date().getFullYear()} NewPath. All rights reserved.
               </div>
-              <div className="muted">This site does not provide legal or credit repair advice.</div>
+              <div className="muted">
+                This site does not provide legal or credit repair advice.
+              </div>
             </div>
           </footer>
         </div>
