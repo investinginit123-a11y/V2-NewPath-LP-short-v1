@@ -69,6 +69,60 @@ export default function Page() {
         </div>
       </header>
 
+      {/* OPTION A: SHORT “HOW TO BUY A CAR” BLOCK — RIGHT UNDER HERO */}
+      <Section
+        id="how-to-buy-a-car"
+        title="How to buy a car (the right way)"
+        desc="Short version. No noise. Three moves that push you toward approval."
+      >
+        <div className="card">
+          <div className="cardInner">
+            <div style={{ display: "grid", gap: 10 }}>
+              <div className="item" style={{ margin: 0 }}>
+                <h3 className="itemTitle" style={{ margin: 0 }}>
+                  1) Know your numbers
+                </h3>
+                <p className="itemBody" style={{ margin: "6px 0 0" }}>
+                  Budget, down payment, and what you can actually carry monthly.
+                </p>
+              </div>
+
+              <div className="item" style={{ margin: 0 }}>
+                <h3 className="itemTitle" style={{ margin: 0 }}>
+                  2) Get positioned for approval
+                </h3>
+                <p className="itemBody" style={{ margin: "6px 0 0" }}>
+                  We identify the approval blockers and route your next move.
+                </p>
+              </div>
+
+              <div className="item" style={{ margin: 0 }}>
+                <h3 className="itemTitle" style={{ margin: 0 }}>
+                  3) Make one clean move next
+                </h3>
+                <p className="itemBody" style={{ margin: "6px 0 0" }}>
+                  Not a 30-step checklist. One step you can execute today.
+                </p>
+              </div>
+
+              <div className="buttonRow" style={{ marginTop: 4 }}>
+                <a className="btn btnPrimary" href="#get-started">
+                  Start my application →
+                </a>
+                {/* Placeholder until BALANCE Cipher app URL is wired */}
+                <a className="btn" href="#get-started" aria-label="Open BALANCE Cipher (placeholder)">
+                  Open BALANCE Cipher →
+                </a>
+              </div>
+
+              <div className="muted">
+                Fast path: start here. We’ll route you to the next step based on what you share.
+              </div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
       <Section id="how-it-works" title="How it works" desc="Three simple steps. No extra noise.">
         <div className="split">
           <div className="item">
