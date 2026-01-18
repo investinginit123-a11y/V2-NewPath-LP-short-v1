@@ -29,11 +29,11 @@ export default function Page() {
             <div className="card">
               <div className="cardInner">
                 <h1 className="h1">
-                  Start your next step <span style={{ color: "var(--accent)" }}>with clarity</span>.
+                  New Path — <span style={{ color: "var(--accent)" }}>open a new door</span>.
                 </h1>
                 <p className="sub">
-                  If you are tired of guessing, you are in the right place. We’ll take your situation, keep it
-                  simple, and point you to one clean next step.
+                  Break free from what didn’t work before, get clear on what matters today, and take one clean next
+                  step forward—guided by the BALANCE Cipher and the Co-Pilot.
                 </p>
 
                 <div className="pills">
@@ -44,10 +44,10 @@ export default function Page() {
 
                 <div className="buttonRow">
                   <a className="btn btnPrimary" href="#get-started">
-                    Get started
+                    Start here
                   </a>
-                  <a className="btn" href="#how-it-works">
-                    How it works
+                  <a className="btn" href="#path-ctas">
+                   Choose your path
                   </a>
                 </div>
               </div>
@@ -66,53 +66,80 @@ export default function Page() {
         </div>
       </header>
 
-      {/* HOW TO BUY A CAR (SHORT VERSION) */}
+      {/* PATH CTAs — ARCHITECTURE PILLARS (4 MAX) */}
       <Section
-        id="how-to-buy-a-car"
-        title="How to buy a car (the right way)"
-        desc="Short version. No noise. Three moves that push you toward approval."
+        id="path-ctas"
+        title="Choose your path"
+        desc="Four simple doors. One clear next step—powered by the BALANCE Cipher and guided by the Co-Pilot."
       >
-        <div className="card">
-          <div className="cardInner">
-            <div style={{ display: "grid", gap: 12 }}>
-              <div className="item" style={{ margin: 0 }}>
-                <h3 className="itemTitle" style={{ margin: 0 }}>
-                  1) Know your numbers
-                </h3>
-                <p className="itemBody">Budget, down payment, and what you can actually carry monthly.</p>
-              </div>
+        <div style={{ display: "grid", gap: 12 }}>
+          {/* CTA 1 */}
+          <div className="card">
+            <div className="cardInner">
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Buy the car the right way
+              </h3>
+              <p className="itemBody" style={{ marginBottom: 12 }}>
+                Leave the old pattern behind, learn what matters today, and take one clean next step forward—so you can
+                buy with confidence moving forward.
+              </p>
+              <a className="btn btnPrimary" href="#get-started">
+                Click here →
+              </a>
+            </div>
+          </div>
 
-              <div className="item" style={{ margin: 0 }}>
-                <h3 className="itemTitle" style={{ margin: 0 }}>
-                  2) Get positioned for approval
-                </h3>
-                <p className="itemBody">We identify the approval blockers and route your next move.</p>
-              </div>
+          {/* CTA 2 */}
+          <div className="card">
+            <div className="cardInner">
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Get approved the right way
+              </h3>
+              <p className="itemBody" style={{ marginBottom: 12 }}>
+                Focus on what matters today—income, payment, and approval positioning. The Cipher shows what’s real; the
+                Co-Pilot translates it into one clear move.
+              </p>
+              <a className="btn btnPrimary" href="#get-started">
+                Click here →
+              </a>
+            </div>
+          </div>
 
-              <div className="item" style={{ margin: 0 }}>
-                <h3 className="itemTitle" style={{ margin: 0 }}>
-                  3) Make one clean move next
-                </h3>
-                <p className="itemBody">Not a 30-step checklist. One step you can execute today.</p>
-              </div>
+          {/* CTA 3 */}
+          <div className="card">
+            <div className="cardInner">
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Understand what’s happening today
+              </h3>
+              <p className="itemBody" style={{ marginBottom: 12 }}>
+                The BALANCE Cipher helps you see why outcomes repeat. The Co-Pilot turns that into simple, actionable
+                clarity—without overwhelm.
+              </p>
+              <a className="btn btnPrimary" href="#get-started">
+                Click here →
+              </a>
+            </div>
+          </div>
 
-              <div className="buttonRow" style={{ marginTop: 6 }}>
-                <a className="btn btnPrimary" href="#get-started">
-                  Start my application →
-                </a>
-                <a className="btn" href="#get-started">
-                  Open BALANCE Cipher →
-                </a>
-              </div>
-
-              <div className="muted" style={{ fontSize: 12 }}>
-                Fast path: start here. We’ll route you to the next step based on what you share.
-              </div>
+          {/* CTA 4 */}
+          <div className="card">
+            <div className="cardInner">
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Build a path forward
+              </h3>
+              <p className="itemBody" style={{ marginBottom: 12 }}>
+                If “buy today” isn’t the right move, you’ll get the exact next step to become ready—then execute with
+                clarity.
+              </p>
+              <a className="btn btnPrimary" href="#get-started">
+                Click here →
+              </a>
             </div>
           </div>
         </div>
       </Section>
 
+      {/* KEEP EXISTING SECTIONS FOR NOW (PILLARS FIRST) */}
       <Section id="how-it-works" title="How it works" desc="Three simple steps. No extra noise.">
         <div className="split">
           <div className="item">
