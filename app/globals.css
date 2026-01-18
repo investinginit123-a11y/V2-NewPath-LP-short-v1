@@ -1,3 +1,4 @@
+
 :root {
   --bg: #070b16;
   --panel: #0b1224;
@@ -110,4 +111,3 @@ html, body {
 .footer { margin-top: auto; border-top: 1px solid var(--line); background: rgba(0,0,0,0.15); }
 .footerInner { padding: 16px 0; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
 .muted { color: var(--muted); font-size: 12px; }
-
