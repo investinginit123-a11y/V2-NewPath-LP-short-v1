@@ -47,7 +47,6 @@ export default function Page() {
                   <a className="btn btnPrimary" href="#get-started">
                     Get started
                   </a>
-                  {/* ROUTE TO THE NEW “HOW TO BUY A CAR” SECTION */}
                   <a className="btn" href="#how-to-buy-a-car">
                     How it works
                   </a>
@@ -67,6 +66,13 @@ export default function Page() {
               </div>
             </div>
           </div>
+
+          {/* TEMP: Make it impossible to miss */}
+          <div style={{ paddingTop: 14 }}>
+            <a className="btn" href="#how-to-buy-a-car">
+              Jump to: How to buy a car ↓
+            </a>
+          </div>
         </div>
       </header>
 
@@ -76,6 +82,24 @@ export default function Page() {
         title="How to buy a car (the right way)"
         desc="No guessing. No noise. These are the steps that move you toward approval—one clean move at a time."
       >
+        {/* TEMP MARKER: remove after verification */}
+        <div
+          className="card"
+          style={{
+            border: "2px solid var(--accent)",
+            marginBottom: 12
+          }}
+        >
+          <div className="cardInner" style={{ padding: 12 }}>
+            <div style={{ fontWeight: 800 }}>
+              ✅ YOU ARE HERE: “HOW TO BUY A CAR” SECTION IS RENDERING
+            </div>
+            <div className="muted">
+              If you can see this box, deployment is correct. We will remove this marker next.
+            </div>
+          </div>
+        </div>
+
         <div className="split">
           <div className="item">
             <h3 className="itemTitle">1) Know your numbers first</h3>
