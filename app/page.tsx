@@ -47,7 +47,7 @@ export default function Page() {
                   <a className="btn btnPrimary" href="#get-started">
                     Get started
                   </a>
-                  <a className="btn" href="/how-to-buy-a-car">
+                  <a className="btn" href="#how-it-works">
                     How it works
                   </a>
                 </div>
