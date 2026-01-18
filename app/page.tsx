@@ -2,7 +2,6 @@
 
 import Section from "../components/Section";
 import LeadForm from "../components/LeadForm";
-import FAQ from "../components/FAQ";
 
 export default function Page() {
   return (
@@ -20,35 +19,35 @@ export default function Page() {
           max-width: 720px;
         }
 
-        /* HERO: AI guided pill — hero artifact */
-        .aiGuidedPill {
+        /* Cipher pill (now used INSIDE the “Understand” door, not in header) */
+        .cipherPill {
           display: inline-flex;
           align-items: center;
-          gap: 14px;
-          padding: 12px 16px;
+          gap: 12px;
+          padding: 10px 14px;
           border-radius: 999px;
           border: 1px solid rgba(0,0,0,0.12);
           background: #ffffff;
-          box-shadow: 0 14px 34px rgba(0,0,0,0.08);
+          box-shadow: 0 12px 28px rgba(0,0,0,0.06);
           white-space: nowrap;
         }
-        .aiGuidedText {
+        .cipherPillText {
           font-weight: 900;
           font-size: 12px;
           letter-spacing: 0.12em;
           text-transform: uppercase;
           opacity: 0.82;
         }
-        .aiGuidedAccent {
+        .cipherPillAccent {
           width: 10px;
-          height: 46px;
+          height: 38px;
           border-radius: 999px;
           background: var(--accent);
           opacity: 0.14;
           flex: 0 0 auto;
         }
-        .aiGuidedEmblem {
-          height: 46px;
+        .cipherPillEmblem {
+          height: 38px;
           width: auto;
           display: block;
           object-fit: contain;
@@ -60,9 +59,7 @@ export default function Page() {
         }
 
         /* Benefits grid (V1-style, clean) */
-        .benefitsLead {
-          max-width: 820px;
-        }
+        .benefitsLead { max-width: 820px; }
         .benefitsGrid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -80,7 +77,7 @@ export default function Page() {
           cursor: pointer;
           user-select: none;
           border-radius: 22px;
-          padding: 22px 22px;
+          padding: 26px 24px; /* slightly larger */
           border: 1px solid rgba(0,0,0,0.10);
           background: #ffffff;
           box-shadow: 0 18px 44px rgba(0,0,0,0.08);
@@ -103,9 +100,9 @@ export default function Page() {
           pointer-events: none;
         }
         #get-started .doorBadge {
-          width: 64px;
-          height: 64px;
-          border-radius: 16px;
+          width: 72px;
+          height: 72px;
+          border-radius: 18px;
           display: grid;
           place-items: center;
           background: rgba(0,0,0,0.04);
@@ -113,42 +110,42 @@ export default function Page() {
           flex: 0 0 auto;
         }
         #get-started .doorIcon {
-          width: 26px;
-          height: 34px;
+          width: 30px;
+          height: 40px;
           border: 2px solid rgba(0,0,0,0.60);
-          border-radius: 6px;
+          border-radius: 7px;
           position: relative;
         }
         #get-started .doorIcon::before {
           content: "";
           position: absolute;
-          left: 6px;
-          top: 6px;
-          right: 6px;
-          bottom: 6px;
-          border-radius: 4px;
+          left: 7px;
+          top: 7px;
+          right: 7px;
+          bottom: 7px;
+          border-radius: 5px;
           border: 1px solid rgba(0,0,0,0.18);
         }
         #get-started .doorIcon::after {
           content: "";
-          width: 5px;
-          height: 5px;
+          width: 6px;
+          height: 6px;
           border-radius: 999px;
           background: rgba(0,0,0,0.60);
           position: absolute;
-          right: 5px;
+          right: 6px;
           top: 50%;
           transform: translateY(-50%);
         }
         #get-started .doorText { display: grid; gap: 4px; flex: 1 1 auto; min-width: 0; }
-        #get-started .doorTitle { font-size: 18px; line-height: 1.15; letter-spacing: -0.01em; }
+        #get-started .doorTitle { font-size: 20px; line-height: 1.15; letter-spacing: -0.01em; }
         #get-started .doorSub { font-size: 13px; opacity: 0.72; font-weight: 500; line-height: 1.35; }
         #get-started .doorAction {
-          padding: 12px 16px;
+          padding: 14px 18px;
           border-radius: 14px;
           background: var(--accent);
           color: #fff;
-          font-weight: 800;
+          font-weight: 900;
           white-space: nowrap;
           flex: 0 0 auto;
           box-shadow: 0 10px 20px rgba(0,0,0,0.08);
@@ -158,6 +155,30 @@ export default function Page() {
           border-color: rgba(0,0,0,0.14);
         }
         #get-started .doorBody { margin-top: 14px; }
+
+        /* Bottom Cipher feature (big emblem) */
+        #cipher .cipherHero {
+          display: grid;
+          gap: 12px;
+          align-items: center;
+        }
+        #cipher .cipherEmblemBig {
+          width: min(420px, 92vw);
+          height: auto;
+          display: block;
+          object-fit: contain;
+          margin: 4px auto 0;
+        }
+        #cipher .cipherTitle {
+          font-size: clamp(26px, 4vw, 36px);
+          line-height: 1.12;
+          letter-spacing: -0.02em;
+          margin: 0;
+        }
+        #cipher .cipherCopy {
+          margin: 0;
+          max-width: 720px;
+        }
       `}</style>
 
       <header className="hero">
@@ -176,15 +197,8 @@ export default function Page() {
               />
             </div>
 
-            <div className="aiGuidedPill" aria-label="AI guided by the BALANCE Cipher">
-              <span className="aiGuidedText">AI GUIDED BY</span>
-              <span className="aiGuidedAccent" aria-hidden="true" />
-              <img
-                className="aiGuidedEmblem"
-                src="/brand/balance-cipher-emblem.png"
-                alt="BALANCE Cipher emblem"
-              />
-            </div>
+            {/* header right intentionally left clean */}
+            <div className="badge">Simple. Clear. Actionable.</div>
           </div>
 
           <div className="gridHero">
@@ -206,7 +220,7 @@ export default function Page() {
                 </div>
 
                 <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
-                  Choose one door below. When you’re ready, you can open your new door at the bottom.
+                  Choose one door below. When you’re ready, open your new door at the bottom.
                 </div>
               </div>
             </div>
@@ -214,6 +228,7 @@ export default function Page() {
         </div>
       </header>
 
+      {/* 4 CTA PILLARS — ARCHITECTURE ONLY */}
       <Section
         id="pillars"
         title="Choose your door"
@@ -222,7 +237,9 @@ export default function Page() {
         <div style={{ display: "grid", gap: 12 }}>
           <div className="card">
             <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>Buy your next vehicle the right way</h3>
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Buy your next vehicle the right way
+              </h3>
               <p className="itemBody" style={{ marginBottom: 12 }}>
                 Break free from what didn’t work before, learn what matters today, and move forward with clarity.
               </p>
@@ -232,7 +249,9 @@ export default function Page() {
 
           <div className="card">
             <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>Get approved the right way</h3>
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Get approved the right way
+              </h3>
               <p className="itemBody" style={{ marginBottom: 12 }}>
                 We position you for approval by aligning your next move with the Cipher—translated by the Co-Pilot.
               </p>
@@ -240,23 +259,41 @@ export default function Page() {
             </div>
           </div>
 
+          {/* This door now carries the AI guided by + Cipher pill */}
           <div className="card">
             <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>Understand what happened—and what’s happening today</h3>
-              <p className="itemBody" style={{ marginBottom: 12 }}>
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Understand what happened—and what’s happening today
+              </h3>
+              <p className="itemBody" style={{ marginBottom: 10 }}>
                 The BALANCE Cipher helps you see why outcomes repeat; the Co-Pilot turns it into one clear next step.
               </p>
+
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "flex-start", gap: 12, marginBottom: 12 }}>
+                <div className="cipherPill" aria-label="AI guided by the BALANCE Cipher">
+                  <span className="cipherPillText">AI guided by</span>
+                  <span className="cipherPillAccent" aria-hidden="true" />
+                  <img
+                    className="cipherPillEmblem"
+                    src="/brand/balance-cipher-emblem.png"
+                    alt="BALANCE Cipher emblem"
+                  />
+                </div>
+              </div>
+
               <a className="btn btnPrimary" href="#get-started">Click here →</a>
             </div>
           </div>
 
           <div className="card">
             <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>Let us help you with your path forward—by the BALANCE Cipher</h3>
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Let us help you with your path forward—by the BALANCE Cipher
+              </h3>
               <p className="itemBody" style={{ marginBottom: 12 }}>
                 If buying today isn’t right, we map the next move to become ready—then execute with clarity.
               </p>
-              <a className="btn btnPrimary" href="#get-started">Click here →</a>
+              <a className="btn btnPrimary" href="#cipher">Click here →</a>
             </div>
           </div>
         </div>
@@ -297,10 +334,7 @@ export default function Page() {
         </div>
       </Section>
 
-      <Section title="FAQs" desc="Short answers. Clear expectations.">
-        <FAQ />
-      </Section>
-
+      {/* Bottom door CTA (form hidden until they opt in) */}
       <Section
         id="get-started"
         title="Ready to open your new door?"
@@ -327,6 +361,43 @@ export default function Page() {
               </div>
             </div>
           </details>
+        </div>
+      </Section>
+
+      {/* VERY BOTTOM: big Cipher moment (mysterious, relatable) */}
+      <Section
+        id="cipher"
+        title="The BALANCE Cipher"
+        desc="It’s not a checklist. It’s a map."
+      >
+        <div className="cipherHero">
+          <img
+            className="cipherEmblemBig"
+            src="/brand/balance-cipher-emblem.png"
+            alt="BALANCE Cipher emblem"
+          />
+
+          <h3 className="cipherTitle">
+            Open your new door—<span style={{ color: "var(--accent)" }}>with the Cipher</span>.
+          </h3>
+
+          <p className="cipherCopy">
+            Most people don’t need more information. They need to see what’s real—then take one clean next step.
+            The Cipher helps reveal the pattern, and the Co-Pilot translates it into something simple and doable.
+          </p>
+
+          <div className="buttonRow" style={{ marginTop: 6 }}>
+            <a className="btn btnPrimary" href="#get-started">
+              Open my door →
+            </a>
+            <a className="btn" href="#pillars">
+              Choose a door →
+            </a>
+          </div>
+
+          <div className="muted" style={{ fontSize: 12 }}>
+            Quiet power. Clear direction. One move at a time.
+          </div>
         </div>
       </Section>
     </main>
