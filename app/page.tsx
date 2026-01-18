@@ -1,3 +1,5 @@
+// app/page.tsx
+
 import Section from "../components/Section";
 import LeadForm from "../components/LeadForm";
 import FAQ from "../components/FAQ";
@@ -8,17 +10,17 @@ export default function Page() {
       <header className="hero">
         <div className="container">
           <div className="nav">
-            <div className="brand">
-              <span
+            <div className="brand" style={{ gap: 12 }}>
+              <img
+                src="/brand/newpath-auto-finance.png"
+                alt="New Path Auto Finance"
                 style={{
-                  width: 10,
-                  height: 10,
-                  borderRadius: 999,
-                  background: "var(--accent)",
-                  boxShadow: "0 0 18px rgba(24,214,200,0.55)"
+                  width: 288, // ~3 inches @ 96dpi
+                  height: 288,
+                  objectFit: "contain",
+                  display: "block"
                 }}
               />
-              <span>NewPath</span>
             </div>
             <div className="badge">Simple. Clear. Actionable.</div>
           </div>
@@ -27,12 +29,11 @@ export default function Page() {
             <div className="card">
               <div className="cardInner">
                 <h1 className="h1">
-                  Start your next step{" "}
-                  <span style={{ color: "var(--accent)" }}>with clarity</span>.
+                  Start your next step <span style={{ color: "var(--accent)" }}>with clarity</span>.
                 </h1>
                 <p className="sub">
-                  If you are tired of guessing, you are in the right place. We’ll take your situation,
-                  keep it simple, and point you to one clean next step.
+                  If you are tired of guessing, you are in the right place. We’ll take your situation, keep it
+                  simple, and point you to one clean next step.
                 </p>
 
                 <div className="pills">
@@ -57,9 +58,7 @@ export default function Page() {
                 <h2 className="sectionTitle" style={{ marginTop: 0 }}>
                   Tell us where you’re at
                 </h2>
-                <p className="sectionDesc">
-                  We only ask for what we need. You’ll get a follow-up with the next step.
-                </p>
+                <p className="sectionDesc">We only ask for what we need. You’ll get a follow-up with the next step.</p>
                 <LeadForm sourcePage="newpath-landing" sourceCta="hero-form" />
               </div>
             </div>
@@ -67,7 +66,7 @@ export default function Page() {
         </div>
       </header>
 
-      {/* HOW TO BUY A CAR (SHORT) */}
+      {/* HOW TO BUY A CAR (SHORT VERSION) */}
       <Section
         id="how-to-buy-a-car"
         title="How to buy a car (the right way)"
@@ -75,7 +74,7 @@ export default function Page() {
       >
         <div className="card">
           <div className="cardInner">
-            <div style={{ display: "grid", gap: 10 }}>
+            <div style={{ display: "grid", gap: 12 }}>
               <div className="item" style={{ margin: 0 }}>
                 <h3 className="itemTitle" style={{ margin: 0 }}>
                   1) Know your numbers
@@ -106,7 +105,9 @@ export default function Page() {
                 </a>
               </div>
 
-              <div className="muted">Fast path: start here. We’ll route you to the next step based on what you share.</div>
+              <div className="muted" style={{ fontSize: 12 }}>
+                Fast path: start here. We’ll route you to the next step based on what you share.
+              </div>
             </div>
           </div>
         </div>
@@ -126,9 +127,7 @@ export default function Page() {
           </div>
           <div className="item">
             <h3 className="itemTitle">3) You get one clear next step</h3>
-            <p className="itemBody">
-              Not a lecture. Not a checklist of 30 things. One clean move to take next.
-            </p>
+            <p className="itemBody">Not a lecture. Not a checklist of 30 things. One clean move to take next.</p>
           </div>
           <div className="item">
             <h3 className="itemTitle">What this is not</h3>
