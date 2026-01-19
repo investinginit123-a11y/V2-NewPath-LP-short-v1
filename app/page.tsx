@@ -1,504 +1,403 @@
-// app/capture-of-application/page.tsx
-"use client";
+// app/page.tsx
 
-import React, { useEffect, useMemo, useState } from "react";
-import Section from "../../components/Section";
+import Section from "../components/Section";
+import LeadForm from "../components/LeadForm";
 
-type Step = 1 | 2 | 3 | 4;
-
-function safeParseSearch(search: string) {
-  try {
-    return new URLSearchParams(search || "");
-  } catch {
-    return new URLSearchParams();
-  }
-}
-
-function cleanPhone(v: string) {
-  return (v || "").replace(/[^\d]/g, "").slice(0, 15);
-}
-
-function isEmail(v: string) {
-  const s = (v || "").trim();
-  return /^\S+@\S+\.\S+$/.test(s);
-}
-
-export default function CaptureOfApplicationPage() {
-  const [step, setStep] = useState<Step>(1);
-  const [submitting, setSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
-  const [submitOk, setSubmitOk] = useState(false);
-
-  // Basic applicant info
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-
-  // Vehicle / intent
-  const [vehicleInterest, setVehicleInterest] = useState("");
-  const [budgetMonthly, setBudgetMonthly] = useState("");
-  const [downPayment, setDownPayment] = useState("");
-
-  // Credit snapshot (lightweight)
-  const [creditBand, setCreditBand] = useState("");
-  const [hasReposession, setHasReposession] = useState<"" | "yes" | "no">("");
-  const [hasBankruptcy, setHasBankruptcy] = useState<"" | "yes" | "no">("");
-
-  // Meta
-  const [sourcePage] = useState("capture-of-application");
-  const [sourceCta] = useState("landing-link");
-  const [utm, setUtm] = useState<Record<string, string>>({});
-
-  useEffect(() => {
-    const sp = safeParseSearch(window.location.search);
-    const utmObj: Record<string, string> = {};
-    ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"].forEach((k) => {
-      const v = sp.get(k);
-      if (v) utmObj[k] = v;
-    });
-    setUtm(utmObj);
-  }, []);
-
-  const canNextStep1 = useMemo(() => {
-    if (!firstName.trim()) return false;
-    if (!lastName.trim()) return false;
-    if (cleanPhone(phone).length < 10) return false;
-    if (!isEmail(email)) return false;
-    return true;
-  }, [firstName, lastName, phone, email]);
-
-  const canNextStep2 = useMemo(() => {
-    // Keep it “no pressure”: they can continue even if blanks, but vehicleInterest helps.
-    return true;
-  }, []);
-
-  const canSubmit = useMemo(() => {
-    // Credit step can be light; require at minimum Step 1
-    return canNextStep1;
-  }, [canNextStep1]);
-
-  async function postLead(payload: Record<string, any>) {
-    // 1) Try JSON (typical Next route handlers)
-    try {
-      const r = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      if (r.ok) return true;
-    } catch {
-      // fall through
-    }
-
-    // 2) Fallback: form-encoded (some backends prefer this)
-    try {
-      const fd = new URLSearchParams();
-      Object.entries(payload).forEach(([k, v]) => {
-        if (v === undefined || v === null) return;
-        fd.set(k, typeof v === "string" ? v : JSON.stringify(v));
-      });
-
-      const r = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8" },
-        body: fd.toString(),
-      });
-      if (r.ok) return true;
-    } catch {
-      // ignore
-    }
-
-    return false;
-  }
-
-  async function handleSubmit() {
-    if (!canSubmit || submitting) return;
-
-    setSubmitting(true);
-    setSubmitError(null);
-
-    const payload = {
-      // Common lead fields (best-effort)
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      name: `${firstName.trim()} ${lastName.trim()}`.trim(),
-      phone: cleanPhone(phone),
-      email: email.trim(),
-
-      // Application-specific fields (kept simple)
-      vehicleInterest: vehicleInterest.trim(),
-      budgetMonthly: budgetMonthly.trim(),
-      downPayment: downPayment.trim(),
-
-      creditBand: creditBand.trim(),
-      hasReposession,
-      hasBankruptcy,
-
-      // Attribution
-      sourcePage,
-      sourceCta,
-      utm,
-
-      // Optional: helpful label for your CRM filtering
-      leadType: "credit-application-capture",
-    };
-
-    const ok = await postLead(payload);
-
-    if (ok) {
-      setSubmitOk(true);
-      setStep(4);
-    } else {
-      setSubmitError("Submission did not go through. Please try again, or use the basic form on the landing page.");
-    }
-
-    setSubmitting(false);
-  }
-
+export default function Page() {
   return (
     <main>
       <style>{`
         html, body { background: #ffffff !important; }
 
-        .topPad { padding-top: 18px; }
-        .flowWrap { display: grid; gap: 12px; }
+        #pillars .sectionTitle {
+          font-size: clamp(34px, 5vw, 52px);
+          line-height: 1.05;
+          letter-spacing: -0.02em;
+        }
+        #pillars .sectionDesc {
+          font-size: 16px;
+          max-width: 720px;
+        }
 
-        .stepRow {
+        /* Cipher pill */
+        .cipherPill {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 14px;
+          border-radius: 999px;
+          border: 1px solid rgba(0,0,0,0.12);
+          background: #ffffff;
+          box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+          white-space: nowrap;
+        }
+        .cipherPillText {
+          font-weight: 900;
+          font-size: 12px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          opacity: 0.82;
+        }
+        .cipherPillAccent {
+          width: 10px;
+          height: 38px;
+          border-radius: 999px;
+          background: var(--accent);
+          opacity: 0.14;
+          flex: 0 0 auto;
+        }
+        .cipherPillEmblem {
+          height: 38px;
+          width: auto;
+          display: block;
+          object-fit: contain;
+          background: transparent !important;
+          border: none !important;
+          border-radius: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        /* HERO: keep pills + cipher pill on the same wrapped row */
+        .heroPillsRow {
           display: flex;
-          gap: 10px;
           flex-wrap: wrap;
           align-items: center;
-          margin-top: 6px;
-        }
-        .stepDot {
-          width: 10px;
-          height: 10px;
-          border-radius: 999px;
-          background: rgba(0,0,0,0.14);
-        }
-        .stepDot.active {
-          background: var(--accent);
-          box-shadow: 0 0 0 6px rgba(0,0,0,0.04);
+          gap: 10px;
         }
 
-        .fieldGrid {
+        /* “Understand” card: CTA + cipher pill on ONE line */
+        .ctaRowInline {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 12px;
+          margin-top: 10px;
+        }
+
+        /* Benefits grid (V1-style, clean) */
+        .benefitsLead { max-width: 820px; }
+        .benefitsGrid {
           display: grid;
-          grid-template-columns: 1fr 1fr;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 12px;
         }
         @media (max-width: 920px) {
-          .fieldGrid { grid-template-columns: 1fr; }
+          .benefitsGrid { grid-template-columns: 1fr; }
         }
 
-        .field label {
-          display: block;
-          font-size: 12px;
-          font-weight: 900;
-          letter-spacing: 0.08em;
-          text-transform: uppercase;
-          opacity: 0.72;
-          margin-bottom: 6px;
-        }
-        .field input, .field select {
-          width: 100%;
-          height: 44px;
-          border-radius: 14px;
-          border: 1px solid rgba(0,0,0,0.12);
-          padding: 0 12px;
-          outline: none;
-          background: #fff;
-        }
-
-        .helper {
-          font-size: 12px;
-          opacity: 0.72;
-          margin-top: 8px;
-          line-height: 1.35;
-        }
-
-        .btnRow {
+        /* Bottom Door CTA */
+        #get-started .doorWrap { display: grid; gap: 14px; }
+        #get-started details.doorDetails { border-radius: 22px; }
+        #get-started details.doorDetails > summary {
+          list-style: none;
+          cursor: pointer;
+          user-select: none;
+          border-radius: 22px;
+          padding: 26px 24px; /* slightly larger */
+          border: 1px solid rgba(0,0,0,0.10);
+          background: #ffffff;
+          box-shadow: 0 18px 44px rgba(0,0,0,0.08);
           display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
           align-items: center;
-          margin-top: 10px;
+          justify-content: space-between;
+          gap: 16px;
+          font-weight: 800;
+          position: relative;
+          overflow: hidden;
         }
-        .btnLite {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          padding: 12px 14px;
-          border-radius: 14px;
-          border: 1px solid rgba(0,0,0,0.12);
-          background: #fff;
-          font-weight: 900;
-          text-decoration: none;
+        #get-started details.doorDetails > summary::-webkit-details-marker { display: none; }
+        #get-started details.doorDetails > summary::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(90deg, rgba(0,0,0,0.00), rgba(0,0,0,0.03), rgba(0,0,0,0.00));
+          transform: translateX(-40%);
+          opacity: 0.9;
+          pointer-events: none;
         }
-        .btnPrimaryLike {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          padding: 12px 14px;
+        #get-started .doorBadge {
+          width: 72px;
+          height: 72px;
+          border-radius: 18px;
+          display: grid;
+          place-items: center;
+          background: rgba(0,0,0,0.04);
+          border: 1px solid rgba(0,0,0,0.08);
+          flex: 0 0 auto;
+        }
+        #get-started .doorIcon {
+          width: 30px;
+          height: 40px;
+          border: 2px solid rgba(0,0,0,0.60);
+          border-radius: 7px;
+          position: relative;
+        }
+        #get-started .doorIcon::before {
+          content: "";
+          position: absolute;
+          left: 7px;
+          top: 7px;
+          right: 7px;
+          bottom: 7px;
+          border-radius: 5px;
+          border: 1px solid rgba(0,0,0,0.18);
+        }
+        #get-started .doorIcon::after {
+          content: "";
+          width: 6px;
+          height: 6px;
+          border-radius: 999px;
+          background: rgba(0,0,0,0.60);
+          position: absolute;
+          right: 6px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        #get-started .doorText { display: grid; gap: 4px; flex: 1 1 auto; min-width: 0; }
+        #get-started .doorTitle { font-size: 20px; line-height: 1.15; letter-spacing: -0.01em; }
+        #get-started .doorSub { font-size: 13px; opacity: 0.72; font-weight: 500; line-height: 1.35; }
+        #get-started .doorAction {
+          padding: 14px 18px;
           border-radius: 14px;
           background: var(--accent);
           color: #fff;
           font-weight: 900;
-          border: none;
-          cursor: pointer;
-          text-decoration: none;
+          white-space: nowrap;
+          flex: 0 0 auto;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.08);
         }
-        .btnPrimaryLike[disabled] {
-          opacity: 0.55;
-          cursor: not-allowed;
+        #get-started details.doorDetails[open] > summary {
+          box-shadow: 0 22px 54px rgba(0,0,0,0.10);
+          border-color: rgba(0,0,0,0.14);
         }
+        #get-started .doorBody { margin-top: 14px; }
 
-        .errorBox {
-          border-radius: 16px;
-          border: 1px solid rgba(0,0,0,0.12);
-          background: rgba(0,0,0,0.03);
-          padding: 12px;
-          font-size: 13px;
+        /* Bottom Cipher feature (big emblem) */
+        #cipher .cipherHero {
+          display: grid;
+          gap: 12px;
+          align-items: center;
+        }
+        #cipher .cipherEmblemBig {
+          width: min(420px, 92vw);
+          height: auto;
+          display: block;
+          object-fit: contain;
+          margin: 4px auto 0;
+        }
+        #cipher .cipherTitle {
+          font-size: clamp(26px, 4vw, 36px);
+          line-height: 1.12;
+          letter-spacing: -0.02em;
+          margin: 0;
+        }
+        #cipher .cipherCopy {
+          margin: 0;
+          max-width: 720px;
         }
       `}</style>
 
-      <div className="container topPad">
-        <div className="nav">
-          <div className="brand" style={{ gap: 12 }}>
-            <img
-              src="/brand/newpath-auto-finance.png"
-              alt="New Path Auto Finance"
-              style={{ width: 160, height: 160, objectFit: "contain", display: "block" }}
-            />
+      <header className="hero">
+        <div className="container">
+          <div className="nav">
+            <div className="brand" style={{ gap: 12 }}>
+              <img
+                src="/brand/newpath-auto-finance.png"
+                alt="New Path Auto Finance"
+                style={{ width: 288, height: 288, objectFit: "contain", display: "block" }}
+              />
+            </div>
+            <div className="badge">Simple. Clear. Actionable.</div>
           </div>
 
-          <div className="badge">Capture of Application</div>
+          <div className="gridHero">
+            <div className="card">
+              <div className="cardInner">
+                <h1 className="h1">
+                  Create a New Path <span style={{ color: "var(--accent)" }}>forward</span>.
+                </h1>
+
+                <p className="sub">
+                  NewPath exists to help get you approved—using the BALANCE Cipher and the Co-Pilot to turn your
+                  situation into one clear next step.
+                </p>
+
+                <div className="heroPillsRow">
+                  <div className="pills">
+                    <div className="pill">No pressure</div>
+                    <div className="pill">No long forms</div>
+                    <div className="pill">Real next step</div>
+                  </div>
+
+                  <span className="cipherPill" aria-label="AI guided by the BALANCE Cipher">
+                    <span className="cipherPillText">AI guided by</span>
+                    <span className="cipherPillAccent" aria-hidden="true" />
+                    <img
+                      className="cipherPillEmblem"
+                      src="/brand/balance-cipher-emblem.png"
+                      alt="BALANCE Cipher emblem"
+                    />
+                  </span>
+                </div>
+
+                <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
+                  Choose one door below. When you’re ready, open your new door at the bottom.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      </header>
 
       <Section
-        id="capture"
-        title="Let’s capture the basics."
-        desc="No pressure. This is a short start so we can route your next step clearly."
+        id="pillars"
+        title="Choose your door"
+        desc="Four clean paths. One clear next step—powered by the BALANCE Cipher and guided by the Co-Pilot."
       >
-        <div className="flowWrap">
+        <div style={{ display: "grid", gap: 12 }}>
           <div className="card">
             <div className="cardInner">
-              <div className="stepRow" aria-label="Progress">
-                <span className={`stepDot ${step === 1 ? "active" : ""}`} />
-                <span className={`stepDot ${step === 2 ? "active" : ""}`} />
-                <span className={`stepDot ${step === 3 ? "active" : ""}`} />
-              </div>
-
-              {step === 1 && (
-                <>
-                  <h3 className="itemTitle" style={{ marginTop: 10 }}>
-                    Step 1 — Contact
-                  </h3>
-
-                  <div className="fieldGrid" style={{ marginTop: 10 }}>
-                    <div className="field">
-                      <label>First name</label>
-                      <input value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-                    </div>
-                    <div className="field">
-                      <label>Last name</label>
-                      <input value={lastName} onChange={(e) => setLastName(e.target.value)} />
-                    </div>
-                    <div className="field">
-                      <label>Phone</label>
-                      <input
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        inputMode="tel"
-                        placeholder="(xxx) xxx-xxxx"
-                      />
-                    </div>
-                    <div className="field">
-                      <label>Email</label>
-                      <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        inputMode="email"
-                        placeholder="you@email.com"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="helper">
-                    You only need to share the basics. We use this to follow up with one clear next step.
-                  </div>
-
-                  <div className="btnRow">
-                    <button
-                      className="btnPrimaryLike"
-                      disabled={!canNextStep1}
-                      onClick={() => setStep(2)}
-                    >
-                      Continue →
-                    </button>
-                    <a className="btnLite" href="/">
-                      Back to landing
-                    </a>
-                  </div>
-                </>
-              )}
-
-              {step === 2 && (
-                <>
-                  <h3 className="itemTitle" style={{ marginTop: 10 }}>
-                    Step 2 — What are you trying to do?
-                  </h3>
-
-                  <div className="fieldGrid" style={{ marginTop: 10 }}>
-                    <div className="field">
-                      <label>Vehicle interest</label>
-                      <input
-                        value={vehicleInterest}
-                        onChange={(e) => setVehicleInterest(e.target.value)}
-                        placeholder="Example: SUV, truck, sedan"
-                      />
-                    </div>
-
-                    <div className="field">
-                      <label>Monthly budget (optional)</label>
-                      <input
-                        value={budgetMonthly}
-                        onChange={(e) => setBudgetMonthly(e.target.value)}
-                        placeholder="Example: 350"
-                        inputMode="numeric"
-                      />
-                    </div>
-
-                    <div className="field">
-                      <label>Down payment (optional)</label>
-                      <input
-                        value={downPayment}
-                        onChange={(e) => setDownPayment(e.target.value)}
-                        placeholder="Example: 1000"
-                        inputMode="numeric"
-                      />
-                    </div>
-
-                    <div className="field">
-                      <label>Timeline (optional)</label>
-                      <select defaultValue="" onChange={() => {}}>
-                        <option value="">Select</option>
-                        <option value="now">Ready now</option>
-                        <option value="soon">Soon (2–4 weeks)</option>
-                        <option value="later">Later (1–3 months)</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="helper">
-                    Optional is fine. This step helps us route the cleanest next move for you.
-                  </div>
-
-                  <div className="btnRow">
-                    <button className="btnLite" onClick={() => setStep(1)}>
-                      ← Back
-                    </button>
-                    <button className="btnPrimaryLike" disabled={!canNextStep2} onClick={() => setStep(3)}>
-                      Continue →
-                    </button>
-                  </div>
-                </>
-              )}
-
-              {step === 3 && (
-                <>
-                  <h3 className="itemTitle" style={{ marginTop: 10 }}>
-                    Step 3 — Quick credit snapshot
-                  </h3>
-
-                  <div className="fieldGrid" style={{ marginTop: 10 }}>
-                    <div className="field">
-                      <label>Credit range (best guess)</label>
-                      <select value={creditBand} onChange={(e) => setCreditBand(e.target.value)}>
-                        <option value="">Select</option>
-                        <option value="550-">Under 550</option>
-                        <option value="550-599">550–599</option>
-                        <option value="600-649">600–649</option>
-                        <option value="650-699">650–699</option>
-                        <option value="700+">700+</option>
-                        <option value="unknown">Not sure</option>
-                      </select>
-                    </div>
-
-                    <div className="field">
-                      <label>Repossession in last 5 years?</label>
-                      <select value={hasReposession} onChange={(e) => setHasReposession(e.target.value as any)}>
-                        <option value="">Select</option>
-                        <option value="no">No</option>
-                        <option value="yes">Yes</option>
-                      </select>
-                    </div>
-
-                    <div className="field">
-                      <label>Bankruptcy in last 7 years?</label>
-                      <select value={hasBankruptcy} onChange={(e) => setHasBankruptcy(e.target.value as any)}>
-                        <option value="">Select</option>
-                        <option value="no">No</option>
-                        <option value="yes">Yes</option>
-                      </select>
-                    </div>
-
-                    <div className="field">
-                      <label>We keep this simple</label>
-                      <input value="One step at a time." readOnly />
-                    </div>
-                  </div>
-
-                  {submitError && (
-                    <div className="errorBox" style={{ marginTop: 12 }}>
-                      <strong>Issue:</strong> {submitError}
-                    </div>
-                  )}
-
-                  <div className="btnRow">
-                    <button className="btnLite" onClick={() => setStep(2)} disabled={submitting}>
-                      ← Back
-                    </button>
-                    <button className="btnPrimaryLike" onClick={handleSubmit} disabled={!canSubmit || submitting}>
-                      {submitting ? "Submitting..." : "Submit application →"}
-                    </button>
-                  </div>
-
-                  <div className="helper">
-                    By submitting, you are asking us to contact you about your next step. No pressure and no spam.
-                  </div>
-                </>
-              )}
-
-              {step === 4 && (
-                <>
-                  <h3 className="itemTitle" style={{ marginTop: 10 }}>
-                    You’re in.
-                  </h3>
-                  <p className="itemBody">
-                    We captured the basics. Next, we’ll follow up with one clear next step.
-                  </p>
-
-                  <div className="btnRow" style={{ marginTop: 12 }}>
-                    <a className="btnPrimaryLike" href="/">
-                      Back to landing →
-                    </a>
-                    <a className="btnLite" href="/buy-your-vehicle">
-                      Buy your vehicle path →
-                    </a>
-                  </div>
-
-                  <div className="helper">
-                    If you want to add anything later, you can—this is just the start.
-                  </div>
-                </>
-              )}
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>Buy your next vehicle the right way</h3>
+              <p className="itemBody" style={{ marginBottom: 12 }}>
+                Break free from what didn’t work before, learn what matters today, and move forward with clarity.
+              </p>
+              <a className="btn btnPrimary" href="/buy-your-vehicle">Click here →</a>
             </div>
           </div>
 
+          <div className="card">
+            <div className="cardInner">
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>Get approved the right way</h3>
+              <p className="itemBody" style={{ marginBottom: 12 }}>
+                We position you for approval by aligning your next move with the Cipher—translated by the Co-Pilot.
+              </p>
+              <a className="btn btnPrimary" href="/capture-of-application">Start application →</a>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="cardInner">
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Understand what happened—and what’s happening today
+              </h3>
+              <p className="itemBody" style={{ marginBottom: 10 }}>
+                The BALANCE Cipher helps you see why outcomes repeat; the Co-Pilot turns it into one clear next step.
+              </p>
+
+              <div className="ctaRowInline">
+                <a className="btn btnPrimary" href="/buy-your-vehicle">Click here →</a>
+
+                <span className="cipherPill" aria-label="AI guided by the BALANCE Cipher">
+                  <span className="cipherPillText">AI guided by</span>
+                  <span className="cipherPillAccent" aria-hidden="true" />
+                  <img
+                    className="cipherPillEmblem"
+                    src="/brand/balance-cipher-emblem.png"
+                    alt="BALANCE Cipher emblem"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="card">
+            <div className="cardInner">
+              <h3 className="itemTitle" style={{ marginTop: 0 }}>
+                Let us help you with your path forward—by the BALANCE Cipher
+              </h3>
+              <p className="itemBody" style={{ marginBottom: 12 }}>
+                If buying today isn’t right, we map the next move to become ready—then execute with clarity.
+              </p>
+              <a className="btn btnPrimary" href="#cipher">Click here →</a>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      <Section
+        id="simple-clear"
+        title="Simple. Clear. Built for action—when you’re guided by an AI-driven system."
+        desc="These doors create a simple, clear, built-for-action path—powered by the BALANCE Cipher and guided by the Co-Pilot."
+      >
+        <div className="benefitsLead" style={{ marginBottom: 12 }}>
           <div className="muted" style={{ fontSize: 12 }}>
-            Powered by a calm system: the BALANCE Cipher reveals the pattern; the Co-Pilot translates it into one clear move.
+            NewPath is the starting line. The Cipher is the follow-through map—so your next move stays simple, calm, and doable.
+          </div>
+        </div>
+
+        <div className="benefitsGrid">
+          <div className="item">
+            <h3 className="itemTitle">Clarity first</h3>
+            <p className="itemBody">You’ll know where you are and what your next step is—fast.</p>
+          </div>
+
+          <div className="item">
+            <h3 className="itemTitle">One clean start</h3>
+            <p className="itemBody">You choose a door. We route your next move. No overwhelm.</p>
+          </div>
+
+          <div className="item">
+            <h3 className="itemTitle">North Star vision</h3>
+            <p className="itemBody">Car → Score → Home. Auto is the on-ramp to long-term stability.</p>
+          </div>
+
+          <div className="item">
+            <h3 className="itemTitle">Big picture</h3>
+            <p className="itemBody">The Cipher helps you see the pattern—so your next move actually sticks.</p>
+          </div>
+        </div>
+      </Section>
+
+      <Section
+        id="get-started"
+        title="Ready to open your new door?"
+        desc="No pressure. If you choose to step through, share the basics and we’ll route your next step."
+      >
+        <div className="doorWrap">
+          <details className="doorDetails">
+            <summary>
+              <span className="doorBadge" aria-hidden="true">
+                <span className="doorIcon" />
+              </span>
+              <span className="doorText">
+                <span className="doorTitle">Open your new door</span>
+                <span className="doorSub">Share only the basics. We’ll follow up with the next step.</span>
+              </span>
+              <span className="doorAction">Open →</span>
+            </summary>
+
+            <div className="doorBody">
+              <div className="card">
+                <div className="cardInner">
+                  <LeadForm sourcePage="newpath-landing" sourceCta="bottom-door" />
+                </div>
+              </div>
+            </div>
+          </details>
+        </div>
+      </Section>
+
+      <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
+        <div className="cipherHero">
+          <img className="cipherEmblemBig" src="/brand/balance-cipher-emblem.png" alt="BALANCE Cipher emblem" />
+
+          <h3 className="cipherTitle">
+            Open your new door—<span style={{ color: "var(--accent)" }}>with the Cipher</span>.
+          </h3>
+
+          <p className="cipherCopy">
+            Most people don’t need more information. They need to see what’s real—then take one clean next step.
+            The Cipher helps reveal the pattern, and the Co-Pilot translates it into something simple and doable.
+          </p>
+
+          <div className="buttonRow" style={{ marginTop: 6 }}>
+            <a className="btn btnPrimary" href="/capture-of-application">Start my application →</a>
+            <a className="btn" href="#pillars">Choose a door →</a>
+          </div>
+
+          <div className="muted" style={{ fontSize: 12 }}>
+            Quiet power. Clear direction. One move at a time.
           </div>
         </div>
       </Section>
