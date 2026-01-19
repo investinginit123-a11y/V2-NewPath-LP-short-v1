@@ -337,8 +337,15 @@ export default function BuyYourVehicleV2Page() {
             </div>
 
             <div className="buttonRow" style={{ marginTop: 12 }}>
-              {/* PRIMARY: send them into the “door” start on the home page (current known entry point) */}
-              <a className="btn btnPrimary" href="/#get-started">Open my door →</a>
+              {/* PRIMARY: external funnel landing page */}
+              <a
+                className="btn btnPrimary"
+                href="https://balancecipher-v2.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open my door →
+              </a>
               <a className="btn" href="/">Back to NewPath home →</a>
             </div>
 
