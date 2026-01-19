@@ -230,7 +230,7 @@ export default function Page() {
                   situation into one clear next step.
                 </p>
 
-                {/* HERO pills + cipher pill (this fixes your circled empty space) */}
+                {/* HERO pills + cipher pill */}
                 <div className="heroPillsRow">
                   <div className="pills">
                     <div className="pill">No pressure</div>
@@ -258,7 +258,7 @@ export default function Page() {
         </div>
       </header>
 
-      {/* 4 CTA PILLARS — ARCHITECTURE ONLY */}
+      {/* 4 CTA PILLARS — ACTIVE ROUTING */}
       <Section
         id="pillars"
         title="Choose your door"
@@ -273,7 +273,7 @@ export default function Page() {
               <p className="itemBody" style={{ marginBottom: 12 }}>
                 Break free from what didn’t work before, learn what matters today, and move forward with clarity.
               </p>
-              <a className="btn btnPrimary" href="#get-started">Click here →</a>
+              <a className="btn btnPrimary" href="/buy-your-vehicle">Click here →</a>
             </div>
           </div>
 
@@ -285,7 +285,7 @@ export default function Page() {
               <p className="itemBody" style={{ marginBottom: 12 }}>
                 We position you for approval by aligning your next move with the Cipher—translated by the Co-Pilot.
               </p>
-              <a className="btn btnPrimary" href="#get-started">Click here →</a>
+              <a className="btn btnPrimary" href="/buy-your-vehicle">Click here →</a>
             </div>
           </div>
 
@@ -299,9 +299,8 @@ export default function Page() {
                 The BALANCE Cipher helps you see why outcomes repeat; the Co-Pilot turns it into one clear next step.
               </p>
 
-              {/* This fixes your bottom circle: pill is no longer above the button */}
               <div className="ctaRowInline">
-                <a className="btn btnPrimary" href="#get-started">Click here →</a>
+                <a className="btn btnPrimary" href="/buy-your-vehicle">Click here →</a>
 
                 <span className="cipherPill" aria-label="AI guided by the BALANCE Cipher">
                   <span className="cipherPillText">AI guided by</span>
@@ -395,7 +394,7 @@ export default function Page() {
         </div>
       </Section>
 
-      {/* VERY BOTTOM: big Cipher moment (mysterious, relatable) */}
+      {/* VERY BOTTOM: big Cipher moment */}
       <Section
         id="cipher"
         title="The BALANCE Cipher"
@@ -418,7 +417,8 @@ export default function Page() {
           </p>
 
           <div className="buttonRow" style={{ marginTop: 6 }}>
-            <a className="btn btnPrimary" href="#get-started">
+            {/* OPTION B: go to the Buy-Your-Vehicle route */}
+            <a className="btn btnPrimary" href="/buy-your-vehicle">
               Open my door →
             </a>
             <a className="btn" href="#pillars">
