@@ -1,4 +1,4 @@
-// app/buy-your-vehicle-v2/page.tsx
+// app/buy-your-vehicle/page.tsx
 
 import Section from "../../components/Section";
 
@@ -7,6 +7,55 @@ export default function BuyYourVehicleV2Page() {
 
   return (
     <main>
+      <style>{`
+        /* Cipher conversion moment sizing (bottom section only) */
+        #cipher .cipherBigWrap{
+          display: grid;
+          gap: 14px;
+          align-items: center;
+          margin-bottom: 12px;
+        }
+        #cipher .cipherBigEmblem{
+          width: min(420px, 92vw);
+          height: auto;
+          display: block;
+          object-fit: contain;
+          margin: 0 auto;
+        }
+        #cipher .cipherBigTitle{
+          font-size: clamp(28px, 4.2vw, 44px);
+          line-height: 1.08;
+          letter-spacing: -0.02em;
+          margin: 0;
+          font-weight: 950;
+          text-align: center;
+        }
+        #cipher .cipherBigSub{
+          margin: 0;
+          max-width: 820px;
+          text-align: center;
+          margin-left: auto;
+          margin-right: auto;
+          opacity: 0.86;
+        }
+        @media (min-width: 920px){
+          #cipher .cipherBigWrap{
+            grid-template-columns: 420px 1fr;
+            align-items: center;
+            gap: 18px;
+          }
+          #cipher .cipherBigTitle,
+          #cipher .cipherBigSub{
+            text-align: left;
+            margin-left: 0;
+            margin-right: 0;
+          }
+          #cipher .cipherBigEmblem{
+            margin: 0;
+          }
+        }
+      `}</style>
+
       <div
         style={{
           position: "sticky",
@@ -245,9 +294,31 @@ export default function BuyYourVehicleV2Page() {
         </div>
       </Section>
 
-      <Section id="cipher" title="This is where BALANCE Cipher helps" desc="Because doing all of this alone can be a lot.">
+      <Section
+        id="cipher"
+        title="This is where BALANCE Cipher helps"
+        desc="Because doing all of this alone can be a lot."
+      >
         <div className="card">
           <div className="cardInner">
+            {/* BIG CIPHER MOMENT (conversion focus) */}
+            <div className="cipherBigWrap">
+              <img
+                className="cipherBigEmblem"
+                src="/brand/balance-cipher-emblem.png"
+                alt="BALANCE Cipher emblem"
+              />
+
+              <div style={{ display: "grid", gap: 8 }}>
+                <h2 className="cipherBigTitle">
+                  This is where the <span style={{ color: "var(--accent)" }}>BALANCE Cipher</span> becomes the solution.
+                </h2>
+                <p className="cipherBigSub">
+                  You don’t need more steps. You need one clear next move—based on what’s real today, translated by the Co-Pilot.
+                </p>
+              </div>
+            </div>
+
             <div className="split">
               <div className="item">
                 <h3 className="itemTitle">What most people feel</h3>
@@ -266,6 +337,7 @@ export default function BuyYourVehicleV2Page() {
             </div>
 
             <div className="buttonRow" style={{ marginTop: 12 }}>
+              {/* PRIMARY: send them into the “door” start on the home page (current known entry point) */}
               <a className="btn btnPrimary" href="/#get-started">Open my door →</a>
               <a className="btn" href="/">Back to NewPath home →</a>
             </div>
