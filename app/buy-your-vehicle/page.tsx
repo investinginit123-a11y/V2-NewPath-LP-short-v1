@@ -12,34 +12,48 @@ export default function BuyYourVehiclePage() {
               <img
                 src="/brand/newpath-auto-finance.png"
                 alt="New Path Auto Finance"
-                style={{ width: 180, height: 180, objectFit: "contain", display: "block" }}
+                style={{
+                  width: 180,
+                  height: 180,
+                  objectFit: "contain",
+                  display: "block",
+                }}
               />
             </div>
-            <div className="badge">Buy the right way.</div>
+            <div className="badge">How to buy the right way.</div>
           </div>
 
           <div className="gridHero" style={{ gridTemplateColumns: "1fr" }}>
             <div className="card">
               <div className="cardInner">
                 <h1 className="h1" style={{ marginBottom: 10 }}>
-                  Buy your next vehicle <span style={{ color: "var(--accent)" }}>the right way</span>.
+                  How to buy your next vehicle{" "}
+                  <span style={{ color: "var(--accent)" }}>the right way</span>.
                 </h1>
-                <p className="sub" style={{ maxWidth: 820 }}>
-                  This route is live. Next we’ll inject the 4-step breakdown (credit → affordability → positioned →
-                  apply) plus the BALANCE Cipher close.
+
+                <p className="sub" style={{ maxWidth: 860 }}>
+                  Four moves—written for real life. If you’re not “there yet” with your score, income, or history,
+                  you’re not alone. That’s exactly where the BALANCE Cipher + Co-Pilot helps: it turns this into one
+                  clear next step.
                 </p>
 
+                <div className="pills">
+                  <div className="pill">No noise</div>
+                  <div className="pill">No 30-step checklist</div>
+                  <div className="pill">One clean move</div>
+                </div>
+
                 <div className="buttonRow" style={{ marginTop: 14 }}>
-                  <a className="btn btnPrimary" href="/">
-                    Back home →
+                  <a className="btn btnPrimary" href="#steps">
+                    Start the 4 steps →
                   </a>
-                  <a className="btn" href="/#pillars">
-                    Back to doors →
+                  <a className="btn" href="#cipher">
+                    Where the Cipher fits →
                   </a>
                 </div>
 
                 <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
-                  Build test: if you can see this page at /buy-your-vehicle, routing is solved.
+                  General education only. The point is clarity before you shop, negotiate, or sign.
                 </div>
               </div>
             </div>
@@ -47,14 +61,223 @@ export default function BuyYourVehiclePage() {
         </div>
       </header>
 
-      <Section title="Next" desc="Once this builds clean, we add the full content.">
+      {/* QUICK STEP INDEX */}
+      <Section id="steps" title="The 4 moves" desc="Same flow as the best guides—just cleaner.">
         <div className="card">
           <div className="cardInner">
-            <div className="item">
-              <h3 className="itemTitle">Why we’re doing this</h3>
+            <div style={{ display: "grid", gap: 10 }}>
+              <a className="btn" href="#step-1">1) Check your credit →</a>
+              <a className="btn" href="#step-2">2) Know what you can afford →</a>
+              <a className="btn" href="#step-3">3) Get positioned before you shop →</a>
+              <a className="btn" href="#step-4">4) Apply the right way →</a>
+            </div>
+
+            <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
+              If you only do one thing today: do Step 1 and Step 2. That alone prevents most bad deals.
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* STEP 1 */}
+      <Section
+        id="step-1"
+        title="1) Check your credit"
+        desc="Know where you stand before you shop."
+      >
+        <div className="card">
+          <div className="cardInner">
+            <div className="split">
+              <div className="item">
+                <h3 className="itemTitle">What this means</h3>
+                <p className="itemBody">
+                  Lenders look at your credit history and your income to decide whether to finance you—and to price your
+                  interest rate.
+                </p>
+              </div>
+              <div className="item">
+                <h3 className="itemTitle">What this does not mean</h3>
+                <p className="itemBody">
+                  It does not mean you’re “stuck.” It means you need a clear plan and the right next move.
+                </p>
+              </div>
+            </div>
+
+            <div className="item" style={{ marginTop: 12 }}>
+              <h3 className="itemTitle">If this feels like a lot</h3>
               <p className="itemBody">
-                We’re locking the route first to prevent drift and build breaks. Then we expand.
+                If your score isn’t where you want it yet, the BALANCE Cipher helps you see why outcomes repeat—then
+                the Co-Pilot turns it into one clean step you can execute next.
               </p>
+            </div>
+
+            <div className="buttonRow" style={{ marginTop: 12 }}>
+              <a className="btn" href="#steps">← Back to index</a>
+              <a className="btn btnPrimary" href="#step-2">Next: affordability →</a>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* STEP 2 */}
+      <Section
+        id="step-2"
+        title="2) Know what you can afford"
+        desc="Think bigger than just the monthly payment."
+      >
+        <div className="card">
+          <div className="cardInner">
+            <div className="split">
+              <div className="item">
+                <h3 className="itemTitle">What this means</h3>
+                <p className="itemBody">
+                  Budget for the full cost of ownership: payment, insurance, taxes/fees, gas, and maintenance—plus a
+                  realistic monthly comfort zone.
+                </p>
+              </div>
+              <div className="item">
+                <h3 className="itemTitle">What this does not mean</h3>
+                <p className="itemBody">
+                  It does not mean “stretch to the max.” The goal is stability—not a payment that traps you.
+                </p>
+              </div>
+            </div>
+
+            <div className="item" style={{ marginTop: 12 }}>
+              <h3 className="itemTitle">If this feels like a lot</h3>
+              <p className="itemBody">
+                The Cipher simplifies it into one decision: adjust the target vehicle, adjust the down payment, or
+                adjust the timing—based on what’s real today.
+              </p>
+            </div>
+
+            <div className="buttonRow" style={{ marginTop: 12 }}>
+              <a className="btn" href="#step-1">← Back</a>
+              <a className="btn btnPrimary" href="#step-3">Next: get positioned →</a>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* STEP 3 */}
+      <Section
+        id="step-3"
+        title="3) Get positioned before you shop"
+        desc="Don’t negotiate blind."
+      >
+        <div className="card">
+          <div className="cardInner">
+            <div className="split">
+              <div className="item">
+                <h3 className="itemTitle">What this means</h3>
+                <p className="itemBody">
+                  Pre-qualification can help you estimate likely rates and terms before you commit—so you know your lane
+                  and you shop smarter.
+                </p>
+              </div>
+              <div className="item">
+                <h3 className="itemTitle">What this does not mean</h3>
+                <p className="itemBody">
+                  It does not mean you’re locked into a loan. It’s a visibility move—so you don’t shop in the dark.
+                </p>
+              </div>
+            </div>
+
+            <div className="item" style={{ marginTop: 12 }}>
+              <h3 className="itemTitle">If this feels like a lot</h3>
+              <p className="itemBody">
+                Concerned about timing, inquiries, or “doing it wrong”? The Co-Pilot uses the Cipher to choose the
+                cleanest route for your situation.
+              </p>
+            </div>
+
+            <div className="buttonRow" style={{ marginTop: 12 }}>
+              <a className="btn" href="#step-2">← Back</a>
+              <a className="btn btnPrimary" href="#step-4">Next: apply →</a>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* STEP 4 */}
+      <Section
+        id="step-4"
+        title="4) Apply the right way"
+        desc="Clarity first. Then you sign."
+      >
+        <div className="card">
+          <div className="cardInner">
+            <div className="split">
+              <div className="item">
+                <h3 className="itemTitle">What this means</h3>
+                <p className="itemBody">
+                  Applying can trigger a credit inquiry. The goal is to apply with clean timing, clean numbers, and a
+                  clear understanding of total cost.
+                </p>
+              </div>
+              <div className="item">
+                <h3 className="itemTitle">What you may need</h3>
+                <p className="itemBody">
+                  Basic ID info, employment/income, address history, and details about the vehicle and down payment.
+                </p>
+              </div>
+            </div>
+
+            <div className="item" style={{ marginTop: 12 }}>
+              <h3 className="itemTitle">Terms to know (simple)</h3>
+              <p className="itemBody">
+                APR (rate), down payment, loan term (months), and total cost (what you pay overall). Don’t sign until
+                those are clear.
+              </p>
+            </div>
+
+            <div className="item" style={{ marginTop: 12 }}>
+              <h3 className="itemTitle">After you buy</h3>
+              <p className="itemBody">
+                Set payments on autopay if possible. One missed payment can do more damage than people realize.
+              </p>
+            </div>
+
+            <div className="buttonRow" style={{ marginTop: 12 }}>
+              <a className="btn" href="#step-3">← Back</a>
+              <a className="btn btnPrimary" href="#cipher">Finish: where the Cipher fits →</a>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* BALANCE CIPHER CLOSE */}
+      <Section
+        id="cipher"
+        title="This is where BALANCE Cipher helps"
+        desc="Because doing all of this alone can be a lot."
+      >
+        <div className="card">
+          <div className="cardInner">
+            <div className="split">
+              <div className="item">
+                <h3 className="itemTitle">What most people feel</h3>
+                <p className="itemBody">
+                  These steps are simple on paper. But if your credit, income, or history isn’t aligned, it becomes
+                  confusing fast—and bad decisions happen under pressure.
+                </p>
+              </div>
+              <div className="item">
+                <h3 className="itemTitle">What the Cipher + Co-Pilot does</h3>
+                <p className="itemBody">
+                  It helps you see what’s real, identify the blocker, and choose one clean move next—so you buy with
+                  clarity instead of guessing.
+                </p>
+              </div>
+            </div>
+
+            <div className="buttonRow" style={{ marginTop: 12 }}>
+              <a className="btn btnPrimary" href="/#get-started">Open my door →</a>
+              <a className="btn" href="/">Back to NewPath home →</a>
+            </div>
+
+            <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
+              Quiet power. Clear direction. One move at a time.
             </div>
           </div>
         </div>
