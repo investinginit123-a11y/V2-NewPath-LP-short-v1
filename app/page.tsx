@@ -272,7 +272,14 @@ export default function Page() {
               <p className="itemBody" style={{ marginBottom: 12 }}>
                 We position you for approval by aligning your next move with the Cipher—translated by the Co-Pilot.
               </p>
-              <a className="btn btnPrimary" href="/capture-of-application">Start application →</a>
+              <a
+                className="btn btnPrimary"
+                href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=cta&utm_campaign=get-approved"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Start application →
+              </a>
             </div>
           </div>
 
@@ -392,7 +399,14 @@ export default function Page() {
           </p>
 
           <div className="buttonRow" style={{ marginTop: 6 }}>
-            <a className="btn btnPrimary" href="/capture-of-application">Start my application →</a>
+            <a
+              className="btn btnPrimary"
+              href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=cta&utm_campaign=bottom-cipher"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Start my application →
+            </a>
             <a className="btn" href="#pillars">Choose a door →</a>
           </div>
 
