@@ -54,6 +54,45 @@ export default function BuyYourVehicleV2Page() {
             margin: 0;
           }
         }
+
+        /* Small Cipher pill next to "Where the Cipher fits" */
+        .cipherPill {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 8px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(0,0,0,0.12);
+          background: #ffffff;
+          box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+          white-space: nowrap;
+        }
+        .cipherPillText {
+          font-weight: 900;
+          font-size: 11px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          opacity: 0.82;
+        }
+        .cipherPillAccent {
+          width: 8px;
+          height: 28px;
+          border-radius: 999px;
+          background: var(--accent);
+          opacity: 0.14;
+          flex: 0 0 auto;
+        }
+        .cipherPillEmblem {
+          height: 28px;
+          width: auto;
+          display: block;
+          object-fit: contain;
+          background: transparent !important;
+          border: none !important;
+          border-radius: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
       `}</style>
 
       <div
@@ -112,13 +151,25 @@ export default function BuyYourVehicleV2Page() {
                   <div className="pill">One clean move</div>
                 </div>
 
-                <div className="buttonRow" style={{ marginTop: 14 }}>
+                <div className="buttonRow" style={{ marginTop: 14, alignItems: "center", flexWrap: "wrap" }}>
                   <a className="btn btnPrimary" href="#steps">
                     Start the 4 steps →
                   </a>
+
                   <a className="btn" href="#cipher">
                     Where the Cipher fits →
                   </a>
+
+                  {/* Small Cipher pill beside the sub-CTA */}
+                  <span className="cipherPill" aria-label="AI guided by the BALANCE Cipher">
+                    <span className="cipherPillText">AI guided by</span>
+                    <span className="cipherPillAccent" aria-hidden="true" />
+                    <img
+                      className="cipherPillEmblem"
+                      src="/brand/balance-cipher-emblem.png"
+                      alt="BALANCE Cipher emblem"
+                    />
+                  </span>
                 </div>
 
                 <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
