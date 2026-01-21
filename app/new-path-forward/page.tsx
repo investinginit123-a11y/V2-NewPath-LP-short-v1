@@ -10,7 +10,6 @@ export default function Page() {
 
         :root {
           --np-border: rgba(0,0,0,0.10);
-          --np-border-strong: rgba(0,0,0,0.14);
           --np-shadow: 0 18px 44px rgba(0,0,0,0.08);
           --np-shadow-soft: 0 12px 28px rgba(0,0,0,0.06);
           --np-radius: 22px;
@@ -194,6 +193,12 @@ export default function Page() {
           opacity: 0.20;
         }
 
+        /* Extra narrative blocks inside a card (kept premium + readable) */
+        .paraStack {
+          display: grid;
+          gap: 10px;
+        }
+
         /* Bottom CTA */
         .bottomCard {
           border: 1px solid var(--np-border);
@@ -262,7 +267,7 @@ export default function Page() {
 
         {/* 3-PART ARC (ONLY) */}
         <div className="arcGrid">
-          {/* PAST */}
+          {/* PAST — unchanged */}
           <div className="arcCard">
             <div className="arcInner">
               <div className="arcLabelRow">
@@ -293,24 +298,33 @@ export default function Page() {
             </div>
           </div>
 
-          {/* PRESENT */}
+          {/* PRESENT — expanded per your exact narrative */}
           <div className="arcCard">
             <div className="arcInner">
               <div className="arcLabelRow">
                 <span className="arcLabel">Today</span>
                 <span className="arcDot" aria-hidden="true" />
               </div>
-              <h2 className="arcTitle">The Co-Pilot turns the map into one move.</h2>
-              <p className="arcBody">
-                <span className="arcEmphasis">You’re not losing control. You’re gaining leverage.</span> AI is not here
-                to make decisions for you—it’s here to remove the fog. The BALANCE Cipher shows the pattern, and the
-                Co-Pilot translates it into one simple step you can actually do.
-              </p>
+
+              <h2 className="arcTitle">A guide that stands on your side.</h2>
+
+              <div className="paraStack">
+                <p className="arcBody">
+                  The Co-Pilot is the best financial friend you could ever have—calm, loyal, and built to work for you.
+                  Not a boss. Not a banker. Not a judge. <span className="arcEmphasis">A guide that stands on your side.</span>
+                </p>
+
+                <p className="arcBody">
+                  The BALANCE Cipher shows the pattern. The Co-Pilot turns that map into one move you can make next.
+                  <span className="arcEmphasis"> You’re not losing control—you’re gaining leverage.</span> AI isn’t here
+                  to decide for you. It’s here to remove the fog, translate the Cipher, and hand you a clear next step.
+                </p>
+              </div>
 
               <ul className="miniList" aria-label="Today signals">
                 <li className="miniItem">
                   <span className="miniMark" aria-hidden="true" />
-                  <span>You stay in the driver’s seat. The system supports your choices.</span>
+                  <span>You stay in the driver’s seat. The Co-Pilot supports your choices.</span>
                 </li>
                 <li className="miniItem">
                   <span className="miniMark" aria-hidden="true" />
@@ -324,18 +338,32 @@ export default function Page() {
             </div>
           </div>
 
-          {/* FUTURE */}
+          {/* FUTURE — expanded per your narrative */}
           <div className="arcCard">
             <div className="arcInner">
               <div className="arcLabelRow">
                 <span className="arcLabel">Tomorrow</span>
                 <span className="arcDot" aria-hidden="true" />
               </div>
-              <h2 className="arcTitle">Clarity creates options. Options create freedom.</h2>
-              <p className="arcBody">
-                When you can see the pattern, you can change the pattern. Small next steps build clarity, clarity
-                improves approvals, and better approvals unlock better options—auto now, home later.
-              </p>
+
+              <h2 className="arcTitle">Options create freedom.</h2>
+
+              <div className="paraStack">
+                <p className="arcBody">
+                  Tomorrow, the Co-Pilot doesn’t just give information—it learns how you operate under pressure, spots
+                  the pattern behind your decisions, and helps you build rules that protect your future self.
+                </p>
+
+                <p className="arcBody">
+                  <span className="arcEmphasis">Clarity creates options. Options create freedom.</span> And freedom is
+                  the key to happiness—because when you have options, you’re no longer trapped.
+                </p>
+
+                <p className="arcBody">
+                  When you can see the pattern, you can change the pattern. Small next steps build clarity. Clarity
+                  improves approvals. Better approvals unlock better options—auto now, home later.
+                </p>
+              </div>
 
               <ul className="miniList" aria-label="Tomorrow signals">
                 <li className="miniItem">
@@ -348,19 +376,24 @@ export default function Page() {
                 </li>
                 <li className="miniItem">
                   <span className="miniMark" aria-hidden="true" />
-                  <span>Auto becomes the on-ramp to long-term stability and home readiness.</span>
+                  <span>Auto becomes the on-ramp to long-term stability—and real home readiness.</span>
                 </li>
               </ul>
             </div>
           </div>
         </div>
 
-        {/* PRIMARY CTA (PASS-THROUGH) */}
+        {/* PRIMARY CTA (PASS-THROUGH) — NOW TO APPLICATION */}
         <div className="bottomCard">
           <div className="bottomInner">
             <div className="ctaRow">
-              <a className="primaryBtn" href="/buy-your-vehicle">
-                Continue →
+              <a
+                className="primaryBtn"
+                href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=bridge&utm_campaign=new-path-forward"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Start my application →
               </a>
             </div>
             <p className="helperLine">
