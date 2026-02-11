@@ -1,10 +1,10 @@
 // app/page.tsx
-// PASS: FIX "PINK" ROOT CAUSE + LOCK RED OPTION A (#E1062A) + BOLD DOOR STATEMENT UNDER "CHOOSE YOUR DOOR"
-// - Door 1 pink was caused by red-tinted overlays on white (doorChoice.red::before + gradients). Removed.
-// - Door 1 now uses HARD RED only: border/spine/badge/headline word. NO red haze. NO red wash.
-// - Door 2 stays premium charcoal + brass (no blue/green).
-// - Adds an emboldened statement bar directly under "Choose your door" (your exact phrasing).
-// - Keeps only 2 outbound CTAs total.
+// PASS: MOBILE-FIRST SIMPLIFICATION
+// - "Choose your door" becomes CLEAN + SIMPLE (one statement bar + two big door selectors)
+// - Removes busy decision cards, removes extra desc line, removes "tap to jump" hints
+// - Decision colors: MAGENTA (Door 1) + INK/BLACK (Door 2) — NO green, NO teal, NO gold, NO pink haze
+// - Keeps only 2 outbound CTAs total (application + cipher) inside their detail sections
+// - Door selectors scroll to the detail sections (Door 1 detail + Door 2 detail near Cipher)
 
 import Section from "../components/Section";
 
@@ -28,24 +28,18 @@ export default function Page() {
           --np-radius: 26px;
           --np-pill: 999px;
 
-          /* ✅ DOOR COLORS (LOCKED) */
-          --door1-red: #E1062A;       /* Option A: punchy, modern red (NOT maroon, NOT pink) */
-          --door1-red-deep: #B40420;  /* for depth if needed (used sparingly) */
-
-          --door2-charcoal: #0B0B0F;  /* premium near-black */
-          --door2-charcoal-2: #131320;
-
-          --brass: #B08D57;           /* brass/gold accent */
-          --brass-soft: rgba(176,141,87,0.22);
+          /* ✅ DECISION COLORS (LOCKED) */
+          --magenta: #D10B6F;         /* strong magenta (not soft pink) */
+          --magenta-deep: #A90758;    /* depth */
+          --ink: #0B0B0F;             /* premium near-black */
 
           --white: #ffffff;
-
           --ink-strong: rgba(0,0,0,0.92);
         }
 
         strong { font-weight: 900; color: var(--np-ink); }
 
-        /* HERO STAGE — keep subtle, no color wash */
+        /* HERO STAGE — clean, minimal */
         .heroStage {
           position: relative;
           overflow: hidden;
@@ -60,8 +54,8 @@ export default function Page() {
           position:absolute;
           inset:-2px;
           background:
-            radial-gradient(720px 360px at 22% 36%, rgba(225,6,42,0.06), transparent 68%),
-            radial-gradient(820px 420px at 70% 38%, rgba(176,141,87,0.07), transparent 70%);
+            radial-gradient(760px 360px at 18% 30%, rgba(209,11,111,0.08), transparent 70%),
+            radial-gradient(820px 420px at 74% 34%, rgba(0,0,0,0.06), transparent 70%);
           filter: blur(18px);
           opacity: 0.55;
           pointer-events:none;
@@ -83,7 +77,7 @@ export default function Page() {
           font-weight: 950;
         }
 
-        /* Bigger, bolder story line */
+        /* Bigger, bolder story line (requested) */
         .sub { 
           line-height: 1.24;
           color: rgba(15,23,42,0.94);
@@ -105,7 +99,7 @@ export default function Page() {
           gap: 12px;
         }
 
-        /* Remove old filler UI blocks */
+        /* Remove any old filler UI blocks */
         .pills { display: none !important; }
         .heroRow { display: none !important; }
         .trustStrip { display: none !important; }
@@ -117,7 +111,7 @@ export default function Page() {
           object-fit: contain;
         }
 
-        /* COMMAND STRIP — strong but clean */
+        /* HERO COMMAND STRIP — short + clean */
         .commandStrip{
           border-radius: 18px;
           border: 2px solid rgba(0,0,0,0.14);
@@ -133,9 +127,8 @@ export default function Page() {
           color: rgba(15,23,42,0.92);
           line-height: 1.25;
         }
-        .commandLine .red{ color: var(--door1-red); }
-        .commandLine .brass{ color: var(--brass); }
-        .commandLine .arrow{ opacity: 0.75; }
+        .commandLine .magenta{ color: var(--magenta); }
+        .commandLine .ink{ color: var(--ink); }
 
         /* DOORS */
         #doors .sectionTitle{
@@ -143,27 +136,25 @@ export default function Page() {
           line-height: 1.04;
           letter-spacing: -0.03em;
         }
-        #doors .sectionDesc{
-          font-size: 16px;
-          max-width: 900px;
-          line-height: 1.55;
-        }
+
+        /* ✅ We intentionally do NOT use section desc under the title anymore */
+        /* (desc will be passed as empty string) */
 
         .decisionStage{
           position: relative;
           border-radius: calc(var(--np-radius) + 10px);
-          padding: 12px 0 6px;
+          padding: 6px 0 6px;
           background: transparent;
         }
 
-        /* ✅ NEW: "THIS IS WHAT IT’S ABOUT" STATEMENT BAR */
+        /* ✅ Statement bar (kept) */
         .doorStatement{
           border-radius: 22px;
-          border: 3px solid rgba(0,0,0,0.14);
+          border: 2px solid rgba(0,0,0,0.14);
           background: rgba(255,255,255,0.98);
           box-shadow: 0 18px 46px rgba(0,0,0,0.10);
           padding: 16px 16px;
-          margin: 10px 0 16px;
+          margin: 10px 0 14px;
           position: relative;
           overflow: hidden;
         }
@@ -171,186 +162,108 @@ export default function Page() {
           content:"";
           position:absolute;
           left:0; top:0; bottom:0;
-          width: 12px;
-          background: linear-gradient(180deg, var(--door1-red), rgba(11,11,15,0.18));
+          width: 10px;
+          background: linear-gradient(180deg, var(--magenta), rgba(0,0,0,0.16));
         }
         .doorStatementText{
           position: relative;
           z-index: 2;
-          font-size: 18px;
-          font-weight: 1000;
+          font-size: 17px;
+          font-weight: 950;
           color: rgba(15,23,42,0.92);
-          line-height: 1.25;
+          line-height: 1.26;
           letter-spacing: -0.01em;
         }
-        .doorStatementText .red{ color: var(--door1-red); }
-        .doorStatementText .brass{ color: var(--brass); }
+        .doorStatementText .magenta{ color: var(--magenta); }
+        .doorStatementText .ink{ color: var(--ink); }
 
-        .decisionBar{
+        /* ✅ SIMPLE DOOR SELECTORS (ONLY) */
+        .doorSelect{
           display:grid;
-          gap: 14px;
-          margin-top: 10px;
-          margin-bottom: 16px;
+          gap: 12px;
+          margin: 0 0 10px;
         }
 
-        /* ✅ BIG, BOXED, CLICKABLE DOORS */
-        .doorChoice{
-          display:block;
-          text-decoration:none;
+        .doorSelectBtn{
           width: 100%;
-          border-radius: 26px;
-          background: #fff;
-          padding: 18px 16px;
-          position: relative;
-          box-shadow: 0 26px 70px rgba(0,0,0,0.14);
-          transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
-          overflow: hidden;
-        }
-        .doorChoice:active{ transform: translateY(1px) scale(0.99); }
-        .doorChoice:hover{ box-shadow: 0 32px 86px rgba(0,0,0,0.18); }
-
-        /* ✅ Door frame (HARD borders) */
-        .doorChoice.red{
-          border: 4px solid var(--door1-red);
-        }
-        /* 🚫 IMPORTANT: remove ALL red overlay tints (this was the "pink" source) */
-        .doorChoice.red::before{ content:none !important; }
-
-        .doorChoice.black{
-          border: 4px solid rgba(11,11,15,0.82);
-          background: #ffffff;
-        }
-        .doorChoice.black::before{
-          content:"";
-          position:absolute;
-          inset:0;
-          background:
-            linear-gradient(90deg, rgba(11,11,15,0.08), transparent 34%),
-            radial-gradient(520px 220px at 16% 50%, rgba(176,141,87,0.12), transparent 72%);
-          pointer-events:none;
-        }
-
-        /* Spine */
-        .doorSpine{
-          position:absolute;
-          left:0;
-          top:0;
-          bottom:0;
-          width: 14px;
-          background: rgba(0,0,0,0.06);
-        }
-        .doorChoice.red .doorSpine{
-          background: linear-gradient(180deg, var(--door1-red), rgba(225,6,42,0.12));
-        }
-        .doorChoice.black .doorSpine{
-          background: linear-gradient(180deg, var(--door2-charcoal), rgba(11,11,15,0.18));
-        }
-
-        .doorChoiceInner{
-          position: relative;
-          z-index: 2;
-          display:grid;
-          gap: 8px;
-          text-align: center;
+          text-decoration:none;
+          border-radius: 22px;
+          background: rgba(255,255,255,0.98);
+          border: 3px solid rgba(0,0,0,0.14);
+          box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+          padding: 16px 16px;
+          display:flex;
           align-items:center;
-          justify-items:center;
+          justify-content: space-between;
+          gap: 14px;
+          transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+        }
+        .doorSelectBtn:active{ transform: translateY(1px) scale(0.99); }
+        .doorSelectBtn:hover{ box-shadow: 0 28px 84px rgba(0,0,0,0.16); }
+
+        .doorSelectLeft{
+          display:flex;
+          align-items:center;
+          gap: 12px;
+          min-width: 0;
         }
 
-        .doorChoiceTop{
+        .doorTag{
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          height: 46px;
+          padding: 0 16px;
+          border-radius: 16px;
+          font-weight: 1000;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          font-size: 12px;
+          color: #fff;
+          border: 2px solid rgba(0,0,0,0.10);
+          flex: 0 0 auto;
+        }
+        .doorTag.magenta{ background: var(--magenta); }
+        .doorTag.ink{ background: var(--ink); }
+
+        .doorSelectText{
+          display:grid;
+          gap: 2px;
+          min-width: 0;
+        }
+        .doorSelectTitle{
+          font-size: 18px;
+          font-weight: 1000;
+          line-height: 1.12;
+          letter-spacing: -0.02em;
+          color: rgba(0,0,0,0.92);
+        }
+        .doorSelectTitle .magenta{ color: var(--magenta); }
+        .doorSelectTitle .ink{ color: var(--ink); }
+
+        .doorSelectSub{
+          font-size: 13px;
+          font-weight: 850;
+          color: rgba(15,23,42,0.70);
+          line-height: 1.25;
+        }
+
+        .doorSelectChevron{
+          width: 44px;
+          height: 44px;
+          border-radius: 16px;
+          border: 2px solid rgba(0,0,0,0.12);
+          background: rgba(255,255,255,0.98);
           display:flex;
           align-items:center;
           justify-content:center;
-          gap: 14px;
-          flex-wrap: wrap;
-        }
-
-        /* ✅ BIG BADGE (DOOR 1 / DOOR 2) */
-        .doorBadge{
-          display:inline-flex;
-          align-items:center;
-          justify-content:center;
-          height: 56px;
-          padding: 0 24px;
-          border-radius: 18px;
+          flex: 0 0 auto;
+          font-size: 18px;
           font-weight: 1000;
-          letter-spacing: 0.22em;
-          text-transform: uppercase;
-          font-size: 14px;
-          border: 3px solid rgba(0,0,0,0.18);
-          background: #fff;
-          box-shadow: 0 18px 40px rgba(0,0,0,0.12);
-        }
-        .doorBadge::before{
-          content:"";
-          width: 12px;
-          height: 12px;
-          border-radius: 999px;
-          margin-right: 10px;
-          background: rgba(0,0,0,0.22);
+          color: rgba(15,23,42,0.70);
         }
 
-        .doorBadge.red{
-          background: var(--door1-red);
-          color: #fff;
-          border-color: rgba(0,0,0,0.10);
-        }
-        .doorBadge.red::before{ background: #fff; opacity: 0.92; }
-
-        .doorBadge.black{
-          background: var(--door2-charcoal);
-          color: #fff;
-          border-color: rgba(0,0,0,0.10);
-        }
-        .doorBadge.black::before{ background: var(--brass); opacity: 0.95; }
-
-        .doorChoiceTitle{
-          font-weight: 1000;
-          letter-spacing: -0.03em;
-          color: rgba(0,0,0,0.94);
-          font-size: clamp(22px, 5vw, 30px);
-          line-height: 1.06;
-        }
-        .doorChoiceTitle .redWord{
-          color: var(--door1-red);
-          text-shadow: 0 10px 26px rgba(225,6,42,0.14);
-        }
-
-        /* Brass emphasis for Door 2 phrase */
-        .brassEmph{
-          color: var(--brass);
-          font-weight: 1000;
-          text-decoration: underline;
-          text-decoration-color: rgba(176,141,87,0.85);
-          text-decoration-thickness: 3px;
-          text-underline-offset: 6px;
-        }
-
-        .doorChoiceSub{
-          font-size: 14px;
-          font-weight: 950;
-          color: rgba(15,23,42,0.80);
-          line-height: 1.25;
-          max-width: 62ch;
-        }
-
-        .doorChoiceHint{
-          display:inline-flex;
-          align-items:center;
-          justify-content:center;
-          gap: 10px;
-          font-size: 12px;
-          font-weight: 1000;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          opacity: 0.70;
-          margin-top: 2px;
-          padding: 10px 14px;
-          border-radius: 999px;
-          border: 2px solid rgba(0,0,0,0.12);
-          background: rgba(255,255,255,0.92);
-        }
-
-        /* DETAIL CARDS */
+        /* DETAIL CARDS (kept, but quieter headers) */
         .doorStack{
           display:grid;
           gap: 18px;
@@ -368,7 +281,6 @@ export default function Page() {
           max-width: 100%;
         }
 
-        /* left spine */
         .doorCard::before{
           content:"";
           position:absolute;
@@ -379,23 +291,23 @@ export default function Page() {
           background: rgba(0,0,0,0.06);
           opacity: 0.95;
         }
-        .doorCard.red::before{
-          background: linear-gradient(180deg, var(--door1-red), rgba(225,6,42,0.14));
+        .doorCard.magenta::before{
+          background: linear-gradient(180deg, var(--magenta), rgba(209,11,111,0.12));
         }
-        .doorCard.black::before{
-          background: linear-gradient(180deg, var(--door2-charcoal), rgba(11,11,15,0.18));
+        .doorCard.ink::before{
+          background: linear-gradient(180deg, var(--ink), rgba(11,11,15,0.16));
         }
 
         .doorRail{
-          height: 12px;
+          height: 10px;
           width: 100%;
           background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.00));
         }
-        .doorRail.red{
-          background: linear-gradient(90deg, rgba(225,6,42,0.30), rgba(225,6,42,0.07), transparent);
+        .doorRail.magenta{
+          background: linear-gradient(90deg, rgba(209,11,111,0.24), rgba(209,11,111,0.06), transparent);
         }
-        .doorRail.black{
-          background: linear-gradient(90deg, rgba(11,11,15,0.34), rgba(176,141,87,0.10), transparent);
+        .doorRail.ink{
+          background: linear-gradient(90deg, rgba(11,11,15,0.22), rgba(11,11,15,0.06), transparent);
         }
 
         .doorInner{
@@ -404,51 +316,43 @@ export default function Page() {
           gap: 12px;
         }
 
+        /* quieter header pills */
         .doorKicker{
           display:flex;
           align-items:center;
-          justify-content:center;
-          gap: 12px;
+          gap: 10px;
           flex-wrap: wrap;
+          justify-content:flex-start;
           margin-top: 2px;
           margin-bottom: 2px;
         }
-
         .doorPill{
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          padding: 12px 18px;
-          border-radius: 18px;
-          border: 2px solid rgba(0,0,0,0.14);
-          background: rgba(0,0,0,0.03);
-          font-weight: 1000;
-          letter-spacing: 0.18em;
+          padding: 10px 14px;
+          border-radius: 16px;
+          border: 1px solid rgba(0,0,0,0.12);
+          background: rgba(0,0,0,0.02);
+          font-weight: 950;
+          letter-spacing: 0.16em;
           text-transform: uppercase;
-          font-size: 12px;
-          color: rgba(15,23,42,0.84);
+          font-size: 11px;
+          color: rgba(15,23,42,0.76);
           white-space: nowrap;
         }
-
         .laneTag{
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          padding: 12px 16px;
-          border-radius: 18px;
-          font-size: 13px;
-          font-weight: 1000;
-          color: rgba(15,23,42,0.92);
-          border: 2px solid rgba(0,0,0,0.12);
+          padding: 10px 14px;
+          border-radius: 16px;
+          font-size: 12px;
+          font-weight: 900;
+          color: rgba(15,23,42,0.82);
+          border: 1px solid rgba(0,0,0,0.12);
           background: #fff;
           white-space: nowrap;
-          box-shadow: 0 12px 26px rgba(0,0,0,0.06);
-        }
-        .laneTag.red{
-          border-color: rgba(225,6,42,0.28);
-        }
-        .laneTag.black{
-          border-color: rgba(11,11,15,0.24);
         }
 
         .doorTitle{
@@ -468,7 +372,7 @@ export default function Page() {
         }
 
         .doorVisual{
-          border: 2px solid rgba(0,0,0,0.10);
+          border: 1px solid rgba(0,0,0,0.10);
           background: rgba(0,0,0,0.02);
           border-radius: 18px;
           padding: 14px 14px;
@@ -491,7 +395,7 @@ export default function Page() {
           width: 46px;
           height: 46px;
           border-radius: 14px;
-          border: 2px solid rgba(0,0,0,0.10);
+          border: 1px solid rgba(0,0,0,0.10);
           background: rgba(255,255,255,0.96);
           box-shadow: 0 10px 24px rgba(0,0,0,0.06);
           position: relative;
@@ -506,8 +410,8 @@ export default function Page() {
           top: 9px;
           bottom: 9px;
           border-radius: 10px;
-          background: linear-gradient(180deg, rgba(225,6,42,0.20), rgba(225,6,42,0.06));
-          border: 2px solid rgba(225,6,42,0.22);
+          background: linear-gradient(180deg, rgba(209,11,111,0.18), rgba(209,11,111,0.06));
+          border: 1px solid rgba(209,11,111,0.18);
         }
         .iconRoad::after{
           content:"";
@@ -517,7 +421,7 @@ export default function Page() {
           bottom: 14px;
           width: 2px;
           border-radius: 2px;
-          background: rgba(225,6,42,0.72);
+          background: rgba(209,11,111,0.70);
           opacity: 0.95;
         }
 
@@ -526,15 +430,15 @@ export default function Page() {
           position:absolute;
           inset: 10px;
           border-radius: 999px;
-          border: 2px solid rgba(176,141,87,0.62);
-          box-shadow: 0 0 16px rgba(176,141,87,0.18);
+          border: 2px solid rgba(0,0,0,0.26);
+          box-shadow: 0 0 14px rgba(0,0,0,0.10);
         }
         .iconCipher::after{
           content:"";
           position:absolute;
           inset: 18px;
           border-radius: 999px;
-          border: 1px solid rgba(11,11,15,0.24);
+          border: 1px solid rgba(209,11,111,0.18);
         }
 
         .visualText{
@@ -586,8 +490,8 @@ export default function Page() {
           background: rgba(0,0,0,0.22);
           opacity: 0.7;
         }
-        .miniMark.red{ background: rgba(225,6,42,0.65); }
-        .miniMark.brass{ background: rgba(176,141,87,0.55); }
+        .miniMark.magenta{ background: rgba(209,11,111,0.62); }
+        .miniMark.ink{ background: rgba(11,11,15,0.56); }
 
         /* Outbound CTAs (still only 2 total) */
         .ctaPill{
@@ -608,26 +512,21 @@ export default function Page() {
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
-        .ctaPill.red{
-          background: var(--door1-red);
+        .ctaPill.magenta{
+          background: var(--magenta);
           color: #fff;
           border-color: rgba(0,0,0,0.10);
-          box-shadow: 0 18px 44px rgba(225,6,42,0.24);
+          box-shadow: 0 18px 44px rgba(209,11,111,0.22);
         }
-        .ctaPill.black{
-          background: var(--door2-charcoal);
+        .ctaPill.ink{
+          background: var(--ink);
           color: #fff;
-          border-color: rgba(176,141,87,0.30);
-          box-shadow: 0 18px 46px rgba(0,0,0,0.18), 0 0 0 1px rgba(176,141,87,0.18) inset;
-        }
-        .ctaPill.black:hover{
-          filter: brightness(1.02);
-          box-shadow: 0 22px 56px rgba(0,0,0,0.22), 0 0 18px rgba(176,141,87,0.18);
-          transform: translateY(-1px);
+          border-color: rgba(0,0,0,0.10);
+          box-shadow: 0 18px 46px rgba(0,0,0,0.18);
         }
 
         @media (max-width: 820px){
-          .doorStatementText{ font-size: 18px; }
+          .doorStatementText{ font-size: 17px; }
           .doorVisual{
             flex-direction: column;
             align-items: stretch;
@@ -649,9 +548,13 @@ export default function Page() {
             overflow: visible;
             text-overflow: clip;
           }
+          .doorSelectBtn{
+            padding: 16px 14px;
+          }
+          .doorSelectTitle{ font-size: 17px; }
         }
 
-        /* Cipher section — brass glow */
+        /* Cipher section — clean */
         .cipherCard{
           border: 1px solid rgba(0,0,0,0.10);
           border-radius: var(--np-radius);
@@ -664,7 +567,7 @@ export default function Page() {
         .cipherGlow{
           position:absolute;
           inset:-40px;
-          background: radial-gradient(520px 240px at 50% 22%, rgba(176,141,87,0.12), transparent 70%);
+          background: radial-gradient(520px 240px at 50% 22%, rgba(209,11,111,0.10), transparent 70%);
           filter: blur(10px);
           pointer-events:none;
         }
@@ -713,7 +616,7 @@ export default function Page() {
           height: 10px;
           border-radius: var(--np-pill);
           margin-top: 7px;
-          background: rgba(176,141,87,0.55);
+          background: rgba(209,11,111,0.50);
         }
       `}</style>
 
@@ -731,7 +634,7 @@ export default function Page() {
                 <div className="card heroCard">
                   <div className="cardInner heroCardInner">
                     <h1 className="h1">
-                      Create a New Path <span style={{ color: "var(--door1-red)" }}>forward</span>.
+                      Create a New Path <span style={{ color: "var(--magenta)" }}>forward</span>.
                     </h1>
 
                     <p className="sub">
@@ -741,11 +644,10 @@ export default function Page() {
 
                     <div className="commandStrip" aria-label="Door instructions">
                       <div className="commandLine">
-                        <span className="red">Get started today</span> <span className="arrow">→</span> choose Door 1.
+                        <span className="magenta">Get started today</span> → choose Door 1.
                       </div>
                       <div className="commandLine">
-                        <span className="brass">Discover the AI-driven Cipher tomorrow</span>{" "}
-                        <span className="arrow">→</span> choose Door 2.
+                        <span className="ink">Discover the AI-driven Cipher tomorrow</span> → choose Door 2.
                       </div>
                     </div>
                   </div>
@@ -756,60 +658,54 @@ export default function Page() {
         </div>
       </header>
 
-      <Section
-        id="doors"
-        title="Choose your door"
-        desc="Door 1 is for getting started today. Door 2 is for opening the door tomorrow—and discovering the AI-driven Cipher."
-      >
+      <Section id="doors" title="Choose your door" desc="">
         <div className="decisionStage" aria-label="Decision stage">
-          {/* ✅ BOLD STATEMENT (your exact line) */}
+          {/* Statement bar (kept) */}
           <div className="doorStatement" aria-label="Door meaning statement">
             <div className="doorStatementText">
-              <span className="red">Door 1</span> starts your New Path today.{" "}
-              <span className="brass">Door 2</span> unlocks the Cipher—your Co-Pilot beside you—turning tomorrow into a
+              <span className="magenta">Door 1</span> starts your New Path today.{" "}
+              <span className="ink">Door 2</span> unlocks the Cipher—your Co-Pilot beside you—turning tomorrow into a
               clear path to Freedom.
             </div>
           </div>
 
-          <div className="decisionBar" aria-label="Choose a door">
-            <a className="doorChoice red" href="#door-1" aria-label="Door 1: Get started today">
-              <span className="doorSpine" aria-hidden="true" />
-              <div className="doorChoiceInner">
-                <div className="doorChoiceTop">
-                  <span className="doorBadge red">DOOR 1</span>
-                  <div className="doorChoiceTitle">
-                    <span className="redWord">Get started</span> today.
+          {/* ✅ ONLY TWO CHOICES (clean + mobile-first) */}
+          <div className="doorSelect" aria-label="Door selector">
+            <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: Get started today">
+              <div className="doorSelectLeft">
+                <span className="doorTag magenta">DOOR 1</span>
+                <div className="doorSelectText">
+                  <div className="doorSelectTitle">
+                    <span className="magenta">Get started</span> today.
                   </div>
+                  <div className="doorSelectSub">Start the process and get routed the right way.</div>
                 </div>
-                <div className="doorChoiceSub">Start the process and get routed the right way.</div>
-                <div className="doorChoiceHint">Tap to jump ↓</div>
               </div>
+              <span className="doorSelectChevron" aria-hidden="true">↓</span>
             </a>
 
-            <a className="doorChoice black" href="#door-2" aria-label="Door 2: Discover the AI-driven Cipher tomorrow">
-              <span className="doorSpine" aria-hidden="true" />
-              <div className="doorChoiceInner">
-                <div className="doorChoiceTop">
-                  <span className="doorBadge black">DOOR 2</span>
-                  <div className="doorChoiceTitle">
-                    Discover the <span className="brassEmph">AI-driven</span> Cipher tomorrow.
+            <a className="doorSelectBtn" href="#door-2" aria-label="Door 2: Discover the AI-driven Cipher tomorrow">
+              <div className="doorSelectLeft">
+                <span className="doorTag ink">DOOR 2</span>
+                <div className="doorSelectText">
+                  <div className="doorSelectTitle">
+                    Discover the <span className="ink">AI-driven</span> Cipher tomorrow.
                   </div>
+                  <div className="doorSelectSub">See the pattern, then take one clear next move.</div>
                 </div>
-                <div className="doorChoiceSub">See the pattern, then take one clear next move.</div>
-                <div className="doorChoiceHint">Tap to jump ↓</div>
               </div>
+              <span className="doorSelectChevron" aria-hidden="true">↓</span>
             </a>
           </div>
 
-          {/* FLOW: Door 1 detail card now, Door 2 detail card later (near Cipher). */}
+          {/* Door 1 detail card (kept) */}
           <div className="doorStack">
-            {/* DOOR 1 DETAIL */}
-            <div className="doorCard red" id="door-1" aria-label="Door 1: Today">
-              <div className="doorRail red" aria-hidden="true" />
+            <div className="doorCard magenta" id="door-1" aria-label="Door 1: Today">
+              <div className="doorRail magenta" aria-hidden="true" />
               <div className="doorInner">
                 <div className="doorKicker">
                   <span className="doorPill">DOOR 1</span>
-                  <span className="laneTag red">Get started today</span>
+                  <span className="laneTag">Get started today</span>
                 </div>
 
                 <h3 className="doorTitle">Today: Get started the right way</h3>
@@ -830,7 +726,7 @@ export default function Page() {
 
                   {/* CTA #1 */}
                   <a
-                    className="ctaPill red"
+                    className="ctaPill magenta"
                     href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=two-door"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -841,15 +737,15 @@ export default function Page() {
 
                 <ul className="miniList" aria-label="Door 1 points">
                   <li className="miniItem">
-                    <span className="miniMark red" aria-hidden="true" />
+                    <span className="miniMark magenta" aria-hidden="true" />
                     <span><strong>One move:</strong> start the application.</span>
                   </li>
                   <li className="miniItem">
-                    <span className="miniMark red" aria-hidden="true" />
+                    <span className="miniMark magenta" aria-hidden="true" />
                     <span><strong>Today’s rules:</strong> focus on what lenders care about now.</span>
                   </li>
                   <li className="miniItem">
-                    <span className="miniMark red" aria-hidden="true" />
+                    <span className="miniMark magenta" aria-hidden="true" />
                     <span><strong>Clean path:</strong> simple, clear, and direct.</span>
                   </li>
                 </ul>
@@ -867,16 +763,15 @@ export default function Page() {
         </div>
       </Section>
 
-      {/* Cipher section + Door 2 detail placed just above it for a natural transition */}
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
-        {/* DOOR 2 DETAIL (near Cipher) */}
+        {/* Door 2 detail placed near Cipher for clean flow */}
         <div style={{ marginBottom: 18 }}>
-          <div className="doorCard black" id="door-2" aria-label="Door 2: Tomorrow">
-            <div className="doorRail black" aria-hidden="true" />
+          <div className="doorCard ink" id="door-2" aria-label="Door 2: Tomorrow">
+            <div className="doorRail ink" aria-hidden="true" />
             <div className="doorInner">
               <div className="doorKicker">
                 <span className="doorPill">DOOR 2</span>
-                <span className="laneTag black">Discover tomorrow</span>
+                <span className="laneTag">Discover tomorrow</span>
               </div>
 
               <h3 className="doorTitle">Tomorrow: Discover the AI-driven BALANCE Cipher</h3>
@@ -896,29 +791,29 @@ export default function Page() {
                 </div>
 
                 {/* CTA #2 */}
-                <a className="ctaPill black" href="https://app.balancecipher.com/" target="_blank" rel="noopener noreferrer">
+                <a className="ctaPill ink" href="https://app.balancecipher.com/" target="_blank" rel="noopener noreferrer">
                   Open the Cipher →
                 </a>
               </div>
 
               <ul className="miniList" aria-label="Door 2 points">
                 <li className="miniItem">
-                  <span className="miniMark brass" aria-hidden="true" />
+                  <span className="miniMark ink" aria-hidden="true" />
                   <span><strong>See the pattern</strong> behind your results.</span>
                 </li>
                 <li className="miniItem">
-                  <span className="miniMark brass" aria-hidden="true" />
+                  <span className="miniMark ink" aria-hidden="true" />
                   <span><strong>Learn the next move</strong> that changes your outcome.</span>
                 </li>
                 <li className="miniItem">
-                  <span className="miniMark brass" aria-hidden="true" />
+                  <span className="miniMark ink" aria-hidden="true" />
                   <span><strong>Auto → Home:</strong> build stability and real readiness over time.</span>
                 </li>
               </ul>
 
               <div
                 style={{
-                  border: "2px solid rgba(0,0,0,0.10)",
+                  border: "1px solid rgba(0,0,0,0.10)",
                   borderRadius: 18,
                   background: "rgba(0,0,0,0.02)",
                   padding: "14px 14px",
@@ -950,7 +845,7 @@ export default function Page() {
             />
 
             <h3 className="cipherTitle">
-              Open your new door—<span style={{ color: "var(--door1-red)" }}>with the Cipher</span>.
+              Open your new door—<span style={{ color: "var(--magenta)" }}>with the Cipher</span>.
             </h3>
 
             <p className="cipherCopy">
