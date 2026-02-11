@@ -20,22 +20,18 @@ export default function Page() {
           --np-radius: 26px;
           --np-pill: 999px;
 
-          /* HARDENED lane colors (no pink / no mint wash) */
-          --lane-red: var(--accent);
-          --lane-red-fallback: #DC2626;            /* strong red */
-          --lane-red-deep: #B91C1C;                /* deeper red for borders */
-          --lane-red-ink: rgba(140, 0, 0, 0.92);   /* darker red ink */
+          /* ✅ HARD LOCKED PREMIUM LANES (NO PINK / NO MINT) */
+          --lane-red: #D11124;      /* automotive red */
+          --lane-red-deep: #9F0B1B; /* deep border red */
+          --lane-red-glow: rgba(209,17,36,0.16);
 
-          --lane-teal: #19d3c5;
-          --lane-teal-deep: #0EA5A4;               /* deeper teal for borders/text */
-          --lane-teal-ink: rgba(8, 90, 86, 0.92);
+          --lane-teal: #0B8F8A;      /* deeper teal (not mint) */
+          --lane-teal-deep: #076E6A; /* deeper border teal */
+          --lane-teal-glow: rgba(11,143,138,0.16);
 
-          /* very subtle tints ONLY (avoid pastel panels) */
-          --lane-red-tint: rgba(220,38,38,0.06);
-          --lane-teal-tint: rgba(25,211,197,0.06);
-
-          --lane-red-glow: rgba(220,38,38,0.18);
-          --lane-teal-glow: rgba(25,211,197,0.18);
+          /* keep tints extremely low (not pastel panels) */
+          --lane-red-tint: rgba(209,17,36,0.035);
+          --lane-teal-tint: rgba(11,143,138,0.035);
         }
 
         strong { font-weight: 900; color: var(--np-ink); }
@@ -44,7 +40,7 @@ export default function Page() {
         .heroStage {
           position: relative;
           overflow: hidden;
-          padding-bottom: 18px;
+          padding-bottom: 14px;
           background:
             radial-gradient(900px 420px at 18% 22%, rgba(0,0,0,0.04), transparent 70%),
             radial-gradient(800px 460px at 70% 25%, rgba(0,0,0,0.03), transparent 70%),
@@ -58,7 +54,7 @@ export default function Page() {
             radial-gradient(720px 360px at 22% 36%, var(--lane-red-glow), transparent 68%),
             radial-gradient(820px 420px at 70% 38%, var(--lane-teal-glow), transparent 70%);
           filter: blur(18px);
-          opacity: 0.85;
+          opacity: 0.75;
           pointer-events:none;
         }
         .heroStage::after{
@@ -66,7 +62,7 @@ export default function Page() {
           position:absolute;
           inset:0;
           background:
-            linear-gradient(90deg, rgba(255,255,255,0.86), rgba(255,255,255,0.80)),
+            linear-gradient(90deg, rgba(255,255,255,0.88), rgba(255,255,255,0.82)),
             radial-gradient(1200px 520px at 50% 0%, rgba(0,0,0,0.04), transparent 70%);
           pointer-events:none;
         }
@@ -78,19 +74,19 @@ export default function Page() {
           font-weight: 950;
         }
 
-        /* BIGGER + BOLDER story line (this is the hook) */
+        /* BIGGER + BOLDER story line */
         .sub { 
-          line-height: 1.38;
-          color: rgba(15,23,42,0.90);
-          font-size: 18px;
-          font-weight: 850;
-          max-width: 820px;
+          line-height: 1.34;
+          color: rgba(15,23,42,0.92);
+          font-size: 19px;
+          font-weight: 900;
+          max-width: 860px;
         }
 
         .heroCard {
-          border: 1px solid var(--np-border);
+          border: 1px solid rgba(0,0,0,0.10);
           border-radius: var(--np-radius);
-          background: rgba(255,255,255,0.92);
+          background: rgba(255,255,255,0.96);
           box-shadow: var(--np-shadow);
           backdrop-filter: blur(8px);
         }
@@ -100,21 +96,38 @@ export default function Page() {
           gap: 12px;
         }
 
-        /* REMOVE confusing filler block by hiding legacy pill rows if they exist */
+        /* Hide old filler UI blocks */
         .pills { display: none !important; }
         .heroRow { display: none !important; }
         .trustStrip { display: none !important; }
 
-        /* Logo size */
+        /* Logo */
         .npLogo{
           width: min(220px, 72vw);
           height: auto;
           display:block;
           object-fit: contain;
         }
-        @media (min-width: 900px){
-          .npLogo{ width: 210px; }
+
+        /* ✅ COMMAND STRIP (fix readability) */
+        .commandStrip{
+          border-radius: 18px;
+          border: 1px solid rgba(0,0,0,0.12);
+          background: rgba(255,255,255,0.98);
+          box-shadow: 0 14px 34px rgba(0,0,0,0.08);
+          padding: 14px 14px;
+          display:grid;
+          gap: 8px;
         }
+        .commandLine{
+          font-size: 15px;
+          font-weight: 950;
+          color: rgba(15,23,42,0.90);
+          line-height: 1.25;
+        }
+        .commandLine .red{ color: var(--lane-red); }
+        .commandLine .teal{ color: var(--lane-teal); }
+        .commandLine .arrow{ opacity: 0.75; }
 
         /* ===========================
            DOORS = DECISION STAGE
@@ -134,48 +147,45 @@ export default function Page() {
         .decisionStage{
           position: relative;
           border-radius: calc(var(--np-radius) + 8px);
-          padding: 16px;
-          background:
-            radial-gradient(900px 420px at 18% 40%, rgba(220,38,38,0.08), transparent 58%),
-            radial-gradient(920px 420px at 82% 40%, rgba(25,211,197,0.08), transparent 58%),
-            linear-gradient(180deg, rgba(0,0,0,0.015), rgba(0,0,0,0.00));
-          border: 1px solid rgba(0,0,0,0.06);
-          box-shadow: 0 18px 48px rgba(0,0,0,0.06);
+          padding: 14px;
+          background: rgba(255,255,255,0.00);
+          border: 0;
+          box-shadow: none;
         }
 
-        /* BIG, CENTERED DOOR CHOICES (internal jumps only) */
         .decisionBar{
           display:grid;
-          gap: 14px;
+          gap: 12px;
           margin-top: 12px;
           margin-bottom: 14px;
         }
 
+        /* ✅ Strong card containers (no pastel panels) */
         .doorChoice{
           display:block;
           text-decoration:none;
           width: 100%;
           border-radius: 22px;
-          border: 2px solid rgba(0,0,0,0.14);
+          border: 2px solid rgba(0,0,0,0.16);
           background: rgba(255,255,255,0.98);
           box-shadow: 0 22px 62px rgba(0,0,0,0.10);
-          padding: 18px 14px;
+          padding: 16px 14px;
           transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
         }
         .doorChoice:active{ transform: translateY(1px) scale(0.99); }
 
         .doorChoice.red{
-          border-color: rgba(185,28,28,0.32);
-          box-shadow: 0 26px 74px rgba(185,28,28,0.12);
+          border-color: rgba(159,11,27,0.32);
+          box-shadow: 0 26px 74px rgba(209,17,36,0.14);
         }
         .doorChoice.teal{
-          border-color: rgba(14,165,164,0.34);
-          box-shadow: 0 26px 74px rgba(14,165,164,0.12);
+          border-color: rgba(7,110,106,0.34);
+          box-shadow: 0 26px 74px rgba(11,143,138,0.14);
         }
 
         .doorChoiceInner{
           display:grid;
-          gap: 8px;
+          gap: 6px;
           text-align: center;
           align-items:center;
           justify-items:center;
@@ -189,53 +199,72 @@ export default function Page() {
           flex-wrap: wrap;
         }
 
-        /* 2x SIZE Door chips (CTA-grade) */
+        /* ✅ CTA-GRADE DOOR CHIPS (bigger, stronger, looks like a button) */
         .doorChip{
+          position: relative;
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          padding: 16px 22px;
-          border-radius: var(--np-pill);
-          font-weight: 950;
-          letter-spacing: 0.22em;
+          padding: 18px 26px;
+          border-radius: 18px;                 /* not pill = more authority */
+          font-weight: 980;
+          letter-spacing: 0.20em;
           text-transform: uppercase;
           font-size: 14px;
-          border: 2px solid rgba(0,0,0,0.18);
-          background: rgba(255,255,255,0.96);
-          box-shadow: 0 16px 34px rgba(0,0,0,0.10);
+          border: 2px solid rgba(0,0,0,0.20);
+          background: #fff;
+          box-shadow: 0 18px 40px rgba(0,0,0,0.12);
         }
-        .doorChip.red{
-          border-color: rgba(185,28,28,0.36);
-          background: rgba(255,255,255,0.98);
-          color: rgba(15,23,42,0.90);
-        }
-        .doorChip.teal{
-          border-color: rgba(14,165,164,0.38);
-          background: rgba(255,255,255,0.98);
-          color: rgba(15,23,42,0.90);
+        /* notch dot so it reads like a control */
+        .doorChip::before{
+          content:"";
+          width: 10px;
+          height: 10px;
+          border-radius: 999px;
+          margin-right: 10px;
+          background: rgba(0,0,0,0.20);
         }
 
-        /* BIG CENTER HEADLINE FOR EACH CHOICE */
+        .doorChip.red{
+          border-color: rgba(159,11,27,0.38);
+          color: rgba(15,23,42,0.94);
+        }
+        .doorChip.red::before{ background: var(--lane-red); }
+
+        .doorChip.teal{
+          border-color: rgba(7,110,106,0.42);
+          color: rgba(15,23,42,0.94);
+        }
+        .doorChip.teal::before{ background: var(--lane-teal); }
+
+        /* ✅ BIG decision titles */
         .doorChoiceTitle{
-          font-weight: 950;
+          font-weight: 980;
           letter-spacing: -0.02em;
           color: rgba(0,0,0,0.94);
-          font-size: clamp(20px, 4.6vw, 26px);
-          line-height: 1.10;
+          font-size: clamp(21px, 4.8vw, 28px);
+          line-height: 1.08;
         }
+
         .doorChoiceTitle .redWord{ 
           color: var(--lane-red);
-          text-shadow: 0 10px 26px rgba(185,28,28,0.18);
+          text-shadow: 0 10px 26px rgba(209,17,36,0.18);
         }
-        .doorChoiceTitle .tealWord{ 
-          color: var(--lane-teal-deep);
-          text-shadow: 0 10px 26px rgba(14,165,164,0.16);
+
+        /* ✅ Teal emphasis becomes underline + weight (not random mint text) */
+        .tealEmph{
+          color: rgba(0,0,0,0.94);
+          font-weight: 980;
+          text-decoration: underline;
+          text-decoration-color: rgba(11,143,138,0.80);
+          text-decoration-thickness: 3px;
+          text-underline-offset: 5px;
         }
 
         .doorChoiceSub{
           font-size: 14px;
           font-weight: 900;
-          color: rgba(15,23,42,0.76);
+          color: rgba(15,23,42,0.78);
           line-height: 1.25;
           max-width: 62ch;
         }
@@ -245,7 +274,7 @@ export default function Page() {
           font-weight: 950;
           letter-spacing: 0.10em;
           text-transform: uppercase;
-          opacity: 0.60;
+          opacity: 0.62;
           margin-top: 2px;
         }
 
@@ -278,8 +307,8 @@ export default function Page() {
           background: rgba(0,0,0,0.06);
           opacity: 0.95;
         }
-        .doorCard.red::before{ background: linear-gradient(180deg, rgba(185,28,28,0.86), rgba(185,28,28,0.20)); }
-        .doorCard.teal::before{ background: linear-gradient(180deg, rgba(14,165,164,0.86), rgba(14,165,164,0.20)); }
+        .doorCard.red::before{ background: linear-gradient(180deg, rgba(209,17,36,0.92), rgba(209,17,36,0.18)); }
+        .doorCard.teal::before{ background: linear-gradient(180deg, rgba(11,143,138,0.92), rgba(11,143,138,0.18)); }
 
         .doorRail{
           height: 12px;
@@ -287,10 +316,10 @@ export default function Page() {
           background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.00));
         }
         .doorRail.red{
-          background: linear-gradient(90deg, rgba(185,28,28,0.28), rgba(185,28,28,0.07), transparent);
+          background: linear-gradient(90deg, rgba(209,17,36,0.26), rgba(209,17,36,0.06), transparent);
         }
         .doorRail.teal{
-          background: linear-gradient(90deg, rgba(14,165,164,0.28), rgba(14,165,164,0.09), transparent);
+          background: linear-gradient(90deg, rgba(11,143,138,0.26), rgba(11,143,138,0.07), transparent);
         }
 
         .doorInner{
@@ -299,7 +328,6 @@ export default function Page() {
           gap: 12px;
         }
 
-        /* bigger in-card kicker */
         .doorKicker{
           display:flex;
           align-items:center;
@@ -315,7 +343,7 @@ export default function Page() {
           align-items:center;
           justify-content:center;
           padding: 12px 18px;
-          border-radius: var(--np-pill);
+          border-radius: 18px;
           border: 1px solid rgba(0,0,0,0.14);
           background: rgba(0,0,0,0.03);
           font-weight: 950;
@@ -331,22 +359,22 @@ export default function Page() {
           align-items:center;
           justify-content:center;
           padding: 12px 16px;
-          border-radius: var(--np-pill);
+          border-radius: 18px;
           font-size: 13px;
           font-weight: 950;
-          color: rgba(15,23,42,0.90);
+          color: rgba(15,23,42,0.92);
           border: 1px solid rgba(0,0,0,0.12);
-          background: rgba(255,255,255,0.96);
+          background: #fff;
           white-space: nowrap;
           box-shadow: 0 12px 26px rgba(0,0,0,0.06);
         }
         .laneTag.red{
-          border-color: rgba(185,28,28,0.22);
-          background: var(--lane-red-tint);
+          border-color: rgba(159,11,27,0.22);
+          background: rgba(209,17,36,0.04);
         }
         .laneTag.teal{
-          border-color: rgba(14,165,164,0.24);
-          background: var(--lane-teal-tint);
+          border-color: rgba(7,110,106,0.22);
+          background: rgba(11,143,138,0.04);
         }
 
         .doorTitle{
@@ -377,6 +405,7 @@ export default function Page() {
           max-width: 100%;
           min-width: 0;
         }
+
         .visualLeft{
           display:flex;
           align-items:center;
@@ -385,6 +414,7 @@ export default function Page() {
           flex: 1 1 auto;
           max-width: 100%;
         }
+
         .visualIcon{
           width: 46px;
           height: 46px;
@@ -404,8 +434,8 @@ export default function Page() {
           top: 9px;
           bottom: 9px;
           border-radius: 10px;
-          background: linear-gradient(180deg, rgba(185,28,28,0.24), rgba(185,28,28,0.06));
-          border: 1px solid rgba(185,28,28,0.22);
+          background: linear-gradient(180deg, rgba(209,17,36,0.20), rgba(209,17,36,0.05));
+          border: 1px solid rgba(209,17,36,0.20);
         }
         .iconRoad::after{
           content:"";
@@ -415,8 +445,8 @@ export default function Page() {
           bottom: 14px;
           width: 2px;
           border-radius: 2px;
-          background: rgba(185,28,28,0.55);
-          opacity: 0.8;
+          background: rgba(209,17,36,0.58);
+          opacity: 0.85;
         }
 
         .iconCipher::before{
@@ -424,15 +454,15 @@ export default function Page() {
           position:absolute;
           inset: 10px;
           border-radius: 999px;
-          border: 2px solid rgba(14,165,164,0.48);
-          box-shadow: 0 0 18px rgba(14,165,164,0.26);
+          border: 2px solid rgba(11,143,138,0.52);
+          box-shadow: 0 0 18px rgba(11,143,138,0.22);
         }
         .iconCipher::after{
           content:"";
           position:absolute;
           inset: 18px;
           border-radius: 999px;
-          border: 1px solid rgba(14,165,164,0.26);
+          border: 1px solid rgba(11,143,138,0.24);
         }
 
         .visualText{
@@ -484,8 +514,8 @@ export default function Page() {
           background: rgba(0,0,0,0.22);
           opacity: 0.7;
         }
-        .miniMark.red{ background: rgba(185,28,28,0.40); }
-        .miniMark.teal{ background: rgba(14,165,164,0.38); }
+        .miniMark.red{ background: rgba(209,17,36,0.40); }
+        .miniMark.teal{ background: rgba(11,143,138,0.40); }
 
         /* Outbound CTAs (still only 2 total) */
         .ctaPill{
@@ -508,20 +538,18 @@ export default function Page() {
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
         .ctaPill.red{
-          /* if var(--accent) is set correctly, it will use brand red; otherwise still reads strong */
-          background: var(--lane-red, var(--lane-red-fallback));
+          background: var(--lane-red);
           color: #fff;
           border-color: rgba(0,0,0,0.08);
-          box-shadow: 0 18px 44px rgba(185,28,28,0.22);
+          box-shadow: 0 18px 44px rgba(209,17,36,0.22);
         }
         .ctaPill.teal{
           background: rgba(11,11,15,0.94);
           color: #fff;
-          border-color: rgba(14,165,164,0.30);
-          box-shadow: 0 18px 46px rgba(0,0,0,0.14), 0 0 0 1px rgba(14,165,164,0.12) inset;
+          border-color: rgba(11,143,138,0.30);
+          box-shadow: 0 18px 46px rgba(0,0,0,0.14), 0 0 0 1px rgba(11,143,138,0.12) inset;
         }
 
-        /* Mobile: stack CTA under visual */
         @media (max-width: 820px){
           .doorVisual{
             flex-direction: column;
@@ -618,11 +646,7 @@ export default function Page() {
             <div className="container">
               <div className="nav">
                 <div className="brand" style={{ gap: 12 }}>
-                  <img
-                    src="/brand/newpath-auto-finance.png"
-                    alt="New Path Auto Finance"
-                    className="npLogo"
-                  />
+                  <img src="/brand/newpath-auto-finance.png" alt="New Path Auto Finance" className="npLogo" />
                 </div>
               </div>
 
@@ -630,7 +654,7 @@ export default function Page() {
                 <div className="card heroCard">
                   <div className="cardInner heroCardInner">
                     <h1 className="h1">
-                      Create a New Path <span style={{ color: "var(--lane-red, var(--lane-red-fallback))" }}>forward</span>.
+                      Create a New Path <span style={{ color: "var(--lane-red)" }}>forward</span>.
                     </h1>
 
                     <p className="sub">
@@ -638,9 +662,14 @@ export default function Page() {
                       <strong>Co-Pilot</strong>.
                     </p>
 
-                    <div className="muted" style={{ fontSize: 14, fontWeight: 900, color: "rgba(15,23,42,0.80)" }}>
-                      <strong>Get started today:</strong> choose Door 1.{" "}
-                      <strong>Discover the AI-driven Cipher tomorrow:</strong> choose Door 2.
+                    {/* ✅ Readable, bold, 2-line command strip */}
+                    <div className="commandStrip" aria-label="Door instructions">
+                      <div className="commandLine">
+                        <span className="red">Get started today</span> <span className="arrow">→</span> choose Door 1.
+                      </div>
+                      <div className="commandLine">
+                        <span className="teal">Discover the AI-driven Cipher tomorrow</span> <span className="arrow">→</span> choose Door 2.
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -656,7 +685,6 @@ export default function Page() {
         desc="Door 1 is for getting started today. Door 2 is for opening the door tomorrow—and discovering the AI-driven Cipher."
       >
         <div className="decisionStage" aria-label="Decision stage">
-          {/* BIG, CENTERED, BOLD internal jumps */}
           <div className="decisionBar" aria-label="Choose a door">
             <a className="doorChoice red" href="#door-1" aria-label="Door 1: Get started today">
               <div className="doorChoiceInner">
@@ -666,9 +694,7 @@ export default function Page() {
                     <span className="redWord">Get started</span> today.
                   </div>
                 </div>
-                <div className="doorChoiceSub">
-                  Start the process and get routed the right way.
-                </div>
+                <div className="doorChoiceSub">Start the process and get routed the right way.</div>
                 <div className="doorChoiceHint">Tap to jump ↓</div>
               </div>
             </a>
@@ -678,12 +704,10 @@ export default function Page() {
                 <div className="doorChoiceTop">
                   <span className="doorChip teal">DOOR 2</span>
                   <div className="doorChoiceTitle">
-                    Discover the <span className="tealWord">AI-driven</span> Cipher tomorrow.
+                    Discover the <span className="tealEmph">AI-driven</span> Cipher tomorrow.
                   </div>
                 </div>
-                <div className="doorChoiceSub">
-                  See the pattern, then take one clear next move.
-                </div>
+                <div className="doorChoiceSub">See the pattern, then take one clear next move.</div>
                 <div className="doorChoiceHint">Tap to jump ↓</div>
               </div>
             </a>
@@ -773,12 +797,7 @@ export default function Page() {
                   </div>
 
                   {/* CTA #2 */}
-                  <a
-                    className="ctaPill teal"
-                    href="https://app.balancecipher.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a className="ctaPill teal" href="https://app.balancecipher.com/" target="_blank" rel="noopener noreferrer">
                     Open the Cipher →
                   </a>
                 </div>
@@ -839,7 +858,7 @@ export default function Page() {
             />
 
             <h3 className="cipherTitle">
-              Open your new door—<span style={{ color: "var(--lane-red, var(--lane-red-fallback))" }}>with the Cipher</span>.
+              Open your new door—<span style={{ color: "var(--lane-red)" }}>with the Cipher</span>.
             </h3>
 
             <p className="cipherCopy">
