@@ -20,11 +20,22 @@ export default function Page() {
           --np-radius: 26px;
           --np-pill: 999px;
 
-          /* Accent lanes */
-          --lane-red: var(--accent); /* uses your existing accent (New Path red) */
-          --lane-teal: #19d3c5;       /* Cipher teal glow lane */
-          --lane-teal-soft: rgba(25,211,197,0.22);
-          --lane-red-soft: rgba(220,38,38,0.18);
+          /* HARDENED lane colors (no pink / no mint wash) */
+          --lane-red: var(--accent);
+          --lane-red-fallback: #DC2626;            /* strong red */
+          --lane-red-deep: #B91C1C;                /* deeper red for borders */
+          --lane-red-ink: rgba(140, 0, 0, 0.92);   /* darker red ink */
+
+          --lane-teal: #19d3c5;
+          --lane-teal-deep: #0EA5A4;               /* deeper teal for borders/text */
+          --lane-teal-ink: rgba(8, 90, 86, 0.92);
+
+          /* very subtle tints ONLY (avoid pastel panels) */
+          --lane-red-tint: rgba(220,38,38,0.06);
+          --lane-teal-tint: rgba(25,211,197,0.06);
+
+          --lane-red-glow: rgba(220,38,38,0.18);
+          --lane-teal-glow: rgba(25,211,197,0.18);
         }
 
         strong { font-weight: 900; color: var(--np-ink); }
@@ -44,10 +55,10 @@ export default function Page() {
           position:absolute;
           inset:-2px;
           background:
-            radial-gradient(720px 360px at 22% 36%, var(--lane-red-soft), transparent 68%),
-            radial-gradient(820px 420px at 70% 38%, var(--lane-teal-soft), transparent 70%);
+            radial-gradient(720px 360px at 22% 36%, var(--lane-red-glow), transparent 68%),
+            radial-gradient(820px 420px at 70% 38%, var(--lane-teal-glow), transparent 70%);
           filter: blur(18px);
-          opacity: 0.95;
+          opacity: 0.85;
           pointer-events:none;
         }
         .heroStage::after{
@@ -66,11 +77,14 @@ export default function Page() {
           color: rgba(0,0,0,0.92);
           font-weight: 950;
         }
+
+        /* BIGGER + BOLDER story line (this is the hook) */
         .sub { 
-          line-height: 1.45;
-          color: rgba(15,23,42,0.82);
-          font-size: 16px;
-          max-width: 760px;
+          line-height: 1.38;
+          color: rgba(15,23,42,0.90);
+          font-size: 18px;
+          font-weight: 850;
+          max-width: 820px;
         }
 
         .heroCard {
@@ -86,88 +100,10 @@ export default function Page() {
           gap: 12px;
         }
 
-        .heroRow {
-          display:flex;
-          flex-wrap:wrap;
-          align-items:center;
-          gap: 10px;
-          margin-top: 6px;
-          min-width: 0;
-          max-width: 100%;
-        }
-
-        /* Trust strip */
-        .trustStrip{
-          display:flex;
-          flex-wrap:wrap;
-          gap:10px;
-          margin-top: 10px;
-          max-width: 100%;
-        }
-        .trustBadge{
-          display:inline-flex;
-          align-items:center;
-          gap:10px;
-          padding: 10px 12px;
-          border-radius: var(--np-pill);
-          border: 1px solid rgba(0,0,0,0.10);
-          background: rgba(255,255,255,0.92);
-          box-shadow: 0 12px 26px rgba(0,0,0,0.06);
-          font-weight: 850;
-          font-size: 12px;
-          color: rgba(15,23,42,0.78);
-          white-space: nowrap;
-          max-width: 100%;
-        }
-        .trustDot{
-          width: 8px;
-          height: 8px;
-          border-radius: var(--np-pill);
-          background: rgba(0,0,0,0.24);
-          opacity: 0.6;
-          flex: 0 0 auto;
-        }
-
-        /* Cipher pill */
-        .cipherPill {
-          display: inline-flex;
-          align-items: center;
-          gap: 12px;
-          padding: 10px 14px;
-          border-radius: var(--np-pill);
-          border: 1px solid rgba(0,0,0,0.12);
-          background: rgba(255,255,255,0.92);
-          box-shadow: 0 12px 28px rgba(0,0,0,0.06);
-          white-space: nowrap;
-          max-width: 100%;
-        }
-        .cipherPillText {
-          font-weight: 950;
-          font-size: 12px;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          opacity: 0.82;
-        }
-        .cipherPillAccent {
-          width: 10px;
-          height: 38px;
-          border-radius: var(--np-pill);
-          background: var(--lane-teal);
-          opacity: 0.18;
-          flex: 0 0 auto;
-          box-shadow: 0 0 24px rgba(25,211,197,0.24);
-        }
-        .cipherPillEmblem {
-          height: 38px;
-          width: auto;
-          display: block;
-          object-fit: contain;
-          background: transparent !important;
-          border: none !important;
-          border-radius: 0 !important;
-          padding: 0 !important;
-          margin: 0 !important;
-        }
+        /* REMOVE confusing filler block by hiding legacy pill rows if they exist */
+        .pills { display: none !important; }
+        .heroRow { display: none !important; }
+        .trustStrip { display: none !important; }
 
         /* Logo size */
         .npLogo{
@@ -200,8 +136,8 @@ export default function Page() {
           border-radius: calc(var(--np-radius) + 8px);
           padding: 16px;
           background:
-            radial-gradient(800px 420px at 18% 40%, rgba(220,38,38,0.10), transparent 60%),
-            radial-gradient(820px 420px at 82% 40%, rgba(25,211,197,0.10), transparent 60%),
+            radial-gradient(900px 420px at 18% 40%, rgba(220,38,38,0.08), transparent 58%),
+            radial-gradient(920px 420px at 82% 40%, rgba(25,211,197,0.08), transparent 58%),
             linear-gradient(180deg, rgba(0,0,0,0.015), rgba(0,0,0,0.00));
           border: 1px solid rgba(0,0,0,0.06);
           box-shadow: 0 18px 48px rgba(0,0,0,0.06);
@@ -220,26 +156,26 @@ export default function Page() {
           text-decoration:none;
           width: 100%;
           border-radius: 22px;
-          border: 2px solid rgba(0,0,0,0.10);
-          background: rgba(255,255,255,0.96);
-          box-shadow: 0 18px 46px rgba(0,0,0,0.08);
-          padding: 16px 14px;
+          border: 2px solid rgba(0,0,0,0.14);
+          background: rgba(255,255,255,0.98);
+          box-shadow: 0 22px 62px rgba(0,0,0,0.10);
+          padding: 18px 14px;
           transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
         }
         .doorChoice:active{ transform: translateY(1px) scale(0.99); }
 
         .doorChoice.red{
-          border-color: rgba(220,38,38,0.26);
-          box-shadow: 0 20px 54px rgba(220,38,38,0.10);
+          border-color: rgba(185,28,28,0.32);
+          box-shadow: 0 26px 74px rgba(185,28,28,0.12);
         }
         .doorChoice.teal{
-          border-color: rgba(25,211,197,0.28);
-          box-shadow: 0 20px 54px rgba(25,211,197,0.10);
+          border-color: rgba(14,165,164,0.34);
+          box-shadow: 0 26px 74px rgba(14,165,164,0.12);
         }
 
         .doorChoiceInner{
           display:grid;
-          gap: 6px;
+          gap: 8px;
           text-align: center;
           align-items:center;
           justify-items:center;
@@ -249,60 +185,67 @@ export default function Page() {
           display:flex;
           align-items:center;
           justify-content:center;
-          gap: 10px;
+          gap: 12px;
           flex-wrap: wrap;
         }
 
-        /* MASSIVE PILL */
+        /* 2x SIZE Door chips (CTA-grade) */
         .doorChip{
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          padding: 10px 16px;
+          padding: 16px 22px;
           border-radius: var(--np-pill);
           font-weight: 950;
-          letter-spacing: 0.18em;
+          letter-spacing: 0.22em;
           text-transform: uppercase;
-          font-size: 12px;
-          border: 1px solid rgba(0,0,0,0.14);
-          background: rgba(0,0,0,0.02);
+          font-size: 14px;
+          border: 2px solid rgba(0,0,0,0.18);
+          background: rgba(255,255,255,0.96);
+          box-shadow: 0 16px 34px rgba(0,0,0,0.10);
         }
         .doorChip.red{
-          border-color: rgba(220,38,38,0.26);
-          background: rgba(220,38,38,0.06);
-          color: rgba(15,23,42,0.82);
+          border-color: rgba(185,28,28,0.36);
+          background: rgba(255,255,255,0.98);
+          color: rgba(15,23,42,0.90);
         }
         .doorChip.teal{
-          border-color: rgba(25,211,197,0.30);
-          background: rgba(25,211,197,0.06);
-          color: rgba(15,23,42,0.82);
+          border-color: rgba(14,165,164,0.38);
+          background: rgba(255,255,255,0.98);
+          color: rgba(15,23,42,0.90);
         }
 
         /* BIG CENTER HEADLINE FOR EACH CHOICE */
         .doorChoiceTitle{
           font-weight: 950;
           letter-spacing: -0.02em;
-          color: rgba(0,0,0,0.92);
-          font-size: clamp(18px, 4.2vw, 24px);
-          line-height: 1.12;
+          color: rgba(0,0,0,0.94);
+          font-size: clamp(20px, 4.6vw, 26px);
+          line-height: 1.10;
         }
-        .doorChoiceTitle .redWord{ color: var(--lane-red); }
-        .doorChoiceTitle .tealWord{ color: var(--lane-teal); }
+        .doorChoiceTitle .redWord{ 
+          color: var(--lane-red);
+          text-shadow: 0 10px 26px rgba(185,28,28,0.18);
+        }
+        .doorChoiceTitle .tealWord{ 
+          color: var(--lane-teal-deep);
+          text-shadow: 0 10px 26px rgba(14,165,164,0.16);
+        }
 
         .doorChoiceSub{
-          font-size: 13px;
-          font-weight: 800;
-          color: rgba(15,23,42,0.72);
+          font-size: 14px;
+          font-weight: 900;
+          color: rgba(15,23,42,0.76);
           line-height: 1.25;
           max-width: 62ch;
         }
 
         .doorChoiceHint{
           font-size: 12px;
-          font-weight: 900;
-          letter-spacing: 0.08em;
+          font-weight: 950;
+          letter-spacing: 0.10em;
           text-transform: uppercase;
-          opacity: 0.55;
+          opacity: 0.60;
           margin-top: 2px;
         }
 
@@ -335,8 +278,8 @@ export default function Page() {
           background: rgba(0,0,0,0.06);
           opacity: 0.95;
         }
-        .doorCard.red::before{ background: linear-gradient(180deg, rgba(220,38,38,0.78), rgba(220,38,38,0.18)); }
-        .doorCard.teal::before{ background: linear-gradient(180deg, rgba(25,211,197,0.78), rgba(25,211,197,0.18)); }
+        .doorCard.red::before{ background: linear-gradient(180deg, rgba(185,28,28,0.86), rgba(185,28,28,0.20)); }
+        .doorCard.teal::before{ background: linear-gradient(180deg, rgba(14,165,164,0.86), rgba(14,165,164,0.20)); }
 
         .doorRail{
           height: 12px;
@@ -344,10 +287,10 @@ export default function Page() {
           background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.00));
         }
         .doorRail.red{
-          background: linear-gradient(90deg, rgba(220,38,38,0.26), rgba(220,38,38,0.06), transparent);
+          background: linear-gradient(90deg, rgba(185,28,28,0.28), rgba(185,28,28,0.07), transparent);
         }
         .doorRail.teal{
-          background: linear-gradient(90deg, rgba(25,211,197,0.26), rgba(25,211,197,0.08), transparent);
+          background: linear-gradient(90deg, rgba(14,165,164,0.28), rgba(14,165,164,0.09), transparent);
         }
 
         .doorInner{
@@ -356,7 +299,7 @@ export default function Page() {
           gap: 12px;
         }
 
-        /* BIGGER in-card kicker */
+        /* bigger in-card kicker */
         .doorKicker{
           display:flex;
           align-items:center;
@@ -391,19 +334,19 @@ export default function Page() {
           border-radius: var(--np-pill);
           font-size: 13px;
           font-weight: 950;
-          color: rgba(15,23,42,0.80);
+          color: rgba(15,23,42,0.90);
           border: 1px solid rgba(0,0,0,0.12);
-          background: rgba(255,255,255,0.94);
+          background: rgba(255,255,255,0.96);
           white-space: nowrap;
           box-shadow: 0 12px 26px rgba(0,0,0,0.06);
         }
         .laneTag.red{
-          border-color: rgba(220,38,38,0.22);
-          background: rgba(220,38,38,0.06);
+          border-color: rgba(185,28,28,0.22);
+          background: var(--lane-red-tint);
         }
         .laneTag.teal{
-          border-color: rgba(25,211,197,0.24);
-          background: rgba(25,211,197,0.06);
+          border-color: rgba(14,165,164,0.24);
+          background: var(--lane-teal-tint);
         }
 
         .doorTitle{
@@ -461,8 +404,8 @@ export default function Page() {
           top: 9px;
           bottom: 9px;
           border-radius: 10px;
-          background: linear-gradient(180deg, rgba(220,38,38,0.22), rgba(220,38,38,0.06));
-          border: 1px solid rgba(220,38,38,0.18);
+          background: linear-gradient(180deg, rgba(185,28,28,0.24), rgba(185,28,28,0.06));
+          border: 1px solid rgba(185,28,28,0.22);
         }
         .iconRoad::after{
           content:"";
@@ -472,8 +415,8 @@ export default function Page() {
           bottom: 14px;
           width: 2px;
           border-radius: 2px;
-          background: rgba(220,38,38,0.40);
-          opacity: 0.7;
+          background: rgba(185,28,28,0.55);
+          opacity: 0.8;
         }
 
         .iconCipher::before{
@@ -481,15 +424,15 @@ export default function Page() {
           position:absolute;
           inset: 10px;
           border-radius: 999px;
-          border: 2px solid rgba(25,211,197,0.38);
-          box-shadow: 0 0 18px rgba(25,211,197,0.28);
+          border: 2px solid rgba(14,165,164,0.48);
+          box-shadow: 0 0 18px rgba(14,165,164,0.26);
         }
         .iconCipher::after{
           content:"";
           position:absolute;
           inset: 18px;
           border-radius: 999px;
-          border: 1px solid rgba(25,211,197,0.22);
+          border: 1px solid rgba(14,165,164,0.26);
         }
 
         .visualText{
@@ -541,8 +484,8 @@ export default function Page() {
           background: rgba(0,0,0,0.22);
           opacity: 0.7;
         }
-        .miniMark.red{ background: rgba(220,38,38,0.34); }
-        .miniMark.teal{ background: rgba(25,211,197,0.34); }
+        .miniMark.red{ background: rgba(185,28,28,0.40); }
+        .miniMark.teal{ background: rgba(14,165,164,0.38); }
 
         /* Outbound CTAs (still only 2 total) */
         .ctaPill{
@@ -565,15 +508,17 @@ export default function Page() {
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
         .ctaPill.red{
-          background: var(--lane-red);
+          /* if var(--accent) is set correctly, it will use brand red; otherwise still reads strong */
+          background: var(--lane-red, var(--lane-red-fallback));
           color: #fff;
-          border-color: rgba(0,0,0,0.06);
+          border-color: rgba(0,0,0,0.08);
+          box-shadow: 0 18px 44px rgba(185,28,28,0.22);
         }
         .ctaPill.teal{
           background: rgba(11,11,15,0.94);
           color: #fff;
-          border-color: rgba(25,211,197,0.30);
-          box-shadow: 0 18px 46px rgba(0,0,0,0.14), 0 0 0 1px rgba(25,211,197,0.10) inset;
+          border-color: rgba(14,165,164,0.30);
+          box-shadow: 0 18px 46px rgba(0,0,0,0.14), 0 0 0 1px rgba(14,165,164,0.12) inset;
         }
 
         /* Mobile: stack CTA under visual */
@@ -601,7 +546,7 @@ export default function Page() {
           }
         }
 
-        /* Cipher section */
+        /* Cipher section (unchanged) */
         .cipherCard{
           border: 1px solid rgba(0,0,0,0.10);
           border-radius: var(--np-radius);
@@ -685,7 +630,7 @@ export default function Page() {
                 <div className="card heroCard">
                   <div className="cardInner heroCardInner">
                     <h1 className="h1">
-                      Create a New Path <span style={{ color: "var(--accent)" }}>forward</span>.
+                      Create a New Path <span style={{ color: "var(--lane-red, var(--lane-red-fallback))" }}>forward</span>.
                     </h1>
 
                     <p className="sub">
@@ -693,33 +638,9 @@ export default function Page() {
                       <strong>Co-Pilot</strong>.
                     </p>
 
-                    <div className="heroRow">
-                      <div className="pills">
-                        <div className="pill">No pressure</div>
-                        <div className="pill">No confusion</div>
-                        <div className="pill">Real next step</div>
-                      </div>
-
-                      <span className="cipherPill" aria-label="AI guided by the BALANCE Cipher">
-                        <span className="cipherPillText">AI guided by</span>
-                        <span className="cipherPillAccent" aria-hidden="true" />
-                        <img
-                          className="cipherPillEmblem"
-                          src="/brand/balance-cipher-emblem.png"
-                          alt="BALANCE Cipher emblem"
-                        />
-                      </span>
-                    </div>
-
-                    <div className="trustStrip" aria-label="Trust badges">
-                      <span className="trustBadge"><span className="trustDot" />No pressure</span>
-                      <span className="trustBadge"><span className="trustDot" />Simple steps</span>
-                      <span className="trustBadge"><span className="trustDot" />Real next move</span>
-                      <span className="trustBadge"><span className="trustDot" />Clear direction</span>
-                    </div>
-
-                    <div className="muted" style={{ fontSize: 13, marginTop: 2, color: "rgba(15,23,42,0.70)" }}>
-                      Door 1 is <strong>today</strong>. Door 2 is <strong>tomorrow</strong>. Scroll to choose.
+                    <div className="muted" style={{ fontSize: 14, fontWeight: 900, color: "rgba(15,23,42,0.80)" }}>
+                      <strong>Get started today:</strong> choose Door 1.{" "}
+                      <strong>Discover the AI-driven Cipher tomorrow:</strong> choose Door 2.
                     </div>
                   </div>
                 </div>
@@ -732,7 +653,7 @@ export default function Page() {
       <Section
         id="doors"
         title="Choose your door"
-        desc="Door 1 is for getting started today. Door 2 is for opening the door tomorrow—and discovering the Cipher."
+        desc="Door 1 is for getting started today. Door 2 is for opening the door tomorrow—and discovering the AI-driven Cipher."
       >
         <div className="decisionStage" aria-label="Decision stage">
           {/* BIG, CENTERED, BOLD internal jumps */}
@@ -746,18 +667,18 @@ export default function Page() {
                   </div>
                 </div>
                 <div className="doorChoiceSub">
-                  Start the application and get routed the right way.
+                  Start the process and get routed the right way.
                 </div>
                 <div className="doorChoiceHint">Tap to jump ↓</div>
               </div>
             </a>
 
-            <a className="doorChoice teal" href="#door-2" aria-label="Door 2: Discover the Cipher tomorrow">
+            <a className="doorChoice teal" href="#door-2" aria-label="Door 2: Discover the AI-driven Cipher tomorrow">
               <div className="doorChoiceInner">
                 <div className="doorChoiceTop">
                   <span className="doorChip teal">DOOR 2</span>
                   <div className="doorChoiceTitle">
-                    Open the door tomorrow — <span className="tealWord">discover</span> the Cipher.
+                    Discover the <span className="tealWord">AI-driven</span> Cipher tomorrow.
                   </div>
                 </div>
                 <div className="doorChoiceSub">
@@ -832,10 +753,10 @@ export default function Page() {
               <div className="doorInner">
                 <div className="doorKicker">
                   <span className="doorPill">DOOR 2</span>
-                  <span className="laneTag teal">Open the door tomorrow</span>
+                  <span className="laneTag teal">Discover tomorrow</span>
                 </div>
 
-                <h3 className="doorTitle">Tomorrow: Discover the BALANCE Cipher</h3>
+                <h3 className="doorTitle">Tomorrow: Discover the AI-driven BALANCE Cipher</h3>
 
                 <p className="doorBody">
                   The Cipher isn’t a checklist. It’s a map. It shows why outcomes repeat—and the Co-Pilot translates that
@@ -900,7 +821,7 @@ export default function Page() {
         </div>
       </Section>
 
-      {/* Cipher section (no extra outbound CTA) */}
+      {/* Cipher section (unchanged; no extra outbound CTA) */}
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
         <div className="cipherCard">
           <div className="cipherGlow" aria-hidden="true" />
@@ -918,7 +839,7 @@ export default function Page() {
             />
 
             <h3 className="cipherTitle">
-              Open your new door—<span style={{ color: "var(--accent)" }}>with the Cipher</span>.
+              Open your new door—<span style={{ color: "var(--lane-red, var(--lane-red-fallback))" }}>with the Cipher</span>.
             </h3>
 
             <p className="cipherCopy">
