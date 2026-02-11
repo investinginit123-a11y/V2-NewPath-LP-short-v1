@@ -1,10 +1,10 @@
 // app/page.tsx
-// DOOR EMPHASIS + NEW COLOR SCHEME PASS
-// - Pink eliminated (no red tints / no soft red wash)
-// - Blue eliminated (Door 2 becomes premium charcoal + brass)
-// - Doors become BIG, boxed, bold, clickable (life-changing CTA moment)
-// - Door 2 detail card is moved closer to Cipher section for better flow
-// - Still only 2 outbound CTAs total (Apply + Open Cipher)
+// PASS: FIX "PINK" ROOT CAUSE + LOCK RED OPTION A (#E1062A) + BOLD DOOR STATEMENT UNDER "CHOOSE YOUR DOOR"
+// - Door 1 pink was caused by red-tinted overlays on white (doorChoice.red::before + gradients). Removed.
+// - Door 1 now uses HARD RED only: border/spine/badge/headline word. NO red haze. NO red wash.
+// - Door 2 stays premium charcoal + brass (no blue/green).
+// - Adds an emboldened statement bar directly under "Choose your door" (your exact phrasing).
+// - Keeps only 2 outbound CTAs total.
 
 import Section from "../components/Section";
 
@@ -28,26 +28,24 @@ export default function Page() {
           --np-radius: 26px;
           --np-pill: 999px;
 
-          /* ✅ DOOR COLORS (NO PINK, NO BLUE, NO GREEN) */
-          --door1-red: #D10F2F;         /* vibrant red */
-          --door1-red-deep: #8E0B20;
+          /* ✅ DOOR COLORS (LOCKED) */
+          --door1-red: #E1062A;       /* Option A: punchy, modern red (NOT maroon, NOT pink) */
+          --door1-red-deep: #B40420;  /* for depth if needed (used sparingly) */
 
-          --door2-charcoal: #0B0B0F;    /* premium near-black */
+          --door2-charcoal: #0B0B0F;  /* premium near-black */
           --door2-charcoal-2: #131320;
 
-          --brass: #B08D57;             /* brass/gold accent */
+          --brass: #B08D57;           /* brass/gold accent */
           --brass-soft: rgba(176,141,87,0.22);
 
           --white: #ffffff;
-          --card: rgba(255,255,255,0.98);
 
           --ink-strong: rgba(0,0,0,0.92);
-          --ink: rgba(15,23,42,0.92);
         }
 
         strong { font-weight: 900; color: var(--np-ink); }
 
-        /* HERO STAGE — reduce any color wash; keep clean */
+        /* HERO STAGE — keep subtle, no color wash */
         .heroStage {
           position: relative;
           overflow: hidden;
@@ -62,8 +60,8 @@ export default function Page() {
           position:absolute;
           inset:-2px;
           background:
-            radial-gradient(720px 360px at 22% 36%, rgba(209,15,47,0.08), transparent 68%),
-            radial-gradient(820px 420px at 70% 38%, rgba(176,141,87,0.08), transparent 70%);
+            radial-gradient(720px 360px at 22% 36%, rgba(225,6,42,0.06), transparent 68%),
+            radial-gradient(820px 420px at 70% 38%, rgba(176,141,87,0.07), transparent 70%);
           filter: blur(18px);
           opacity: 0.55;
           pointer-events:none;
@@ -85,7 +83,7 @@ export default function Page() {
           font-weight: 950;
         }
 
-        /* Make the story line bigger + bolder */
+        /* Bigger, bolder story line */
         .sub { 
           line-height: 1.24;
           color: rgba(15,23,42,0.94);
@@ -107,7 +105,7 @@ export default function Page() {
           gap: 12px;
         }
 
-        /* Hide old filler UI blocks */
+        /* Remove old filler UI blocks */
         .pills { display: none !important; }
         .heroRow { display: none !important; }
         .trustStrip { display: none !important; }
@@ -147,7 +145,7 @@ export default function Page() {
         }
         #doors .sectionDesc{
           font-size: 16px;
-          max-width: 820px;
+          max-width: 900px;
           line-height: 1.55;
         }
 
@@ -158,10 +156,40 @@ export default function Page() {
           background: transparent;
         }
 
+        /* ✅ NEW: "THIS IS WHAT IT’S ABOUT" STATEMENT BAR */
+        .doorStatement{
+          border-radius: 22px;
+          border: 3px solid rgba(0,0,0,0.14);
+          background: rgba(255,255,255,0.98);
+          box-shadow: 0 18px 46px rgba(0,0,0,0.10);
+          padding: 16px 16px;
+          margin: 10px 0 16px;
+          position: relative;
+          overflow: hidden;
+        }
+        .doorStatement::before{
+          content:"";
+          position:absolute;
+          left:0; top:0; bottom:0;
+          width: 12px;
+          background: linear-gradient(180deg, var(--door1-red), rgba(11,11,15,0.18));
+        }
+        .doorStatementText{
+          position: relative;
+          z-index: 2;
+          font-size: 18px;
+          font-weight: 1000;
+          color: rgba(15,23,42,0.92);
+          line-height: 1.25;
+          letter-spacing: -0.01em;
+        }
+        .doorStatementText .red{ color: var(--door1-red); }
+        .doorStatementText .brass{ color: var(--brass); }
+
         .decisionBar{
           display:grid;
           gap: 14px;
-          margin-top: 12px;
+          margin-top: 10px;
           margin-bottom: 16px;
         }
 
@@ -181,22 +209,15 @@ export default function Page() {
         .doorChoice:active{ transform: translateY(1px) scale(0.99); }
         .doorChoice:hover{ box-shadow: 0 32px 86px rgba(0,0,0,0.18); }
 
-        /* Door frame (thick border) */
+        /* ✅ Door frame (HARD borders) */
         .doorChoice.red{
-          border: 4px solid rgba(209,15,47,0.78);
+          border: 4px solid var(--door1-red);
         }
-        .doorChoice.red::before{
-          content:"";
-          position:absolute;
-          inset:0;
-          background:
-            linear-gradient(90deg, rgba(209,15,47,0.10), transparent 35%),
-            radial-gradient(520px 220px at 16% 50%, rgba(209,15,47,0.10), transparent 70%);
-          pointer-events:none;
-        }
+        /* 🚫 IMPORTANT: remove ALL red overlay tints (this was the "pink" source) */
+        .doorChoice.red::before{ content:none !important; }
 
         .doorChoice.black{
-          border: 4px solid rgba(11,11,15,0.78);
+          border: 4px solid rgba(11,11,15,0.82);
           background: #ffffff;
         }
         .doorChoice.black::before{
@@ -219,7 +240,7 @@ export default function Page() {
           background: rgba(0,0,0,0.06);
         }
         .doorChoice.red .doorSpine{
-          background: linear-gradient(180deg, var(--door1-red), rgba(209,15,47,0.20));
+          background: linear-gradient(180deg, var(--door1-red), rgba(225,6,42,0.12));
         }
         .doorChoice.black .doorSpine{
           background: linear-gradient(180deg, var(--door2-charcoal), rgba(11,11,15,0.18));
@@ -248,8 +269,8 @@ export default function Page() {
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          height: 54px;
-          padding: 0 22px;
+          height: 56px;
+          padding: 0 24px;
           border-radius: 18px;
           font-weight: 1000;
           letter-spacing: 0.22em;
@@ -268,7 +289,6 @@ export default function Page() {
           background: rgba(0,0,0,0.22);
         }
 
-        /* Door 1 badge = filled red */
         .doorBadge.red{
           background: var(--door1-red);
           color: #fff;
@@ -276,7 +296,6 @@ export default function Page() {
         }
         .doorBadge.red::before{ background: #fff; opacity: 0.92; }
 
-        /* Door 2 badge = filled charcoal with brass dot */
         .doorBadge.black{
           background: var(--door2-charcoal);
           color: #fff;
@@ -291,10 +310,9 @@ export default function Page() {
           font-size: clamp(22px, 5vw, 30px);
           line-height: 1.06;
         }
-
         .doorChoiceTitle .redWord{
           color: var(--door1-red);
-          text-shadow: 0 10px 26px rgba(209,15,47,0.20);
+          text-shadow: 0 10px 26px rgba(225,6,42,0.14);
         }
 
         /* Brass emphasis for Door 2 phrase */
@@ -362,7 +380,7 @@ export default function Page() {
           opacity: 0.95;
         }
         .doorCard.red::before{
-          background: linear-gradient(180deg, var(--door1-red), rgba(209,15,47,0.18));
+          background: linear-gradient(180deg, var(--door1-red), rgba(225,6,42,0.14));
         }
         .doorCard.black::before{
           background: linear-gradient(180deg, var(--door2-charcoal), rgba(11,11,15,0.18));
@@ -374,7 +392,7 @@ export default function Page() {
           background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.00));
         }
         .doorRail.red{
-          background: linear-gradient(90deg, rgba(209,15,47,0.34), rgba(209,15,47,0.08), transparent);
+          background: linear-gradient(90deg, rgba(225,6,42,0.30), rgba(225,6,42,0.07), transparent);
         }
         .doorRail.black{
           background: linear-gradient(90deg, rgba(11,11,15,0.34), rgba(176,141,87,0.10), transparent);
@@ -386,7 +404,6 @@ export default function Page() {
           gap: 12px;
         }
 
-        /* Replace weak pills with stronger tags */
         .doorKicker{
           display:flex;
           align-items:center;
@@ -428,12 +445,10 @@ export default function Page() {
           box-shadow: 0 12px 26px rgba(0,0,0,0.06);
         }
         .laneTag.red{
-          border-color: rgba(209,15,47,0.28);
-          background: rgba(255,255,255,1);
+          border-color: rgba(225,6,42,0.28);
         }
         .laneTag.black{
           border-color: rgba(11,11,15,0.24);
-          background: rgba(255,255,255,1);
         }
 
         .doorTitle{
@@ -491,8 +506,8 @@ export default function Page() {
           top: 9px;
           bottom: 9px;
           border-radius: 10px;
-          background: linear-gradient(180deg, rgba(209,15,47,0.20), rgba(209,15,47,0.06));
-          border: 2px solid rgba(209,15,47,0.22);
+          background: linear-gradient(180deg, rgba(225,6,42,0.20), rgba(225,6,42,0.06));
+          border: 2px solid rgba(225,6,42,0.22);
         }
         .iconRoad::after{
           content:"";
@@ -502,7 +517,7 @@ export default function Page() {
           bottom: 14px;
           width: 2px;
           border-radius: 2px;
-          background: rgba(209,15,47,0.68);
+          background: rgba(225,6,42,0.72);
           opacity: 0.95;
         }
 
@@ -571,7 +586,7 @@ export default function Page() {
           background: rgba(0,0,0,0.22);
           opacity: 0.7;
         }
-        .miniMark.red{ background: rgba(209,15,47,0.55); }
+        .miniMark.red{ background: rgba(225,6,42,0.65); }
         .miniMark.brass{ background: rgba(176,141,87,0.55); }
 
         /* Outbound CTAs (still only 2 total) */
@@ -597,7 +612,7 @@ export default function Page() {
           background: var(--door1-red);
           color: #fff;
           border-color: rgba(0,0,0,0.10);
-          box-shadow: 0 18px 44px rgba(209,15,47,0.28);
+          box-shadow: 0 18px 44px rgba(225,6,42,0.24);
         }
         .ctaPill.black{
           background: var(--door2-charcoal);
@@ -612,6 +627,7 @@ export default function Page() {
         }
 
         @media (max-width: 820px){
+          .doorStatementText{ font-size: 18px; }
           .doorVisual{
             flex-direction: column;
             align-items: stretch;
@@ -635,7 +651,7 @@ export default function Page() {
           }
         }
 
-        /* Cipher section — align to brass glow (no teal/blue/green) */
+        /* Cipher section — brass glow */
         .cipherCard{
           border: 1px solid rgba(0,0,0,0.10);
           border-radius: var(--np-radius);
@@ -746,6 +762,15 @@ export default function Page() {
         desc="Door 1 is for getting started today. Door 2 is for opening the door tomorrow—and discovering the AI-driven Cipher."
       >
         <div className="decisionStage" aria-label="Decision stage">
+          {/* ✅ BOLD STATEMENT (your exact line) */}
+          <div className="doorStatement" aria-label="Door meaning statement">
+            <div className="doorStatementText">
+              <span className="red">Door 1</span> starts your New Path today.{" "}
+              <span className="brass">Door 2</span> unlocks the Cipher—your Co-Pilot beside you—turning tomorrow into a
+              clear path to Freedom.
+            </div>
+          </div>
+
           <div className="decisionBar" aria-label="Choose a door">
             <a className="doorChoice red" href="#door-1" aria-label="Door 1: Get started today">
               <span className="doorSpine" aria-hidden="true" />
@@ -776,7 +801,7 @@ export default function Page() {
             </a>
           </div>
 
-          {/* ✅ FLOW CHANGE: Door 1 detail card now, Door 2 detail card later (closer to Cipher). */}
+          {/* FLOW: Door 1 detail card now, Door 2 detail card later (near Cipher). */}
           <div className="doorStack">
             {/* DOOR 1 DETAIL */}
             <div className="doorCard red" id="door-1" aria-label="Door 1: Today">
@@ -844,7 +869,7 @@ export default function Page() {
 
       {/* Cipher section + Door 2 detail placed just above it for a natural transition */}
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
-        {/* DOOR 2 DETAIL (moved down here, near Cipher) */}
+        {/* DOOR 2 DETAIL (near Cipher) */}
         <div style={{ marginBottom: 18 }}>
           <div className="doorCard black" id="door-2" aria-label="Door 2: Tomorrow">
             <div className="doorRail black" aria-hidden="true" />
