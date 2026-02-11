@@ -1,7 +1,6 @@
 // app/page.tsx
 
 import Section from "../components/Section";
-import LeadForm from "../components/LeadForm";
 
 export default function Page() {
   return (
@@ -12,42 +11,16 @@ export default function Page() {
         /* Global readability polish */
         .h1 { letter-spacing: -0.02em; }
         .sub { line-height: 1.45; }
+        strong { font-weight: 850; color: rgba(15,23,42,0.92); }
 
-        /* Strong tags: premium emphasis without “shouty” */
-        strong {
-          font-weight: 850;
-          color: rgba(15,23,42,0.92);
+        /* HERO: keep pills + cipher pill on the same wrapped row */
+        .heroPillsRow {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          gap: 10px;
+          margin-top: 10px;
         }
-
-        /* Sections */
-        #pillars .sectionTitle {
-          font-size: clamp(34px, 5vw, 52px);
-          line-height: 1.05;
-          letter-spacing: -0.02em;
-        }
-        #pillars .sectionDesc {
-          font-size: 16px;
-          max-width: 720px;
-          line-height: 1.55;
-        }
-
-        /* Cards: tighten system consistency */
-        .cardInner { padding-top: 22px; padding-bottom: 22px; }
-
-        /* Pillar card typography */
-        .itemTitle {
-          font-size: 18px;
-          line-height: 1.2;
-          letter-spacing: -0.01em;
-          font-weight: 900;
-          margin-bottom: 8px;
-        }
-        .itemBody {
-          font-size: 15px;
-          line-height: 1.55;
-          color: rgba(15,23,42,0.78);
-        }
-        .itemBody strong { color: rgba(15,23,42,0.92); }
 
         /* Cipher pill */
         .cipherPill {
@@ -88,158 +61,170 @@ export default function Page() {
           margin: 0 !important;
         }
 
-        /* HERO: keep pills + cipher pill on the same wrapped row */
-        .heroPillsRow {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 10px;
-          margin-top: 10px;
+        /* TWO DOORS */
+        #doors .sectionTitle {
+          font-size: clamp(34px, 5vw, 52px);
+          line-height: 1.05;
+          letter-spacing: -0.02em;
         }
-
-        /* “Understand” card: CTA + cipher pill on ONE line */
-        .ctaRowInline {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          gap: 12px;
-          margin-top: 14px; /* breathing room */
-        }
-
-        /* Benefits grid (V1-style, clean) */
-        .benefitsLead { max-width: 820px; }
-        .benefitsGrid {
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 12px;
-        }
-        @media (max-width: 920px) {
-          .benefitsGrid { grid-template-columns: 1fr; }
-        }
-        /* Benefits card typography consistency */
-        .benefitsGrid .itemTitle {
+        #doors .sectionDesc {
           font-size: 16px;
-          font-weight: 900;
-          letter-spacing: -0.01em;
-        }
-        .benefitsGrid .itemBody {
-          font-size: 14px;
+          max-width: 780px;
           line-height: 1.55;
         }
 
-        /* Bottom Door CTA */
-        #get-started .doorWrap { display: grid; gap: 14px; }
-        #get-started details.doorDetails { border-radius: 22px; }
-        #get-started details.doorDetails > summary {
-          list-style: none;
-          cursor: pointer;
-          user-select: none;
-          border-radius: 22px;
-          padding: 26px 24px;
+        .doorGrid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 14px;
+        }
+        @media (max-width: 920px) {
+          .doorGrid { grid-template-columns: 1fr; }
+        }
+
+        .doorCard {
           border: 1px solid rgba(0,0,0,0.10);
+          border-radius: 22px;
           background: #ffffff;
           box-shadow: 0 18px 44px rgba(0,0,0,0.08);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 16px;
-          font-weight: 800;
-          position: relative;
           overflow: hidden;
         }
-        #get-started details.doorDetails > summary::-webkit-details-marker { display: none; }
-        #get-started details.doorDetails > summary::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(90deg, rgba(0,0,0,0.00), rgba(0,0,0,0.03), rgba(0,0,0,0.00));
-          transform: translateX(-40%);
-          opacity: 0.9;
-          pointer-events: none;
-        }
-        #get-started .doorBadge {
-          width: 72px;
-          height: 72px;
-          border-radius: 18px;
+        .doorInner {
+          padding: 22px 20px;
           display: grid;
-          place-items: center;
-          background: rgba(0,0,0,0.04);
-          border: 1px solid rgba(0,0,0,0.08);
-          flex: 0 0 auto;
+          gap: 10px;
         }
-        #get-started .doorIcon {
-          width: 30px;
-          height: 40px;
-          border: 2px solid rgba(0,0,0,0.60);
-          border-radius: 7px;
-          position: relative;
-        }
-        #get-started .doorIcon::before {
-          content: "";
-          position: absolute;
-          left: 7px;
-          top: 7px;
-          right: 7px;
-          bottom: 7px;
-          border-radius: 5px;
-          border: 1px solid rgba(0,0,0,0.18);
-        }
-        #get-started .doorIcon::after {
-          content: "";
-          width: 6px;
-          height: 6px;
-          border-radius: 999px;
-          background: rgba(0,0,0,0.60);
-          position: absolute;
-          right: 6px;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-        #get-started .doorText { display: grid; gap: 4px; flex: 1 1 auto; min-width: 0; }
-        #get-started .doorTitle { font-size: 20px; line-height: 1.15; letter-spacing: -0.01em; }
-        #get-started .doorSub { font-size: 13px; opacity: 0.72; font-weight: 500; line-height: 1.35; }
-        #get-started .doorAction {
-          padding: 14px 18px;
-          border-radius: 14px;
-          background: var(--accent);
-          color: #fff;
-          font-weight: 900;
-          white-space: nowrap;
-          flex: 0 0 auto;
-          box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-        }
-        #get-started details.doorDetails[open] > summary {
-          box-shadow: 0 22px 54px rgba(0,0,0,0.10);
-          border-color: rgba(0,0,0,0.14);
-        }
-        #get-started .doorBody { margin-top: 14px; }
-
-        /* Bottom Cipher feature (big emblem) */
-        #cipher .cipherHero {
-          display: grid;
-          gap: 12px;
+        .doorKickerRow {
+          display: inline-flex;
           align-items: center;
+          gap: 10px;
         }
-        #cipher .cipherEmblemBig {
-          width: min(420px, 92vw);
-          height: auto;
-          display: block;
-          object-fit: contain;
-          margin: 4px auto 0;
+        .doorKicker {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 7px 11px;
+          border-radius: 999px;
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(0,0,0,0.02);
+          font-weight: 900;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          font-size: 11px;
+          color: rgba(0,0,0,0.70);
+          white-space: nowrap;
         }
-        #cipher .cipherTitle {
-          font-size: clamp(26px, 4vw, 36px);
-          line-height: 1.12;
-          letter-spacing: -0.02em;
+        .doorDot {
+          width: 10px;
+          height: 28px;
+          border-radius: 999px;
+          background: var(--accent);
+          opacity: 0.16;
+        }
+        .doorTitle {
           margin: 0;
+          font-size: 20px;
+          line-height: 1.15;
+          letter-spacing: -0.01em;
+          font-weight: 950;
+          color: rgba(15,23,42,0.92);
         }
-        #cipher .cipherCopy {
+        .doorBody {
           margin: 0;
-          max-width: 720px;
-          line-height: 1.6;
+          font-size: 15px;
+          line-height: 1.55;
           color: rgba(15,23,42,0.78);
         }
-        #cipher .cipherCopy strong { color: rgba(15,23,42,0.92); }
+
+        /* Minimal bullets — no “menu” feel */
+        .miniList {
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: grid;
+          gap: 8px;
+        }
+        .miniItem {
+          display: grid;
+          grid-template-columns: 16px 1fr;
+          gap: 10px;
+          align-items: start;
+          font-size: 14px;
+          line-height: 1.5;
+          color: rgba(15,23,42,0.70);
+          font-weight: 650;
+        }
+        .miniMark {
+          width: 10px;
+          height: 10px;
+          border-radius: 999px;
+          margin-top: 6px;
+          background: var(--accent);
+          opacity: 0.20;
+        }
+
+        /* CTA row — ONLY TWO CTAs on whole page */
+        .ctaRow {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 12px;
+          align-items: center;
+          margin-top: 4px;
+        }
+        .btnPrimaryTight {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 50px;
+          padding: 0 22px;
+          border-radius: 999px;
+          background: var(--accent);
+          color: #fff;
+          font-weight: 950;
+          letter-spacing: 0.01em;
+          text-decoration: none;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+          border: 1px solid rgba(0,0,0,0.06);
+          white-space: nowrap;
+        }
+        .btnGhostTight {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 50px;
+          padding: 0 18px;
+          border-radius: 999px;
+          background: #ffffff;
+          color: rgba(15,23,42,0.92);
+          font-weight: 900;
+          text-decoration: none;
+          border: 1px solid rgba(0,0,0,0.14);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+          white-space: nowrap;
+        }
+
+        /* “Simple / clear” strip */
+        .strip {
+          border: 1px solid rgba(0,0,0,0.10);
+          border-radius: 22px;
+          background: rgba(0,0,0,0.02);
+          padding: 16px 16px;
+          display: grid;
+          gap: 8px;
+        }
+        .stripTitle {
+          margin: 0;
+          font-weight: 950;
+          letter-spacing: -0.01em;
+          font-size: 16px;
+          color: rgba(15,23,42,0.92);
+        }
+        .stripBody {
+          margin: 0;
+          font-size: 14px;
+          line-height: 1.55;
+          color: rgba(15,23,42,0.75);
+        }
       `}</style>
 
       <header className="hero">
@@ -263,14 +248,14 @@ export default function Page() {
                 </h1>
 
                 <p className="sub">
-                  NewPath exists to help get you approved—using the <strong>BALANCE Cipher</strong> and the{" "}
-                  <strong>Co-Pilot</strong> to turn your situation into <strong>one clear next step</strong>.
+                  Two doors. One clear next step—powered by the <strong>BALANCE Cipher</strong> and guided by the{" "}
+                  <strong>Co-Pilot</strong>.
                 </p>
 
                 <div className="heroPillsRow">
                   <div className="pills">
                     <div className="pill">No pressure</div>
-                    <div className="pill">No long forms</div>
+                    <div className="pill">No confusion</div>
                     <div className="pill">Real next step</div>
                   </div>
 
@@ -285,8 +270,24 @@ export default function Page() {
                   </span>
                 </div>
 
+                {/* ONLY TWO CTAs — SITE WIDE */}
+                <div className="ctaRow">
+                  <a
+                    className="btnPrimaryTight"
+                    href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=hero&utm_campaign=two-door"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Start my application →
+                  </a>
+
+                  <a className="btnGhostTight" href="#door-2">
+                    Open the Cipher →
+                  </a>
+                </div>
+
                 <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
-                  Choose one door below. When you’re ready, <strong>open your new door</strong> at the bottom.
+                  Door 1 is <strong>today</strong>. Door 2 is <strong>tomorrow</strong>. Choose once—move with clarity.
                 </div>
               </div>
             </div>
@@ -295,201 +296,121 @@ export default function Page() {
       </header>
 
       <Section
-        id="pillars"
+        id="doors"
         title="Choose your door"
-        desc="Four clean paths. One clear next step—powered by the BALANCE Cipher and guided by the Co-Pilot."
+        desc="Door 1 is for getting approved today. Door 2 is for understanding the pattern and building your next move."
       >
-        <div style={{ display: "grid", gap: 12 }}>
-          <div className="card">
-            <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>
-                Buy your next vehicle the right way
-              </h3>
-              <p className="itemBody" style={{ marginBottom: 12 }}>
-                <strong>Break free</strong> from what didn’t work before, <strong>learn what matters today</strong>, and{" "}
-                <strong>move forward with clarity</strong>.
-              </p>
-              <a className="btn btnPrimary" href="/buy-your-vehicle">
-                Click here →
-              </a>
-            </div>
-          </div>
+        <div className="doorGrid">
+          {/* DOOR 1 — TODAY */}
+          <div className="doorCard" id="door-1">
+            <div className="doorInner">
+              <div className="doorKickerRow">
+                <span className="doorKicker">Door 1</span>
+                <span className="doorDot" aria-hidden="true" />
+              </div>
 
-          <div className="card">
-            <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>
-                Get approved the right way
-              </h3>
-              <p className="itemBody" style={{ marginBottom: 12 }}>
-                We position you for approval by <strong>aligning your next move</strong> with the Cipher—translated by{" "}
-                the <strong>Co-Pilot</strong>.
-              </p>
-              <a
-                className="btn btnPrimary"
-                href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=cta&utm_campaign=get-approved"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Start application →
-              </a>
-            </div>
-          </div>
+              <h3 className="doorTitle">Today: Get approved the right way</h3>
 
-          {/* Understand door: CTA + Cipher pill on SAME row */}
-          <div className="card">
-            <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>
-                Understand what happened—and what’s happening today
-              </h3>
-              <p className="itemBody" style={{ marginBottom: 10 }}>
-                The <strong>BALANCE Cipher</strong> helps you see why outcomes repeat; the <strong>Co-Pilot</strong>{" "}
-                turns it into <strong>one clear next step</strong>.
+              <p className="doorBody">
+                If you’re ready to move now, start the application. We route you into a clean approval path—without
+                overwhelm.
               </p>
 
-              <div className="ctaRowInline">
-                <a className="btn btnPrimary" href="/buy-your-vehicle">
-                  Click here →
-                </a>
+              <ul className="miniList" aria-label="Door 1 points">
+                <li className="miniItem">
+                  <span className="miniMark" aria-hidden="true" />
+                  <span>Start the application in one step.</span>
+                </li>
+                <li className="miniItem">
+                  <span className="miniMark" aria-hidden="true" />
+                  <span>We focus on what lenders care about today.</span>
+                </li>
+                <li className="miniItem">
+                  <span className="miniMark" aria-hidden="true" />
+                  <span>Simple path. Clear next move.</span>
+                </li>
+              </ul>
 
-                <span className="cipherPill" aria-label="AI guided by the BALANCE Cipher">
-                  <span className="cipherPillText">AI guided by</span>
-                  <span className="cipherPillAccent" aria-hidden="true" />
-                  <img
-                    className="cipherPillEmblem"
-                    src="/brand/balance-cipher-emblem.png"
-                    alt="BALANCE Cipher emblem"
-                  />
-                </span>
+              <div className="muted" style={{ fontSize: 12 }}>
+                This is the direct “today” door. No extra choices.
               </div>
             </div>
           </div>
 
-          <div className="card">
-            <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>
-                Let us help you with your path forward—by the BALANCE Cipher
-              </h3>
-              <p className="itemBody" style={{ marginBottom: 12 }}>
-                If buying today isn’t right, we <strong>map the next move</strong> to become ready—then{" "}
-                <strong>execute with clarity</strong>.
+          {/* DOOR 2 — TOMORROW */}
+          <div className="doorCard" id="door-2">
+            <div className="doorInner">
+              <div className="doorKickerRow">
+                <span className="doorKicker">Door 2</span>
+                <span className="doorDot" aria-hidden="true" />
+              </div>
+
+              <h3 className="doorTitle">Tomorrow: The BALANCE Cipher (what it is—and what it isn’t)</h3>
+
+              <p className="doorBody">
+                The Cipher isn’t a checklist. It’s a map. It shows why outcomes repeat—and the Co-Pilot translates that
+                map into <strong>one clear next step</strong>.
               </p>
-              <a
-                className="btn btnPrimary"
-                href="https://app.balancecipher.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Click here →
-              </a>
-            </div>
-          </div>
-        </div>
-      </Section>
 
-      <Section
-        id="simple-clear"
-        title="Simple. Clear. Built for action—when you’re guided by an AI-driven system."
-        desc="These doors create a simple, clear, built-for-action path—powered by the BALANCE Cipher and guided by the Co-Pilot."
-      >
-        <div className="benefitsLead" style={{ marginBottom: 12 }}>
-          <div className="muted" style={{ fontSize: 13, lineHeight: 1.5 }}>
-            NewPath is the <strong>starting line</strong>. The Cipher is the <strong>follow-through map</strong>—so your
-            next move stays <strong>simple</strong>, <strong>calm</strong>, and <strong>doable</strong>.
-          </div>
-        </div>
+              <ul className="miniList" aria-label="Door 2 points">
+                <li className="miniItem">
+                  <span className="miniMark" aria-hidden="true" />
+                  <span>Understand the pattern behind your results.</span>
+                </li>
+                <li className="miniItem">
+                  <span className="miniMark" aria-hidden="true" />
+                  <span>Learn the next move that actually changes your outcome.</span>
+                </li>
+                <li className="miniItem">
+                  <span className="miniMark" aria-hidden="true" />
+                  <span>Auto becomes the on-ramp to long-term stability—and home readiness.</span>
+                </li>
+              </ul>
 
-        <div className="benefitsGrid">
-          <div className="item">
-            <h3 className="itemTitle">Clarity first</h3>
-            <p className="itemBody">
-              <strong>You’ll know where you are</strong> and what your next step is—fast.
-            </p>
-          </div>
-
-          <div className="item">
-            <h3 className="itemTitle">One clean start</h3>
-            <p className="itemBody">
-              <strong>You choose a door.</strong> We route your next move. No overwhelm.
-            </p>
-          </div>
-
-          <div className="item">
-            <h3 className="itemTitle">North Star vision</h3>
-            <p className="itemBody">
-              <strong>Car → Score → Home.</strong> Auto is the on-ramp to long-term stability.
-            </p>
-          </div>
-
-          <div className="item">
-            <h3 className="itemTitle">Big picture</h3>
-            <p className="itemBody">
-              <strong>See the pattern</strong>—so your next move actually sticks.
-            </p>
-          </div>
-        </div>
-      </Section>
-
-      <Section
-        id="get-started"
-        title="Ready to open your new door?"
-        desc="No pressure. If you choose to step through, share the basics and we’ll route your next step."
-      >
-        <div className="doorWrap">
-          <details className="doorDetails">
-            <summary>
-              <span className="doorBadge" aria-hidden="true">
-                <span className="doorIcon" />
-              </span>
-              <span className="doorText">
-                <span className="doorTitle">Open your new door</span>
-                <span className="doorSub">
-                  Share only the basics. We’ll follow up with the <strong>next step</strong>.
-                </span>
-              </span>
-              <span className="doorAction">Open →</span>
-            </summary>
-
-            <div className="doorBody">
-              <div className="card">
-                <div className="cardInner">
-                  <LeadForm sourcePage="newpath-landing" sourceCta="bottom-door" />
-                </div>
+              <div className="strip">
+                <p className="stripTitle">What it isn’t</p>
+                <p className="stripBody">
+                  Not shame. Not lectures. Not “do 20 things.” Just clarity—then one move at a time.
+                </p>
               </div>
             </div>
-          </details>
+          </div>
+        </div>
+
+        {/* ONE clean reminder (no extra CTA buttons here) */}
+        <div className="muted" style={{ fontSize: 12, marginTop: 12 }}>
+          If you only do one thing: Door 1 is your “today” move. Door 2 is your “map” when you want to build strength.
         </div>
       </Section>
 
+      {/* KEEP THE CIPHER SECTION — but no extra buttons */}
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
-        <div className="cipherHero">
-          <img className="cipherEmblemBig" src="/brand/balance-cipher-emblem.png" alt="BALANCE Cipher emblem" />
+        <div style={{ display: "grid", gap: 12, alignItems: "center" }}>
+          <img
+            src="/brand/balance-cipher-emblem.png"
+            alt="BALANCE Cipher emblem"
+            style={{ width: "min(420px, 92vw)", height: "auto", display: "block", margin: "6px auto 0" }}
+          />
 
-          <h3 className="cipherTitle">
+          <h3 style={{ margin: 0, fontSize: "clamp(26px, 4vw, 36px)", lineHeight: 1.12, letterSpacing: "-0.02em" }}>
             Open your new door—<span style={{ color: "var(--accent)" }}>with the Cipher</span>.
           </h3>
 
-          <p className="cipherCopy">
+          <p style={{ margin: 0, maxWidth: 760, lineHeight: 1.6, color: "rgba(15,23,42,0.78)" }}>
             Most people don’t need more information. They need to <strong>see what’s real</strong>—then take{" "}
-            <strong>one clean next step</strong>. The Cipher helps reveal the pattern, and the <strong>Co-Pilot</strong>{" "}
-            translates it into something <strong>simple</strong> and <strong>doable</strong>.
+            <strong>one clean next step</strong>. The Cipher reveals the pattern, and the Co-Pilot translates it into
+            something <strong>simple</strong> and <strong>doable</strong>.
           </p>
 
-          <div className="buttonRow" style={{ marginTop: 6 }}>
+          {/* This is NOT an extra CTA button row — it’s the Door 2 destination */}
+          <div style={{ display: "flex", justifyContent: "flex-start", marginTop: 8 }}>
             <a
-              className="btn btnPrimary"
-              href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=cta&utm_campaign=bottom-cipher"
+              className="btnPrimaryTight"
+              href="https://app.balancecipher.info"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Start my application →
-            </a>
-            <a
-              className="btn"
-              href="https://app.balancecipher.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Get my next step →
+              Open the Cipher →
             </a>
           </div>
 
