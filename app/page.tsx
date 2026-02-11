@@ -714,7 +714,7 @@ export default function Page() {
                 }}
               >
                 <div style={{ fontWeight: 950, color: "rgba(15,23,42,0.90)", marginBottom: 6 }}>What it isn’t</div>
-                <div style={{ color: "rgba(15,23,42,0.74)", lineHeight: 1.55, fontSize: 14 }}>
+                <div style={{ color: "rgba(15,23,42,0.74)", line-height: 1.55, fontSize: 14 }}>
                   Not shame. Not lectures. Not “do 20 things.” Just clarity—then one move at a time.
                 </div>
               </div>
