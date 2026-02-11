@@ -29,11 +29,11 @@ export default function Page() {
 
         strong { font-weight: 900; color: var(--np-ink); }
 
-        /* HERO STAGE (decision moment) */
+        /* HERO STAGE */
         .heroStage {
           position: relative;
           overflow: hidden;
-          padding-bottom: 22px;
+          padding-bottom: 18px;
           background:
             radial-gradient(900px 420px at 18% 22%, rgba(0,0,0,0.04), transparent 70%),
             radial-gradient(800px 460px at 70% 25%, rgba(0,0,0,0.03), transparent 70%),
@@ -59,13 +59,8 @@ export default function Page() {
             radial-gradient(1200px 520px at 50% 0%, rgba(0,0,0,0.04), transparent 70%);
           pointer-events:none;
         }
+        .heroInner { position: relative; z-index: 2; }
 
-        .heroInner {
-          position: relative;
-          z-index: 2;
-        }
-
-        /* Bring back contrast + energy */
         .h1 { 
           letter-spacing: -0.03em;
           color: rgba(0,0,0,0.92);
@@ -78,7 +73,6 @@ export default function Page() {
           max-width: 760px;
         }
 
-        /* HERO CARD */
         .heroCard {
           border: 1px solid var(--np-border);
           border-radius: var(--np-radius);
@@ -87,9 +81,19 @@ export default function Page() {
           backdrop-filter: blur(8px);
         }
         .heroCardInner{
-          padding: 22px 20px;
+          padding: 20px 18px;
           display:grid;
           gap: 12px;
+        }
+
+        .heroRow {
+          display:flex;
+          flex-wrap:wrap;
+          align-items:center;
+          gap: 10px;
+          margin-top: 6px;
+          min-width: 0;
+          max-width: 100%;
         }
 
         /* Trust strip */
@@ -124,7 +128,7 @@ export default function Page() {
           flex: 0 0 auto;
         }
 
-        /* Cipher pill (kept, but upgraded) */
+        /* Cipher pill */
         .cipherPill {
           display: inline-flex;
           align-items: center;
@@ -165,17 +169,21 @@ export default function Page() {
           margin: 0 !important;
         }
 
-        .heroRow {
-          display:flex;
-          flex-wrap:wrap;
-          align-items:center;
-          gap: 10px;
-          margin-top: 6px;
-          min-width: 0;
-          max-width: 100%;
+        /* Logo size */
+        .npLogo{
+          width: min(220px, 72vw);
+          height: auto;
+          display:block;
+          object-fit: contain;
+        }
+        @media (min-width: 900px){
+          .npLogo{ width: 210px; }
         }
 
-        /* TWO DOORS */
+        /* ===========================
+           DOORS = DECISION STAGE
+           =========================== */
+
         #doors .sectionTitle{
           font-size: clamp(34px, 5vw, 54px);
           line-height: 1.04;
@@ -187,82 +195,215 @@ export default function Page() {
           line-height: 1.55;
         }
 
-        /* Stack doors vertically (premium + clear) */
+        .decisionStage{
+          position: relative;
+          border-radius: calc(var(--np-radius) + 8px);
+          padding: 16px;
+          background:
+            radial-gradient(800px 420px at 18% 40%, rgba(220,38,38,0.10), transparent 60%),
+            radial-gradient(820px 420px at 82% 40%, rgba(25,211,197,0.10), transparent 60%),
+            linear-gradient(180deg, rgba(0,0,0,0.015), rgba(0,0,0,0.00));
+          border: 1px solid rgba(0,0,0,0.06);
+          box-shadow: 0 18px 48px rgba(0,0,0,0.06);
+        }
+
+        /* BIG, CENTERED DOOR CHOICES (internal jumps only) */
+        .decisionBar{
+          display:grid;
+          gap: 14px;
+          margin-top: 12px;
+          margin-bottom: 14px;
+        }
+
+        .doorChoice{
+          display:block;
+          text-decoration:none;
+          width: 100%;
+          border-radius: 22px;
+          border: 2px solid rgba(0,0,0,0.10);
+          background: rgba(255,255,255,0.96);
+          box-shadow: 0 18px 46px rgba(0,0,0,0.08);
+          padding: 16px 14px;
+          transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+        }
+        .doorChoice:active{ transform: translateY(1px) scale(0.99); }
+
+        .doorChoice.red{
+          border-color: rgba(220,38,38,0.26);
+          box-shadow: 0 20px 54px rgba(220,38,38,0.10);
+        }
+        .doorChoice.teal{
+          border-color: rgba(25,211,197,0.28);
+          box-shadow: 0 20px 54px rgba(25,211,197,0.10);
+        }
+
+        .doorChoiceInner{
+          display:grid;
+          gap: 6px;
+          text-align: center;
+          align-items:center;
+          justify-items:center;
+        }
+
+        .doorChoiceTop{
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          gap: 10px;
+          flex-wrap: wrap;
+        }
+
+        /* MASSIVE PILL */
+        .doorChip{
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          padding: 10px 16px;
+          border-radius: var(--np-pill);
+          font-weight: 950;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          font-size: 12px;
+          border: 1px solid rgba(0,0,0,0.14);
+          background: rgba(0,0,0,0.02);
+        }
+        .doorChip.red{
+          border-color: rgba(220,38,38,0.26);
+          background: rgba(220,38,38,0.06);
+          color: rgba(15,23,42,0.82);
+        }
+        .doorChip.teal{
+          border-color: rgba(25,211,197,0.30);
+          background: rgba(25,211,197,0.06);
+          color: rgba(15,23,42,0.82);
+        }
+
+        /* BIG CENTER HEADLINE FOR EACH CHOICE */
+        .doorChoiceTitle{
+          font-weight: 950;
+          letter-spacing: -0.02em;
+          color: rgba(0,0,0,0.92);
+          font-size: clamp(18px, 4.2vw, 24px);
+          line-height: 1.12;
+        }
+        .doorChoiceTitle .redWord{ color: var(--lane-red); }
+        .doorChoiceTitle .tealWord{ color: var(--lane-teal); }
+
+        .doorChoiceSub{
+          font-size: 13px;
+          font-weight: 800;
+          color: rgba(15,23,42,0.72);
+          line-height: 1.25;
+          max-width: 62ch;
+        }
+
+        .doorChoiceHint{
+          font-size: 12px;
+          font-weight: 900;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          opacity: 0.55;
+          margin-top: 2px;
+        }
+
+        /* Stack doors */
         .doorStack{
           display:grid;
           gap: 18px;
+          margin-top: 8px;
         }
 
         .doorCard{
           position: relative;
-          border: 1px solid rgba(0,0,0,0.10);
+          border: 1px solid rgba(0,0,0,0.12);
           border-radius: var(--np-radius);
-          background: rgba(255,255,255,0.94);
+          background: rgba(255,255,255,0.96);
           box-shadow: var(--np-shadow-soft);
           overflow:hidden;
           transform: translateZ(0);
           max-width: 100%;
         }
 
-        /* Visual “door top rail” */
+        /* left spine */
+        .doorCard::before{
+          content:"";
+          position:absolute;
+          left:0;
+          top:0;
+          bottom:0;
+          width: 8px;
+          background: rgba(0,0,0,0.06);
+          opacity: 0.95;
+        }
+        .doorCard.red::before{ background: linear-gradient(180deg, rgba(220,38,38,0.78), rgba(220,38,38,0.18)); }
+        .doorCard.teal::before{ background: linear-gradient(180deg, rgba(25,211,197,0.78), rgba(25,211,197,0.18)); }
+
         .doorRail{
-          height: 10px;
+          height: 12px;
           width: 100%;
           background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.00));
         }
         .doorRail.red{
-          background: linear-gradient(90deg, rgba(220,38,38,0.22), rgba(220,38,38,0.04), transparent);
+          background: linear-gradient(90deg, rgba(220,38,38,0.26), rgba(220,38,38,0.06), transparent);
         }
         .doorRail.teal{
-          background: linear-gradient(90deg, rgba(25,211,197,0.22), rgba(25,211,197,0.06), transparent);
+          background: linear-gradient(90deg, rgba(25,211,197,0.26), rgba(25,211,197,0.08), transparent);
         }
 
         .doorInner{
-          padding: 22px 20px 20px;
+          padding: 22px 20px 20px 20px;
           display:grid;
           gap: 12px;
-          max-width: 100%;
         }
 
-        .doorHeader{
-          display:flex;
-          flex-wrap:wrap;
-          align-items:center;
-          justify-content: space-between;
-          gap: 12px;
-          min-width: 0;
-          max-width: 100%;
-        }
-
+        /* BIGGER in-card kicker */
         .doorKicker{
-          display:inline-flex;
+          display:flex;
           align-items:center;
-          gap: 10px;
-          min-width: 0;
-          max-width: 100%;
+          justify-content:center;
+          gap: 12px;
+          flex-wrap: wrap;
+          margin-top: 2px;
+          margin-bottom: 2px;
         }
 
         .doorPill{
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          padding: 8px 12px;
+          padding: 12px 18px;
           border-radius: var(--np-pill);
-          border: 1px solid rgba(0,0,0,0.10);
-          background: rgba(0,0,0,0.02);
+          border: 1px solid rgba(0,0,0,0.14);
+          background: rgba(0,0,0,0.03);
           font-weight: 950;
-          letter-spacing: 0.12em;
+          letter-spacing: 0.18em;
           text-transform: uppercase;
-          font-size: 11px;
-          color: rgba(15,23,42,0.72);
+          font-size: 12px;
+          color: rgba(15,23,42,0.78);
           white-space: nowrap;
         }
 
         .laneTag{
-          font-size: 12px;
-          font-weight: 900;
-          color: rgba(15,23,42,0.62);
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          padding: 12px 16px;
+          border-radius: var(--np-pill);
+          font-size: 13px;
+          font-weight: 950;
+          color: rgba(15,23,42,0.80);
+          border: 1px solid rgba(0,0,0,0.12);
+          background: rgba(255,255,255,0.94);
           white-space: nowrap;
+          box-shadow: 0 12px 26px rgba(0,0,0,0.06);
+        }
+        .laneTag.red{
+          border-color: rgba(220,38,38,0.22);
+          background: rgba(220,38,38,0.06);
+        }
+        .laneTag.teal{
+          border-color: rgba(25,211,197,0.24);
+          background: rgba(25,211,197,0.06);
         }
 
         .doorTitle{
@@ -281,7 +422,6 @@ export default function Page() {
           max-width: 900px;
         }
 
-        /* Door “visual block” */
         .doorVisual{
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(0,0,0,0.02);
@@ -298,22 +438,21 @@ export default function Page() {
           display:flex;
           align-items:center;
           gap: 12px;
-          min-width: 0; /* critical: prevents flex overflow */
+          min-width: 0;
           flex: 1 1 auto;
           max-width: 100%;
         }
         .visualIcon{
-          width: 44px;
-          height: 44px;
+          width: 46px;
+          height: 46px;
           border-radius: 14px;
           border: 1px solid rgba(0,0,0,0.10);
-          background: rgba(255,255,255,0.88);
+          background: rgba(255,255,255,0.90);
           box-shadow: 0 10px 24px rgba(0,0,0,0.06);
           position: relative;
           flex: 0 0 auto;
         }
 
-        /* Simple icon shapes (no extra deps) */
         .iconRoad::before{
           content:"";
           position:absolute;
@@ -328,7 +467,7 @@ export default function Page() {
         .iconRoad::after{
           content:"";
           position:absolute;
-          left: 21px;
+          left: 22px;
           top: 14px;
           bottom: 14px;
           width: 2px;
@@ -377,19 +516,40 @@ export default function Page() {
           text-overflow: ellipsis;
         }
 
-        /* CTA pills INSIDE doors (ONLY 2 CTAs total on whole page) */
-        .doorCtaRow{
-          display:flex;
-          flex-wrap:wrap;
-          gap: 12px;
-          align-items:center;
-          margin-top: 4px;
+        .miniList{
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: grid;
+          gap: 10px;
         }
+        .miniItem{
+          display: grid;
+          grid-template-columns: 16px 1fr;
+          gap: 10px;
+          align-items: start;
+          font-size: 15px;
+          line-height: 1.55;
+          color: rgba(15,23,42,0.74);
+          font-weight: 650;
+        }
+        .miniMark{
+          width: 10px;
+          height: 10px;
+          border-radius: var(--np-pill);
+          margin-top: 7px;
+          background: rgba(0,0,0,0.22);
+          opacity: 0.7;
+        }
+        .miniMark.red{ background: rgba(220,38,38,0.34); }
+        .miniMark.teal{ background: rgba(25,211,197,0.34); }
+
+        /* Outbound CTAs (still only 2 total) */
         .ctaPill{
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          height: 52px;
+          height: 54px;
           padding: 0 22px;
           border-radius: var(--np-pill);
           text-decoration:none;
@@ -409,35 +569,27 @@ export default function Page() {
           color: #fff;
           border-color: rgba(0,0,0,0.06);
         }
-        .ctaPill.red:hover{ filter: brightness(1.02); box-shadow: 0 18px 42px rgba(0,0,0,0.14); }
-
         .ctaPill.teal{
           background: rgba(11,11,15,0.94);
           color: #fff;
           border-color: rgba(25,211,197,0.30);
           box-shadow: 0 18px 46px rgba(0,0,0,0.14), 0 0 0 1px rgba(25,211,197,0.10) inset;
         }
-        .ctaPill.teal:hover{
-          box-shadow: 0 22px 54px rgba(0,0,0,0.16), 0 0 22px rgba(25,211,197,0.20);
-          transform: translateY(-1px);
-        }
 
-        /* MOBILE MUST-FIX: prevent CTA cropping in Door visuals */
-        @media (max-width: 640px){
+        /* Mobile: stack CTA under visual */
+        @media (max-width: 820px){
           .doorVisual{
             flex-direction: column;
             align-items: stretch;
             justify-content: flex-start;
           }
-          .visualLeft{
-            width: 100%;
-          }
+          .visualLeft{ width: 100%; }
           .ctaPill{
             width: 100%;
             max-width: 100%;
-            white-space: normal; /* allow wrapping instead of cropping */
+            white-space: normal;
             height: auto;
-            min-height: 52px;
+            min-height: 54px;
             padding: 14px 18px;
             line-height: 1.2;
             font-size: 14px;
@@ -447,12 +599,9 @@ export default function Page() {
             overflow: visible;
             text-overflow: clip;
           }
-          .trustBadge{
-            white-space: normal;
-          }
         }
 
-        /* Integrated Cipher section */
+        /* Cipher section */
         .cipherCard{
           border: 1px solid rgba(0,0,0,0.10);
           border-radius: var(--np-radius);
@@ -475,7 +624,6 @@ export default function Page() {
           display:grid;
           gap: 12px;
           align-items:center;
-          max-width: 100%;
         }
         .cipherTitle{
           margin:0;
@@ -517,9 +665,6 @@ export default function Page() {
           margin-top: 7px;
           background: rgba(25,211,197,0.34);
         }
-
-        /* Keep your existing hero/nav layout classes from your CSS system.
-           We only enhance, not replace, so Section + existing styles keep working. */
       `}</style>
 
       <header className="heroStage">
@@ -531,11 +676,9 @@ export default function Page() {
                   <img
                     src="/brand/newpath-auto-finance.png"
                     alt="New Path Auto Finance"
-                    style={{ width: 288, height: "auto", objectFit: "contain", display: "block" }}
+                    className="npLogo"
                   />
                 </div>
-
-                {/* Removed floating bubble badge (replaced by trust strip below) */}
               </div>
 
               <div className="gridHero">
@@ -568,7 +711,6 @@ export default function Page() {
                       </span>
                     </div>
 
-                    {/* Trust strip (non-click) */}
                     <div className="trustStrip" aria-label="Trust badges">
                       <span className="trustBadge"><span className="trustDot" />No pressure</span>
                       <span className="trustBadge"><span className="trustDot" />Simple steps</span>
@@ -590,144 +732,175 @@ export default function Page() {
       <Section
         id="doors"
         title="Choose your door"
-        desc="Door 1 is for getting approved today. Door 2 is for understanding the pattern and building your next move."
+        desc="Door 1 is for getting started today. Door 2 is for opening the door tomorrow—and discovering the Cipher."
       >
-        <div className="doorStack">
-          {/* DOOR 1 — TODAY (CTA #1) */}
-          <div className="doorCard" id="door-1" aria-label="Door 1: Today">
-            <div className="doorRail red" aria-hidden="true" />
-            <div className="doorInner">
-              <div className="doorHeader">
-                <div className="doorKicker">
-                  <span className="doorPill">Door 1</span>
-                  <span className="laneTag">Today • Approval Path</span>
-                </div>
-              </div>
-
-              <h3 className="doorTitle">Today: Get approved the right way</h3>
-
-              <p className="doorBody">
-                If you’re ready to move now, the application is your cleanest first step. We route you into a calm,
-                lender-aligned path—without overwhelm.
-              </p>
-
-              <div className="doorVisual">
-                <div className="visualLeft">
-                  <span className="visualIcon iconRoad" aria-hidden="true" />
-                  <div className="visualText">
-                    <div className="visualTitle">Action-first. One move.</div>
-                    <div className="visualSub">Start the application → get routed.</div>
+        <div className="decisionStage" aria-label="Decision stage">
+          {/* BIG, CENTERED, BOLD internal jumps */}
+          <div className="decisionBar" aria-label="Choose a door">
+            <a className="doorChoice red" href="#door-1" aria-label="Door 1: Get started today">
+              <div className="doorChoiceInner">
+                <div className="doorChoiceTop">
+                  <span className="doorChip red">DOOR 1</span>
+                  <div className="doorChoiceTitle">
+                    <span className="redWord">Get started</span> today.
                   </div>
                 </div>
-
-                {/* CTA #1 */}
-                <a
-                  className="ctaPill red"
-                  href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=two-door"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Start my application →
-                </a>
+                <div className="doorChoiceSub">
+                  Start the application and get routed the right way.
+                </div>
+                <div className="doorChoiceHint">Tap to jump ↓</div>
               </div>
+            </a>
 
-              <ul className="miniList" aria-label="Door 1 points">
-                <li className="miniItem">
-                  <span className="miniMark red" aria-hidden="true" />
-                  <span><strong>One move:</strong> start the application.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark red" aria-hidden="true" />
-                  <span><strong>Today’s rules:</strong> focus on what lenders care about now.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark red" aria-hidden="true" />
-                  <span><strong>Clean path:</strong> simple, clear, and direct.</span>
-                </li>
-              </ul>
+            <a className="doorChoice teal" href="#door-2" aria-label="Door 2: Discover the Cipher tomorrow">
+              <div className="doorChoiceInner">
+                <div className="doorChoiceTop">
+                  <span className="doorChip teal">DOOR 2</span>
+                  <div className="doorChoiceTitle">
+                    Open the door tomorrow — <span className="tealWord">discover</span> the Cipher.
+                  </div>
+                </div>
+                <div className="doorChoiceSub">
+                  See the pattern, then take one clear next move.
+                </div>
+                <div className="doorChoiceHint">Tap to jump ↓</div>
+              </div>
+            </a>
+          </div>
 
-              <div className="muted" style={{ fontSize: 13, color: "rgba(15,23,42,0.66)" }}>
-                This is the direct “today” door. No extra decisions.
+          <div className="doorStack">
+            {/* DOOR 1 — TODAY (CTA #1) */}
+            <div className="doorCard red" id="door-1" aria-label="Door 1: Today">
+              <div className="doorRail red" aria-hidden="true" />
+              <div className="doorInner">
+                <div className="doorKicker">
+                  <span className="doorPill">DOOR 1</span>
+                  <span className="laneTag red">Get started today</span>
+                </div>
+
+                <h3 className="doorTitle">Today: Get started the right way</h3>
+
+                <p className="doorBody">
+                  If you’re ready to move now, the application is your cleanest first step. We route you into a calm,
+                  lender-aligned path—without overwhelm.
+                </p>
+
+                <div className="doorVisual">
+                  <div className="visualLeft">
+                    <span className="visualIcon iconRoad" aria-hidden="true" />
+                    <div className="visualText">
+                      <div className="visualTitle">One move. Start clean.</div>
+                      <div className="visualSub">Start the application → get routed.</div>
+                    </div>
+                  </div>
+
+                  {/* CTA #1 */}
+                  <a
+                    className="ctaPill red"
+                    href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=two-door"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Start my application →
+                  </a>
+                </div>
+
+                <ul className="miniList" aria-label="Door 1 points">
+                  <li className="miniItem">
+                    <span className="miniMark red" aria-hidden="true" />
+                    <span><strong>One move:</strong> start the application.</span>
+                  </li>
+                  <li className="miniItem">
+                    <span className="miniMark red" aria-hidden="true" />
+                    <span><strong>Today’s rules:</strong> focus on what lenders care about now.</span>
+                  </li>
+                  <li className="miniItem">
+                    <span className="miniMark red" aria-hidden="true" />
+                    <span><strong>Clean path:</strong> simple, clear, and direct.</span>
+                  </li>
+                </ul>
+
+                <div className="muted" style={{ fontSize: 13, color: "rgba(15,23,42,0.66)" }}>
+                  This is the direct “today” door. No extra decisions.
+                </div>
+              </div>
+            </div>
+
+            {/* DOOR 2 — TOMORROW (CTA #2) */}
+            <div className="doorCard teal" id="door-2" aria-label="Door 2: Tomorrow">
+              <div className="doorRail teal" aria-hidden="true" />
+              <div className="doorInner">
+                <div className="doorKicker">
+                  <span className="doorPill">DOOR 2</span>
+                  <span className="laneTag teal">Open the door tomorrow</span>
+                </div>
+
+                <h3 className="doorTitle">Tomorrow: Discover the BALANCE Cipher</h3>
+
+                <p className="doorBody">
+                  The Cipher isn’t a checklist. It’s a map. It shows why outcomes repeat—and the Co-Pilot translates that
+                  map into <strong>one clear next step</strong>.
+                </p>
+
+                <div className="doorVisual">
+                  <div className="visualLeft">
+                    <span className="visualIcon iconCipher" aria-hidden="true" />
+                    <div className="visualText">
+                      <div className="visualTitle">Discover the pattern.</div>
+                      <div className="visualSub">See it → then choose your next move.</div>
+                    </div>
+                  </div>
+
+                  {/* CTA #2 */}
+                  <a
+                    className="ctaPill teal"
+                    href="https://app.balancecipher.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open the Cipher →
+                  </a>
+                </div>
+
+                <ul className="miniList" aria-label="Door 2 points">
+                  <li className="miniItem">
+                    <span className="miniMark teal" aria-hidden="true" />
+                    <span><strong>See the pattern</strong> behind your results.</span>
+                  </li>
+                  <li className="miniItem">
+                    <span className="miniMark teal" aria-hidden="true" />
+                    <span><strong>Learn the next move</strong> that changes your outcome.</span>
+                  </li>
+                  <li className="miniItem">
+                    <span className="miniMark teal" aria-hidden="true" />
+                    <span><strong>Auto → Home:</strong> build stability and real readiness over time.</span>
+                  </li>
+                </ul>
+
+                <div
+                  style={{
+                    border: "1px solid rgba(0,0,0,0.10)",
+                    borderRadius: 18,
+                    background: "rgba(0,0,0,0.02)",
+                    padding: "14px 14px",
+                  }}
+                >
+                  <div style={{ fontWeight: 950, color: "rgba(15,23,42,0.90)", marginBottom: 6 }}>What it isn’t</div>
+                  <div style={{ color: "rgba(15,23,42,0.74)", lineHeight: 1.55, fontSize: 14 }}>
+                    Not shame. Not lectures. Not “do 20 things.” Just clarity—then one move at a time.
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* DOOR 2 — TOMORROW (CTA #2) */}
-          <div className="doorCard" id="door-2" aria-label="Door 2: Tomorrow">
-            <div className="doorRail teal" aria-hidden="true" />
-            <div className="doorInner">
-              <div className="doorHeader">
-                <div className="doorKicker">
-                  <span className="doorPill">Door 2</span>
-                  <span className="laneTag">Tomorrow • The Map</span>
-                </div>
-              </div>
-
-              <h3 className="doorTitle">Tomorrow: The BALANCE Cipher (what it is—and what it isn’t)</h3>
-
-              <p className="doorBody">
-                The Cipher isn’t a checklist. It’s a map. It shows why outcomes repeat—and the Co-Pilot translates that
-                map into <strong>one clear next step</strong>.
-              </p>
-
-              <div className="doorVisual">
-                <div className="visualLeft">
-                  <span className="visualIcon iconCipher" aria-hidden="true" />
-                  <div className="visualText">
-                    <div className="visualTitle">Cinematic clarity. Real leverage.</div>
-                    <div className="visualSub">See the pattern → choose your next move.</div>
-                  </div>
-                </div>
-
-                {/* CTA #2 */}
-                <a
-                  className="ctaPill teal"
-                  href="https://app.balancecipher.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Open the Cipher →
-                </a>
-              </div>
-
-              <ul className="miniList" aria-label="Door 2 points">
-                <li className="miniItem">
-                  <span className="miniMark teal" aria-hidden="true" />
-                  <span><strong>See the pattern</strong> behind your results.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark teal" aria-hidden="true" />
-                  <span><strong>Learn the next move</strong> that changes your outcome.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark teal" aria-hidden="true" />
-                  <span><strong>Auto → Home:</strong> build stability and real readiness over time.</span>
-                </li>
-              </ul>
-
-              <div
-                style={{
-                  border: "1px solid rgba(0,0,0,0.10)",
-                  borderRadius: 18,
-                  background: "rgba(0,0,0,0.02)",
-                  padding: "14px 14px",
-                }}
-              >
-                <div style={{ fontWeight: 950, color: "rgba(15,23,42,0.90)", marginBottom: 6 }}>What it isn’t</div>
-                <div style={{ color: "rgba(15,23,42,0.74)", lineHeight: 1.55, fontSize: 14 }}>
-                  Not shame. Not lectures. Not “do 20 things.” Just clarity—then one move at a time.
-                </div>
-              </div>
-            </div>
+          <div className="muted" style={{ fontSize: 13, marginTop: 14, color: "rgba(15,23,42,0.66)" }}>
+            If you only do one thing: Door 1 is your “today” move. Door 2 is your “map” when you want to build strength.
           </div>
-        </div>
-
-        <div className="muted" style={{ fontSize: 13, marginTop: 14, color: "rgba(15,23,42,0.66)" }}>
-          If you only do one thing: Door 1 is your “today” move. Door 2 is your “map” when you want to build strength.
         </div>
       </Section>
 
-      {/* Cipher section integrated (NO extra CTA here — we already used CTA #2) */}
+      {/* Cipher section (no extra outbound CTA) */}
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
         <div className="cipherCard">
           <div className="cipherGlow" aria-hidden="true" />
