@@ -31,10 +31,10 @@ export default function Page() {
           line-height: 1.55;
         }
 
-        /* Cards: tighten system consistency */
+        /* Cards */
         .cardInner { padding-top: 22px; padding-bottom: 22px; }
 
-        /* Pillar card typography */
+        /* Card typography */
         .itemTitle {
           font-size: 18px;
           line-height: 1.2;
@@ -97,16 +97,107 @@ export default function Page() {
           margin-top: 10px;
         }
 
-        /* “Understand” card: CTA + cipher pill on ONE line */
+        /* Door grid (2 only) */
+        .doorGrid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 12px;
+        }
+        @media (max-width: 920px) {
+          .doorGrid { grid-template-columns: 1fr; }
+        }
+        .doorCard {
+          border: 1px solid rgba(0,0,0,0.10);
+          background: #fff;
+          border-radius: 22px;
+          box-shadow: 0 18px 44px rgba(0,0,0,0.08);
+        }
+        .doorInner {
+          padding: 22px 20px;
+          display: grid;
+          gap: 10px;
+        }
+        .doorKicker {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .doorTag {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(0,0,0,0.02);
+          font-weight: 900;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          font-size: 11px;
+          color: rgba(0,0,0,0.72);
+          white-space: nowrap;
+        }
+        .doorDot {
+          width: 10px;
+          height: 28px;
+          border-radius: 999px;
+          background: var(--accent);
+          opacity: 0.16;
+          flex: 0 0 auto;
+        }
+        .doorTitle {
+          margin: 0;
+          font-size: 20px;
+          line-height: 1.15;
+          letter-spacing: -0.01em;
+          font-weight: 950;
+        }
+        .doorBody {
+          margin: 0;
+          font-size: 14px;
+          line-height: 1.55;
+          color: rgba(15,23,42,0.78);
+        }
+
+        /* CTA rows (consistent, clean) */
         .ctaRowInline {
           display: flex;
           flex-wrap: wrap;
           align-items: center;
           gap: 12px;
-          margin-top: 14px; /* breathing room */
+          margin-top: 12px;
+        }
+        .primaryCta {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 46px;
+          padding: 0 18px;
+          border-radius: 14px;
+          background: var(--accent);
+          color: #fff;
+          font-weight: 900;
+          white-space: nowrap;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+          text-decoration: none;
+        }
+        .secondaryCta {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 46px;
+          padding: 0 18px;
+          border-radius: 14px;
+          background: #fff;
+          color: rgba(15,23,42,0.86);
+          font-weight: 900;
+          white-space: nowrap;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+          border: 1px solid rgba(0,0,0,0.12);
+          text-decoration: none;
         }
 
-        /* Benefits grid (V1-style, clean) */
+        /* Benefits grid (3 cards so it looks clean) */
         .benefitsLead { max-width: 820px; }
         .benefitsGrid {
           display: grid;
@@ -116,7 +207,6 @@ export default function Page() {
         @media (max-width: 920px) {
           .benefitsGrid { grid-template-columns: 1fr; }
         }
-        /* Benefits card typography consistency */
         .benefitsGrid .itemTitle {
           font-size: 16px;
           font-weight: 900;
@@ -127,7 +217,7 @@ export default function Page() {
           line-height: 1.55;
         }
 
-        /* Bottom Door CTA */
+        /* Bottom Door CTA (kept) */
         #get-started .doorWrap { display: grid; gap: 14px; }
         #get-started details.doorDetails { border-radius: 22px; }
         #get-started details.doorDetails > summary {
@@ -196,7 +286,7 @@ export default function Page() {
           transform: translateY(-50%);
         }
         #get-started .doorText { display: grid; gap: 4px; flex: 1 1 auto; min-width: 0; }
-        #get-started .doorTitle { font-size: 20px; line-height: 1.15; letter-spacing: -0.01em; }
+        #get-started .doorTitle2 { font-size: 20px; line-height: 1.15; letter-spacing: -0.01em; }
         #get-started .doorSub { font-size: 13px; opacity: 0.72; font-weight: 500; line-height: 1.35; }
         #get-started .doorAction {
           padding: 14px 18px;
@@ -286,7 +376,22 @@ export default function Page() {
                 </div>
 
                 <div className="muted" style={{ fontSize: 12, marginTop: 10 }}>
-                  Choose one door below. When you’re ready, <strong>open your new door</strong> at the bottom.
+                  Two clean paths. No guessing. Choose what fits—then we’ll route your next step.
+                </div>
+
+                <div className="ctaRowInline" style={{ marginTop: 12 }}>
+                  <a
+                    className="primaryCta"
+                    href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=hero&utm_campaign=newpath-home"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Start my application →
+                  </a>
+
+                  <a className="secondaryCta" href="#get-started">
+                    Get routed →
+                  </a>
                 </div>
               </div>
             </div>
@@ -294,63 +399,34 @@ export default function Page() {
         </div>
       </header>
 
+      {/* TWO DOORS ONLY */}
       <Section
         id="pillars"
         title="Choose your door"
-        desc="Four clean paths. One clear next step—powered by the BALANCE Cipher and guided by the Co-Pilot."
+        desc="Two clean paths. One clear next step—powered by the BALANCE Cipher and guided by the Co-Pilot."
       >
-        <div style={{ display: "grid", gap: 12 }}>
-          <div className="card">
-            <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>
-                Buy your next vehicle the right way
-              </h3>
-              <p className="itemBody" style={{ marginBottom: 12 }}>
-                <strong>Break free</strong> from what didn’t work before, <strong>learn what matters today</strong>, and{" "}
-                <strong>move forward with clarity</strong>.
+        <div className="doorGrid">
+          {/* Door 1: Primary */}
+          <div className="doorCard">
+            <div className="doorInner">
+              <div className="doorKicker">
+                <span className="doorTag">Primary</span>
+                <span className="doorDot" aria-hidden="true" />
+              </div>
+              <h3 className="doorTitle">Get approved the right way</h3>
+              <p className="doorBody">
+                Share the basics. We’ll follow up with your <strong>next step</strong>. If you’re ready to move now,
+                start the application.
               </p>
-              <a className="btn btnPrimary" href="/buy-your-vehicle">
-                Click here →
-              </a>
-            </div>
-          </div>
-
-          <div className="card">
-            <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>
-                Get approved the right way
-              </h3>
-              <p className="itemBody" style={{ marginBottom: 12 }}>
-                We position you for approval by <strong>aligning your next move</strong> with the Cipher—translated by{" "}
-                the <strong>Co-Pilot</strong>.
-              </p>
-              <a
-                className="btn btnPrimary"
-                href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=cta&utm_campaign=get-approved"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Start application →
-              </a>
-            </div>
-          </div>
-
-          {/* Understand door: CTA + Cipher pill on SAME row */}
-          <div className="card">
-            <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>
-                Understand what happened—and what’s happening today
-              </h3>
-              <p className="itemBody" style={{ marginBottom: 10 }}>
-                The <strong>BALANCE Cipher</strong> helps you see why outcomes repeat; the <strong>Co-Pilot</strong>{" "}
-                turns it into <strong>one clear next step</strong>.
-              </p>
-
               <div className="ctaRowInline">
-                <a className="btn btnPrimary" href="/buy-your-vehicle">
-                  Click here →
+                <a
+                  className="primaryCta"
+                  href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=get-approved"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Start application →
                 </a>
-
                 <span className="cipherPill" aria-label="AI guided by the BALANCE Cipher">
                   <span className="cipherPillText">AI guided by</span>
                   <span className="cipherPillAccent" aria-hidden="true" />
@@ -364,27 +440,36 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="card">
-            <div className="cardInner">
-              <h3 className="itemTitle" style={{ marginTop: 0 }}>
-                Let us help you with your path forward—by the BALANCE Cipher
-              </h3>
-              <p className="itemBody" style={{ marginBottom: 12 }}>
-                If buying today isn’t right, we <strong>map the next move</strong> to become ready—then{" "}
-                <strong>execute with clarity</strong>.
+          {/* Door 2: Secondary */}
+          <div className="doorCard">
+            <div className="doorInner">
+              <div className="doorKicker">
+                <span className="doorTag">Learn</span>
+                <span className="doorDot" aria-hidden="true" />
+              </div>
+              <h3 className="doorTitle">Buy your next vehicle the right way</h3>
+              <p className="doorBody">
+                <strong>Break free</strong> from what didn’t work before, <strong>learn what matters today</strong>,
+                and <strong>move forward with clarity</strong>.
               </p>
-              <a className="btn btnPrimary" href="#cipher">
-                Click here →
-              </a>
+              <div className="ctaRowInline">
+                <a className="secondaryCta" href="/buy-your-vehicle">
+                  Buy the right way →
+                </a>
+                <a className="secondaryCta" href="/buy-your-vehicle-v2">
+                  Quick guide →
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </Section>
 
+      {/* CLEAN BENEFITS (3 ONLY so grid is stable) */}
       <Section
         id="simple-clear"
         title="Simple. Clear. Built for action—when you’re guided by an AI-driven system."
-        desc="These doors create a simple, clear, built-for-action path—powered by the BALANCE Cipher and guided by the Co-Pilot."
+        desc="A simple path—powered by the BALANCE Cipher and guided by the Co-Pilot."
       >
         <div className="benefitsLead" style={{ marginBottom: 12 }}>
           <div className="muted" style={{ fontSize: 13, lineHeight: 1.5 }}>
@@ -404,7 +489,7 @@ export default function Page() {
           <div className="item">
             <h3 className="itemTitle">One clean start</h3>
             <p className="itemBody">
-              <strong>You choose a door.</strong> We route your next move. No overwhelm.
+              <strong>Two doors only.</strong> No overwhelm. No guessing.
             </p>
           </div>
 
@@ -414,20 +499,14 @@ export default function Page() {
               <strong>Car → Score → Home.</strong> Auto is the on-ramp to long-term stability.
             </p>
           </div>
-
-          <div className="item">
-            <h3 className="itemTitle">Big picture</h3>
-            <p className="itemBody">
-              <strong>See the pattern</strong>—so your next move actually sticks.
-            </p>
-          </div>
         </div>
       </Section>
 
+      {/* KEEP THE CONVERSION DOOR */}
       <Section
         id="get-started"
         title="Ready to open your new door?"
-        desc="No pressure. If you choose to step through, share the basics and we’ll route your next step."
+        desc="No pressure. Share the basics and we’ll route your next step."
       >
         <div className="doorWrap">
           <details className="doorDetails">
@@ -436,7 +515,7 @@ export default function Page() {
                 <span className="doorIcon" />
               </span>
               <span className="doorText">
-                <span className="doorTitle">Open your new door</span>
+                <span className="doorTitle2">Open your new door</span>
                 <span className="doorSub">
                   Share only the basics. We’ll follow up with the <strong>next step</strong>.
                 </span>
@@ -455,6 +534,7 @@ export default function Page() {
         </div>
       </Section>
 
+      {/* CIPHER SECTION (remove loop CTA; keep decisive) */}
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
         <div className="cipherHero">
           <img className="cipherEmblemBig" src="/brand/balance-cipher-emblem.png" alt="BALANCE Cipher emblem" />
@@ -478,8 +558,8 @@ export default function Page() {
             >
               Start my application →
             </a>
-            <a className="btn" href="#pillars">
-              Choose a door →
+            <a className="btn" href="https://app.balancecipher.info/" target="_blank" rel="noopener noreferrer">
+              Get my next step →
             </a>
           </div>
 
