@@ -4,9 +4,12 @@ import Section from "../components/Section";
 
 export default function Page() {
   return (
-    <main>
+    <main style={{ width: "100%", overflowX: "hidden" }}>
       <style>{`
         html, body { background: #ffffff !important; }
+        *, *::before, *::after { box-sizing: border-box; }
+        img { max-width: 100%; height: auto; }
+        main { width: 100%; overflow-x: hidden; }
 
         :root{
           --np-ink: rgba(15,23,42,0.92);
@@ -95,6 +98,7 @@ export default function Page() {
           flex-wrap:wrap;
           gap:10px;
           margin-top: 10px;
+          max-width: 100%;
         }
         .trustBadge{
           display:inline-flex;
@@ -109,6 +113,7 @@ export default function Page() {
           font-size: 12px;
           color: rgba(15,23,42,0.78);
           white-space: nowrap;
+          max-width: 100%;
         }
         .trustDot{
           width: 8px;
@@ -116,6 +121,7 @@ export default function Page() {
           border-radius: var(--np-pill);
           background: rgba(0,0,0,0.24);
           opacity: 0.6;
+          flex: 0 0 auto;
         }
 
         /* Cipher pill (kept, but upgraded) */
@@ -129,6 +135,7 @@ export default function Page() {
           background: rgba(255,255,255,0.92);
           box-shadow: 0 12px 28px rgba(0,0,0,0.06);
           white-space: nowrap;
+          max-width: 100%;
         }
         .cipherPillText {
           font-weight: 950;
@@ -164,6 +171,8 @@ export default function Page() {
           align-items:center;
           gap: 10px;
           margin-top: 6px;
+          min-width: 0;
+          max-width: 100%;
         }
 
         /* TWO DOORS */
@@ -192,6 +201,7 @@ export default function Page() {
           box-shadow: var(--np-shadow-soft);
           overflow:hidden;
           transform: translateZ(0);
+          max-width: 100%;
         }
 
         /* Visual “door top rail” */
@@ -211,6 +221,7 @@ export default function Page() {
           padding: 22px 20px 20px;
           display:grid;
           gap: 12px;
+          max-width: 100%;
         }
 
         .doorHeader{
@@ -219,12 +230,16 @@ export default function Page() {
           align-items:center;
           justify-content: space-between;
           gap: 12px;
+          min-width: 0;
+          max-width: 100%;
         }
 
         .doorKicker{
           display:inline-flex;
           align-items:center;
           gap: 10px;
+          min-width: 0;
+          max-width: 100%;
         }
 
         .doorPill{
@@ -276,12 +291,16 @@ export default function Page() {
           align-items:center;
           justify-content: space-between;
           gap: 14px;
+          max-width: 100%;
+          min-width: 0;
         }
         .visualLeft{
           display:flex;
           align-items:center;
           gap: 12px;
-          min-width: 0;
+          min-width: 0; /* critical: prevents flex overflow */
+          flex: 1 1 auto;
+          max-width: 100%;
         }
         .visualIcon{
           width: 44px;
@@ -338,17 +357,24 @@ export default function Page() {
           display:grid;
           gap: 2px;
           min-width: 0;
+          max-width: 100%;
         }
         .visualTitle{
           font-weight: 950;
           color: rgba(15,23,42,0.90);
           letter-spacing: -0.01em;
           font-size: 14px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .visualSub{
           font-size: 13px;
           color: rgba(15,23,42,0.66);
           line-height: 1.35;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
         /* Bullets */
@@ -402,6 +428,8 @@ export default function Page() {
           box-shadow: 0 14px 34px rgba(0,0,0,0.10);
           transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
           white-space: nowrap;
+          max-width: 100%;
+          flex: 0 0 auto;
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
@@ -423,6 +451,36 @@ export default function Page() {
           transform: translateY(-1px);
         }
 
+        /* MOBILE MUST-FIX: prevent CTA cropping in Door visuals */
+        @media (max-width: 640px){
+          .doorVisual{
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+          }
+          .visualLeft{
+            width: 100%;
+          }
+          .ctaPill{
+            width: 100%;
+            max-width: 100%;
+            white-space: normal; /* allow wrapping instead of cropping */
+            height: auto;
+            min-height: 52px;
+            padding: 14px 18px;
+            line-height: 1.2;
+            font-size: 14px;
+          }
+          .visualTitle, .visualSub{
+            white-space: normal;
+            overflow: visible;
+            text-overflow: clip;
+          }
+          .trustBadge{
+            white-space: normal;
+          }
+        }
+
         /* Integrated Cipher section */
         .cipherCard{
           border: 1px solid rgba(0,0,0,0.10);
@@ -431,6 +489,7 @@ export default function Page() {
           box-shadow: var(--np-shadow-soft);
           overflow:hidden;
           position: relative;
+          max-width: 100%;
         }
         .cipherGlow{
           position:absolute;
@@ -445,6 +504,7 @@ export default function Page() {
           display:grid;
           gap: 12px;
           align-items:center;
+          max-width: 100%;
         }
         .cipherTitle{
           margin:0;
@@ -503,7 +563,8 @@ export default function Page() {
                     style={{ width: 288, height: 288, objectFit: "contain", display: "block" }}
                   />
                 </div>
-                <div className="badge">Simple. Clear. Actionable.</div>
+
+                {/* Removed floating bubble badge (replaced by trust strip below) */}
               </div>
 
               <div className="gridHero">
