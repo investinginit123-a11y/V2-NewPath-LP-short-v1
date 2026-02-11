@@ -230,7 +230,10 @@ function DoorCard(props: {
 
             <ul className="grid gap-2">
               {props.bullets.slice(0, 3).map((b) => (
-                <li key={b} className="flex items-start gap-2 text-sm text-black/75 sm:text-[15px]">
+                <li
+                  key={b}
+                  className="flex items-start gap-2 text-sm text-black/75 sm:text-[15px]"
+                >
                   <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-black/35" />
                   <span className="leading-relaxed">{b}</span>
                 </li>
@@ -274,7 +277,7 @@ export default function Page() {
       </div>
 
       {/* HERO (Decision Moment) */}
-      <Section>
+      <Section title="Decision Moment">
         <div className="relative mx-auto max-w-5xl px-4 pt-12 sm:px-6 sm:pt-16">
           <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white/70 p-7 shadow-[0_20px_70px_-50px_rgba(0,0,0,0.6)] backdrop-blur sm:p-10">
             {/* Inner glow accents */}
@@ -290,9 +293,11 @@ export default function Page() {
                   Two choices. One clean next step.
                 </h1>
                 <p className="max-w-2xl text-base font-medium leading-relaxed text-black/75 sm:text-lg">
-                  Pick the door that matches what you need <span className="font-semibold text-black">right now</span>.
+                  Pick the door that matches what you need{" "}
+                  <span className="font-semibold text-black">right now</span>.
                   Door 1 moves you forward fast. Door 2 gives you clarity — the
-                  Cipher that helps you decode what’s really going on and what to do next.
+                  Cipher that helps you decode what’s really going on and what to
+                  do next.
                 </p>
               </div>
 
@@ -309,7 +314,7 @@ export default function Page() {
       </Section>
 
       {/* DOORS (Stacked) */}
-      <Section>
+      <Section title="Choose Your Door">
         <div className="relative mx-auto max-w-5xl px-4 pb-8 sm:px-6">
           <div className="grid gap-7 sm:gap-9">
             <DoorCard
@@ -346,7 +351,7 @@ export default function Page() {
       </Section>
 
       {/* CIPHER SECTION (Integrated — NO CTA) */}
-      <Section>
+      <Section title="Cipher Stage">
         <div className="relative mx-auto max-w-5xl px-4 pb-16 sm:px-6">
           <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white/70 shadow-[0_22px_70px_-55px_rgba(0,0,0,0.65)] backdrop-blur">
             {/* Teal stage glow */}
@@ -364,8 +369,9 @@ export default function Page() {
                     Clarity that feels cinematic — not clinical.
                   </h3>
                   <p className="text-sm font-medium leading-relaxed text-black/70 sm:text-base">
-                    This is where the Cipher emblem lives — not pasted in, but staged.
-                    (Drop your real emblem component/image here when ready.)
+                    This is where the Cipher emblem lives — not pasted in, but
+                    staged. (Drop your real emblem component/image here when
+                    ready.)
                   </p>
                 </div>
 
@@ -391,7 +397,8 @@ export default function Page() {
                       What you get when the Cipher is doing its job
                     </h4>
                     <p className="text-sm font-medium leading-relaxed text-black/70 sm:text-base">
-                      Three quick “scan” outcomes — clear, practical, and built for real life.
+                      Three quick “scan” outcomes — clear, practical, and built
+                      for real life.
                     </p>
                   </div>
 
@@ -430,7 +437,8 @@ export default function Page() {
                       Reminder:
                       <span className="font-medium text-black/70">
                         {" "}
-                        the Cipher CTA lives inside Door 2 above — no extra buttons down here.
+                        the Cipher CTA lives inside Door 2 above — no extra
+                        buttons down here.
                       </span>
                     </p>
                   </div>
