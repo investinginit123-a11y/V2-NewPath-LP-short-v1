@@ -1,10 +1,9 @@
 // app/page.tsx
-// PASS: MOBILE-FIRST SIMPLIFICATION (CLEANUP)
+// PASS: MOBILE-FIRST SIMPLIFICATION (CLICK-AND-GO)
 // ✅ Changes in this pass:
-// 1) Hero sub-copy becomes stacked "steps" with spacing
-// 2) Remove the hero "choose door" command strip block (the messy two-line instruction box)
-// 3) Split the Door Statement bar into clean separated beats (Door 1 line, Door 2 line, Tomorrow/Freedom line)
-// Everything else stays the same.
+// 1) Remove the statement block under "Choose your door" (no extra reading)
+// 2) Merge the Door meaning into the Door selector pills (Door 1 + Door 2)
+// 3) Keep the rest of the page structure the same (detail cards still explain after click)
 
 import Section from "../components/Section";
 
@@ -77,7 +76,7 @@ export default function Page() {
           font-weight: 950;
         }
 
-        /* ✅ Hero copy becomes stacked steps */
+        /* ✅ Hero copy = stacked steps */
         .subStack{
           display: grid;
           gap: 10px;
@@ -122,7 +121,7 @@ export default function Page() {
           object-fit: contain;
         }
 
-        /* ✅ Command strip removed (we keep styles harmless, but it's no longer rendered) */
+        /* We keep styles but do not render command strip */
         .commandStrip{ display:none !important; }
 
         /* DOORS */
@@ -139,37 +138,8 @@ export default function Page() {
           background: transparent;
         }
 
-        /* ✅ Statement bar (kept, but split into separate beats) */
-        .doorStatement{
-          border-radius: 22px;
-          border: 2px solid rgba(0,0,0,0.14);
-          background: rgba(255,255,255,0.98);
-          box-shadow: 0 18px 46px rgba(0,0,0,0.10);
-          padding: 16px 16px;
-          margin: 10px 0 14px;
-          position: relative;
-          overflow: hidden;
-        }
-        .doorStatement::before{
-          content:"";
-          position:absolute;
-          left:0; top:0; bottom:0;
-          width: 10px;
-          background: linear-gradient(180deg, var(--fire), rgba(0,0,0,0.16));
-        }
-        .doorStatementText{
-          position: relative;
-          z-index: 2;
-          display: grid;
-          gap: 10px;
-          font-size: 17px;
-          font-weight: 950;
-          color: rgba(15,23,42,0.92);
-          line-height: 1.26;
-          letter-spacing: -0.01em;
-        }
-        .doorStatementText .fire{ color: var(--fire); }
-        .doorStatementText .ink{ color: var(--ink); }
+        /* ✅ Door statement block removed (no extra reading) */
+        .doorStatement{ display:none !important; }
 
         /* ✅ SIMPLE DOOR SELECTORS (ONLY) */
         .doorSelect{
@@ -519,7 +489,6 @@ export default function Page() {
         }
 
         @media (max-width: 820px){
-          .doorStatementText{ font-size: 17px; }
           .doorVisual{
             flex-direction: column;
             align-items: stretch;
@@ -630,7 +599,6 @@ export default function Page() {
                       Create a New Path <span style={{ color: "var(--fire)" }}>forward</span>.
                     </h1>
 
-                    {/* ✅ Stacked hero steps (replaces the messy single line) */}
                     <div className="subStack" aria-label="Hero steps">
                       <div className="subStep">Two doors.</div>
                       <div className="subStep">One clear next step.</div>
@@ -641,8 +609,6 @@ export default function Page() {
                         Guided by the <strong>Co-Pilot</strong>.
                       </div>
                     </div>
-
-                    {/* ✅ Command strip removed (intentionally) */}
                   </div>
                 </div>
               </div>
@@ -653,31 +619,16 @@ export default function Page() {
 
       <Section id="doors" title="Choose your door" desc="">
         <div className="decisionStage" aria-label="Decision stage">
-          {/* ✅ Statement bar split into clean beats */}
-          <div className="doorStatement" aria-label="Door meaning statement">
-            <div className="doorStatementText">
-              <div>
-                <span className="fire">Door 1</span> starts your New Path today.
-              </div>
+          {/* ✅ Statement block removed entirely */}
 
-              <div>
-                <span className="ink">Door 2</span> unlocks the Cipher—your Co-Pilot beside you.
-              </div>
-
-              <div>
-                Turning tomorrow into a clear path to Freedom.
-              </div>
-            </div>
-          </div>
-
-          {/* ✅ ONLY TWO CHOICES (clean + mobile-first) */}
+          {/* ✅ ONLY TWO CHOICES — meaning is inside the pills now */}
           <div className="doorSelect" aria-label="Door selector">
-            <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: Get started today">
+            <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: Start your New Path today">
               <div className="doorSelectLeft">
                 <span className="doorTag fire">DOOR 1</span>
                 <div className="doorSelectText">
                   <div className="doorSelectTitle">
-                    <span className="fire">Get started</span> today.
+                    <span className="fire">Start your New Path</span> today.
                   </div>
                   <div className="doorSelectSub">Start the process and get routed the right way.</div>
                 </div>
@@ -685,12 +636,12 @@ export default function Page() {
               <span className="doorSelectChevron" aria-hidden="true">↓</span>
             </a>
 
-            <a className="doorSelectBtn" href="#door-2" aria-label="Door 2: Discover the AI-driven Cipher tomorrow">
+            <a className="doorSelectBtn" href="#door-2" aria-label="Door 2: Unlock the Cipher tomorrow">
               <div className="doorSelectLeft">
                 <span className="doorTag ink">DOOR 2</span>
                 <div className="doorSelectText">
                   <div className="doorSelectTitle">
-                    Discover the <span className="ink">AI-driven</span> Cipher tomorrow.
+                    <span className="ink">Unlock the Cipher</span> tomorrow.
                   </div>
                   <div className="doorSelectSub">See the pattern, then take one clear next move.</div>
                 </div>
