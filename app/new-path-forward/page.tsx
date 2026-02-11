@@ -58,18 +58,26 @@ export default function Page() {
           gap: 14px;
         }
 
-        /* Header */
-        .heroCard {
+        /* Cards */
+        .card {
           border: 1px solid var(--np-border);
           border-radius: var(--np-radius);
           background: #ffffff;
           box-shadow: var(--np-shadow);
         }
-        .heroInner {
+        .cardSoft {
+          border: 1px solid var(--np-border);
+          border-radius: var(--np-radius);
+          background: #ffffff;
+          box-shadow: var(--np-shadow-soft);
+        }
+        .inner {
           padding: 26px 22px 22px;
           display: grid;
           gap: 12px;
         }
+
+        /* Text */
         .headline {
           margin: 0;
           font-size: clamp(26px, 4.2vw, 42px);
@@ -94,34 +102,56 @@ export default function Page() {
           font-weight: 650;
         }
 
-        /* Arc grid */
-        .arcGrid {
+        /* Chips */
+        .chipRow {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px;
+          margin-top: 4px;
+        }
+        .chip {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          padding: 10px 12px;
+          border-radius: var(--np-pill);
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(0,0,0,0.02);
+          font-weight: 900;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          font-size: 11px;
+          color: rgba(0,0,0,0.70);
+          white-space: nowrap;
+        }
+
+        /* Quick scan block */
+        .scanGrid {
           display: grid;
           grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: 12px;
         }
         @media (max-width: 980px) {
-          .arcGrid { grid-template-columns: 1fr; }
+          .scanGrid { grid-template-columns: 1fr; }
         }
 
-        .arcCard {
+        .scanItem {
           border: 1px solid var(--np-border);
           border-radius: var(--np-radius);
           background: #ffffff;
           box-shadow: var(--np-shadow-soft);
         }
-        .arcInner {
+        .scanInner {
           padding: 18px 18px;
           display: grid;
-          gap: 12px;
+          gap: 10px;
         }
-
-        .arcLabelRow {
+        .scanLabelRow {
           display: inline-flex;
           align-items: center;
           gap: 10px;
         }
-        .arcLabel {
+        .scanLabel {
           display: inline-flex;
           align-items: center;
           justify-content: center;
@@ -136,7 +166,7 @@ export default function Page() {
           color: rgba(0,0,0,0.72);
           white-space: nowrap;
         }
-        .arcDot {
+        .scanDot {
           width: 10px;
           height: 28px;
           border-radius: var(--np-pill);
@@ -144,8 +174,7 @@ export default function Page() {
           opacity: 0.16;
           flex: 0 0 auto;
         }
-
-        .arcTitle {
+        .scanTitle {
           margin: 0;
           font-size: 18px;
           line-height: 1.2;
@@ -153,64 +182,19 @@ export default function Page() {
           font-weight: 950;
           color: rgba(0,0,0,0.90);
         }
-
-        .arcBody {
+        .scanBody {
           margin: 0;
-          font-size: 15px;
+          font-size: 14px;
           line-height: 1.55;
           color: var(--np-muted);
           font-weight: 650;
         }
-        .arcEmphasis {
+        .emph {
           color: rgba(0,0,0,0.88);
           font-weight: 950;
         }
 
-        /* Clean bullets (still minimal) */
-        .miniList {
-          margin: 0;
-          padding: 0;
-          list-style: none;
-          display: grid;
-          gap: 8px;
-        }
-        .miniItem {
-          display: grid;
-          grid-template-columns: 16px 1fr;
-          gap: 10px;
-          align-items: start;
-          font-size: 14px;
-          line-height: 1.5;
-          color: rgba(0,0,0,0.64);
-          font-weight: 650;
-        }
-        .miniMark {
-          width: 10px;
-          height: 10px;
-          border-radius: var(--np-pill);
-          margin-top: 6px;
-          background: var(--accent);
-          opacity: 0.20;
-        }
-
-        /* Extra narrative blocks inside a card (kept premium + readable) */
-        .paraStack {
-          display: grid;
-          gap: 10px;
-        }
-
-        /* Bottom CTA */
-        .bottomCard {
-          border: 1px solid var(--np-border);
-          border-radius: var(--np-radius);
-          background: #ffffff;
-          box-shadow: var(--np-shadow);
-        }
-        .bottomInner {
-          padding: 18px 18px;
-          display: grid;
-          gap: 12px;
-        }
+        /* CTA row */
         .ctaRow {
           display: flex;
           flex-wrap: wrap;
@@ -233,10 +217,48 @@ export default function Page() {
           border: 1px solid rgba(0,0,0,0.06);
           white-space: nowrap;
         }
+        .secondaryBtn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          height: 50px;
+          padding: 0 20px;
+          border-radius: var(--np-pill);
+          background: #ffffff;
+          color: rgba(0,0,0,0.86);
+          font-weight: 950;
+          letter-spacing: 0.01em;
+          text-decoration: none;
+          border: 1px solid rgba(0,0,0,0.14);
+          box-shadow: 0 10px 20px rgba(0,0,0,0.04);
+          white-space: nowrap;
+        }
+
         .helperLine {
           margin: 0;
           font-size: 12px;
           color: rgba(0,0,0,0.58);
+          font-weight: 650;
+        }
+
+        /* Details (quiet, optional) */
+        details {
+          border: 1px solid rgba(0,0,0,0.10);
+          border-radius: var(--np-radius);
+          padding: 14px 16px;
+          background: rgba(0,0,0,0.02);
+        }
+        summary {
+          cursor: pointer;
+          font-weight: 950;
+          color: rgba(0,0,0,0.86);
+          letter-spacing: -0.01em;
+        }
+        .detailsBody {
+          margin-top: 10px;
+          font-size: 14px;
+          line-height: 1.6;
+          color: rgba(0,0,0,0.66);
           font-weight: 650;
         }
       `}</style>
@@ -250,142 +272,103 @@ export default function Page() {
       </div>
 
       <div className="shell">
-        {/* LOCKED HEADLINE + SUBTEXT */}
-        <div className="heroCard">
-          <div className="heroInner">
+        {/* HERO */}
+        <div className="card">
+          <div className="inner">
             <h1 className="headline">
               What worked yesterday isn’t working today. Let’s find your new path forward.
             </h1>
+
             <p className="subtext">
-              We turn yesterday’s confusion into today’s clear step. The BALANCE formula shows you the way.
+              We turn confusion into one clear next step. The BALANCE Cipher shows the pattern — the Co-Pilot translates it into action.
             </p>
-            <p className="microLine">
-              No shame. No pressure. Just a clean path from “stuck” to “next step.”
+
+            <div className="chipRow" aria-label="Trust chips">
+              <span className="chip">No shame</span>
+              <span className="chip">No pressure</span>
+              <span className="chip">One clear step</span>
+            </div>
+
+            {/* PRIMARY + SECONDARY (2 choices max) */}
+            <div className="ctaRow" style={{ marginTop: 6 }}>
+              <a
+                className="primaryBtn"
+                href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=bridge&utm_campaign=new-path-forward"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Start my application →
+              </a>
+
+              <a className="secondaryBtn" href="https://app.balancecipher.info/" target="_blank" rel="noopener noreferrer">
+                Get my next step →
+              </a>
+            </div>
+
+            <p className="helperLine">
+              If you’re ready to move, start the application. If you’re unsure, get your next step first.
             </p>
           </div>
         </div>
 
-        {/* 3-PART ARC (ONLY) */}
-        <div className="arcGrid">
-          {/* PAST — unchanged */}
-          <div className="arcCard">
-            <div className="arcInner">
-              <div className="arcLabelRow">
-                <span className="arcLabel">Yesterday</span>
-                <span className="arcDot" aria-hidden="true" />
+        {/* QUICK SCAN (replaces the long arc stack) */}
+        <div className="scanGrid">
+          <div className="scanItem">
+            <div className="scanInner">
+              <div className="scanLabelRow">
+                <span className="scanLabel">Yesterday</span>
+                <span className="scanDot" aria-hidden="true" />
               </div>
-              <h2 className="arcTitle">You did what you were told—yet the result repeats.</h2>
-              <p className="arcBody">
-                You’ve tried things that <span className="arcEmphasis">should’ve worked</span>… but the outcome keeps
-                circling back. That’s not a character issue. It’s usually a mismatch between what lenders look at now
-                and what people were taught to do then.
+              <h2 className="scanTitle">The result keeps repeating.</h2>
+              <p className="scanBody">
+                That’s not a character issue. It’s usually a mismatch between what people were taught and what lenders measure today.
               </p>
-
-              <ul className="miniList" aria-label="Yesterday signals">
-                <li className="miniItem">
-                  <span className="miniMark" aria-hidden="true" />
-                  <span>It feels random—like the rules keep changing.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark" aria-hidden="true" />
-                  <span>You do more… but get the same outcome.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark" aria-hidden="true" />
-                  <span>You’re not broken—you just didn’t have the right map.</span>
-                </li>
-              </ul>
             </div>
           </div>
 
-          {/* PRESENT — expanded per your exact narrative */}
-          <div className="arcCard">
-            <div className="arcInner">
-              <div className="arcLabelRow">
-                <span className="arcLabel">Today</span>
-                <span className="arcDot" aria-hidden="true" />
+          <div className="scanItem">
+            <div className="scanInner">
+              <div className="scanLabelRow">
+                <span className="scanLabel">Today</span>
+                <span className="scanDot" aria-hidden="true" />
               </div>
-
-              <h2 className="arcTitle">A guide that stands on your side.</h2>
-
-              <div className="paraStack">
-                <p className="arcBody">
-                  The Co-Pilot is the best financial friend you could ever have—calm, loyal, and built to work for you.
-                  Not a boss. Not a banker. Not a judge. <span className="arcEmphasis">A guide that stands on your side.</span>
-                </p>
-
-                <p className="arcBody">
-                  The BALANCE Cipher shows the pattern. The Co-Pilot turns that map into one move you can make next.
-                  <span className="arcEmphasis"> You’re not losing control—you’re gaining leverage.</span> AI isn’t here
-                  to decide for you. It’s here to remove the fog, translate the Cipher, and hand you a clear next step.
-                </p>
-              </div>
-
-              <ul className="miniList" aria-label="Today signals">
-                <li className="miniItem">
-                  <span className="miniMark" aria-hidden="true" />
-                  <span>You stay in the driver’s seat. The Co-Pilot supports your choices.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark" aria-hidden="true" />
-                  <span>We simplify what matters—without burying you in information.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark" aria-hidden="true" />
-                  <span>One step at a time is how you change the pattern.</span>
-                </li>
-              </ul>
+              <h2 className="scanTitle">A guide on your side.</h2>
+              <p className="scanBody">
+                The Cipher shows the pattern. The Co-Pilot turns it into <span className="emph">one move you can make next</span>.
+              </p>
             </div>
           </div>
 
-          {/* FUTURE — expanded per your narrative */}
-          <div className="arcCard">
-            <div className="arcInner">
-              <div className="arcLabelRow">
-                <span className="arcLabel">Tomorrow</span>
-                <span className="arcDot" aria-hidden="true" />
+          <div className="scanItem">
+            <div className="scanInner">
+              <div className="scanLabelRow">
+                <span className="scanLabel">Tomorrow</span>
+                <span className="scanDot" aria-hidden="true" />
               </div>
-
-              <h2 className="arcTitle">Options create freedom.</h2>
-
-              <div className="paraStack">
-                <p className="arcBody">
-                  Tomorrow, the Co-Pilot doesn’t just give information—it learns how you operate under pressure, spots
-                  the pattern behind your decisions, and helps you build rules that protect your future self.
-                </p>
-
-                <p className="arcBody">
-                  <span className="arcEmphasis">Clarity creates options. Options create freedom.</span> And freedom is
-                  the key to happiness—because when you have options, you’re no longer trapped.
-                </p>
-
-                <p className="arcBody">
-                  When you can see the pattern, you can change the pattern. Small next steps build clarity. Clarity
-                  improves approvals. Better approvals unlock better options—auto now, home later.
-                </p>
-              </div>
-
-              <ul className="miniList" aria-label="Tomorrow signals">
-                <li className="miniItem">
-                  <span className="miniMark" aria-hidden="true" />
-                  <span>Less guesswork. More confident decisions.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark" aria-hidden="true" />
-                  <span>Better terms become realistic when the structure is right.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark" aria-hidden="true" />
-                  <span>Auto becomes the on-ramp to long-term stability—and real home readiness.</span>
-                </li>
-              </ul>
+              <h2 className="scanTitle">Options create freedom.</h2>
+              <p className="scanBody">
+                Clarity creates options. Options create freedom — auto now, home later.
+              </p>
             </div>
           </div>
         </div>
 
-        {/* PRIMARY CTA (PASS-THROUGH) — NOW TO APPLICATION */}
-        <div className="bottomCard">
-          <div className="bottomInner">
+        {/* QUIET EXPANDER (keeps depth without clutter) */}
+        <div className="cardSoft">
+          <div className="inner" style={{ paddingTop: 18, paddingBottom: 18 }}>
+            <details>
+              <summary>Why this works (optional)</summary>
+              <div className="detailsBody">
+                You were never broken. You just never had the right map—until now. The BALANCE Cipher is that map.
+                The Co-Pilot reads the Cipher with you and translates it into a simple next step you can actually execute.
+              </div>
+            </details>
+          </div>
+        </div>
+
+        {/* BOTTOM CTA (reinforce only; still 2 choices) */}
+        <div className="card">
+          <div className="inner" style={{ paddingTop: 18, paddingBottom: 18 }}>
             <div className="ctaRow">
               <a
                 className="primaryBtn"
@@ -395,10 +378,12 @@ export default function Page() {
               >
                 Start my application →
               </a>
+
+              <a className="secondaryBtn" href="https://app.balancecipher.info/" target="_blank" rel="noopener noreferrer">
+                Get my next step →
+              </a>
             </div>
-            <p className="helperLine">
-              One page. One direction. One clear next step.
-            </p>
+            <p className="helperLine">One page. Two choices. One clear next step.</p>
           </div>
         </div>
       </div>
