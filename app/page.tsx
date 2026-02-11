@@ -1,456 +1,737 @@
 // app/page.tsx
+
 import Section from "../components/Section";
-
-const DOOR_1_HREF =
-  "https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=two-door";
-
-const DOOR_2_HREF = "https://app.balancecipher.com/";
-
-function IconRoad(props: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-      className={props.className}
-    >
-      <path
-        d="M10.5 3.5H13.5L16.5 20.5H13.9L12.75 14.5H11.25L10.1 20.5H7.5L10.5 3.5Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        opacity="0.9"
-      />
-      <path
-        d="M12 7.25V9.25"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.85"
-      />
-      <path
-        d="M12 11.25V12.75"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.85"
-      />
-      <path
-        d="M4 20.5H20"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.5"
-      />
-    </svg>
-  );
-}
-
-function IconCipher(props: { className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-      className={props.className}
-    >
-      <path
-        d="M12 21.25C17.109 21.25 21.25 17.109 21.25 12C21.25 6.891 17.109 2.75 12 2.75C6.891 2.75 2.75 6.891 2.75 12C2.75 17.109 6.891 21.25 12 21.25Z"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        opacity="0.9"
-      />
-      <path
-        d="M12 6.25V12L15.75 14.25"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        opacity="0.9"
-      />
-      <path
-        d="M6.25 12H17.75"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        opacity="0.45"
-      />
-    </svg>
-  );
-}
-
-function Badge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-flex items-center rounded-full border border-black/10 bg-white/70 px-3 py-1 text-xs font-semibold text-black/80 shadow-sm backdrop-blur">
-      {children}
-    </span>
-  );
-}
-
-function PillLink(props: {
-  href: string;
-  tone: "red" | "teal";
-  children: React.ReactNode;
-  ariaLabel: string;
-}) {
-  const tone =
-    props.tone === "red"
-      ? {
-          ring: "ring-red-500/20",
-          bg: "bg-red-600",
-          hover: "hover:bg-red-700",
-          shadow: "shadow-[0_12px_30px_-14px_rgba(220,38,38,0.65)]",
-        }
-      : {
-          ring: "ring-teal-500/20",
-          bg: "bg-teal-600",
-          hover: "hover:bg-teal-700",
-          shadow: "shadow-[0_12px_30px_-14px_rgba(13,148,136,0.65)]",
-        };
-
-  return (
-    <a
-      href={props.href}
-      aria-label={props.ariaLabel}
-      className={[
-        "group inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold text-white",
-        "ring-1 transition-all duration-200",
-        "active:translate-y-[1px]",
-        tone.bg,
-        tone.hover,
-        tone.ring,
-        tone.shadow,
-      ].join(" ")}
-    >
-      <span className="relative">
-        {props.children}
-        <span className="pointer-events-none absolute -inset-3 rounded-full opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
-      </span>
-      <span className="translate-x-0 transition-transform duration-200 group-hover:translate-x-0.5">
-        →
-      </span>
-    </a>
-  );
-}
-
-function DoorCard(props: {
-  tone: "red" | "teal";
-  laneLabel: string;
-  title: string;
-  subtitle: string;
-  bullets: string[];
-  ctaText: string;
-  href: string;
-  icon: React.ReactNode;
-}) {
-  const tone =
-    props.tone === "red"
-      ? {
-          laneBg: "from-red-600 to-red-500",
-          laneGlow: "bg-red-600/25",
-          border: "border-red-500/20",
-          hoverBorder: "hover:border-red-600/35",
-          iconWrapBg: "bg-red-600/10",
-          iconText: "text-red-700",
-          cornerGlow:
-            "bg-[radial-gradient(closest-side,rgba(220,38,38,0.28),transparent_65%)]",
-        }
-      : {
-          laneBg: "from-teal-600 to-teal-500",
-          laneGlow: "bg-teal-600/25",
-          border: "border-teal-500/20",
-          hoverBorder: "hover:border-teal-600/35",
-          iconWrapBg: "bg-teal-600/10",
-          iconText: "text-teal-700",
-          cornerGlow:
-            "bg-[radial-gradient(closest-side,rgba(13,148,136,0.26),transparent_65%)]",
-        };
-
-  return (
-    <div
-      className={[
-        "group relative overflow-hidden rounded-3xl border bg-white/75 shadow-[0_18px_55px_-38px_rgba(0,0,0,0.45)] backdrop-blur",
-        "transition-all duration-200",
-        "hover:-translate-y-0.5 hover:shadow-[0_26px_75px_-45px_rgba(0,0,0,0.55)]",
-        tone.border,
-        tone.hoverBorder,
-      ].join(" ")}
-    >
-      {/* Corner glow */}
-      <div
-        className={[
-          "pointer-events-none absolute -right-24 -top-24 h-72 w-72 opacity-60 blur-2xl",
-          tone.cornerGlow,
-        ].join(" ")}
-      />
-      {/* Lane header */}
-      <div className="relative">
-        <div className={["h-12 w-full bg-gradient-to-r", tone.laneBg].join(" ")} />
-        <div className="absolute inset-0 flex items-center px-5">
-          <div className="flex w-full items-center justify-between">
-            <span className="text-xs font-semibold tracking-wide text-white/90">
-              {props.laneLabel}
-            </span>
-            <span className="text-xs font-semibold tracking-wide text-white/75">
-              Two-door choice • No friction
-            </span>
-          </div>
-        </div>
-        {/* Lane glow under rail */}
-        <div
-          className={[
-            "pointer-events-none absolute left-0 top-10 h-10 w-full blur-xl",
-            tone.laneGlow,
-          ].join(" ")}
-        />
-      </div>
-
-      {/* Content */}
-      <div className="relative grid gap-6 p-6 sm:p-8">
-        <div className="grid gap-5 md:grid-cols-[140px_1fr] md:items-start">
-          <div
-            className={[
-              "flex h-28 w-full items-center justify-center rounded-2xl border border-black/5",
-              tone.iconWrapBg,
-            ].join(" ")}
-          >
-            <div className={["h-14 w-14", tone.iconText].join(" ")}>
-              {props.icon}
-            </div>
-          </div>
-
-          <div className="grid gap-3">
-            <div className="grid gap-2">
-              <h2 className="text-2xl font-extrabold tracking-tight text-black sm:text-3xl">
-                {props.title}
-              </h2>
-              <p className="text-base font-medium leading-relaxed text-black/75 sm:text-lg">
-                {props.subtitle}
-              </p>
-            </div>
-
-            <ul className="grid gap-2">
-              {props.bullets.slice(0, 3).map((b) => (
-                <li
-                  key={b}
-                  className="flex items-start gap-2 text-sm text-black/75 sm:text-[15px]"
-                >
-                  <span className="mt-1.5 h-1.5 w-1.5 flex-none rounded-full bg-black/35" />
-                  <span className="leading-relaxed">{b}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* CTA (ONLY BUTTON IN THIS DOOR) */}
-        <div className="pt-1">
-          <PillLink
-            href={props.href}
-            tone={props.tone}
-            ariaLabel={props.ctaText}
-          >
-            {props.ctaText}
-          </PillLink>
-          <p className="mt-3 text-xs font-medium text-black/55">
-            No extra steps. You choose a door — you move.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function Page() {
   return (
-    <main className="relative overflow-hidden">
-      {/* Background stage (global) */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-white via-white to-white" />
-        {/* Decision-stage depth */}
-        <div className="absolute -top-48 left-1/2 h-[520px] w-[980px] -translate-x-1/2 rounded-full bg-black/5 blur-3xl" />
-        {/* Red lane glow */}
-        <div className="absolute -top-40 left-[-140px] h-[520px] w-[520px] rounded-full bg-red-500/15 blur-3xl" />
-        {/* Teal lane glow */}
-        <div className="absolute top-32 right-[-160px] h-[520px] w-[520px] rounded-full bg-teal-500/14 blur-3xl" />
-        {/* Subtle grid texture */}
-        <div className="absolute inset-0 opacity-[0.045] [background-image:linear-gradient(to_right,black_1px,transparent_1px),linear-gradient(to_bottom,black_1px,transparent_1px)] [background-size:64px_64px]" />
-      </div>
+    <main>
+      <style>{`
+        html, body { background: #ffffff !important; }
 
-      {/* HERO (Decision Moment) */}
-      <Section title="Decision Moment">
-        <div className="relative mx-auto max-w-5xl px-4 pt-12 sm:px-6 sm:pt-16">
-          <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white/70 p-7 shadow-[0_20px_70px_-50px_rgba(0,0,0,0.6)] backdrop-blur sm:p-10">
-            {/* Inner glow accents */}
-            <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-red-500/10 blur-3xl" />
-            <div className="pointer-events-none absolute -right-24 top-10 h-72 w-72 rounded-full bg-teal-500/10 blur-3xl" />
+        :root{
+          --np-ink: rgba(15,23,42,0.92);
+          --np-muted: rgba(15,23,42,0.74);
+          --np-border: rgba(0,0,0,0.10);
+          --np-shadow: 0 22px 60px rgba(0,0,0,0.10);
+          --np-shadow-soft: 0 16px 42px rgba(0,0,0,0.08);
+          --np-radius: 26px;
+          --np-pill: 999px;
 
-            <div className="relative grid gap-6">
-              <div className="grid gap-3">
-                <p className="text-xs font-bold tracking-widest text-black/55">
-                  NEW PATH AUTO FINANCE
-                </p>
-                <h1 className="text-3xl font-extrabold tracking-tight text-black sm:text-5xl">
-                  Two choices. One clean next step.
-                </h1>
-                <p className="max-w-2xl text-base font-medium leading-relaxed text-black/75 sm:text-lg">
-                  Pick the door that matches what you need{" "}
-                  <span className="font-semibold text-black">right now</span>.
-                  Door 1 moves you forward fast. Door 2 gives you clarity — the
-                  Cipher that helps you decode what’s really going on and what to
-                  do next.
-                </p>
-              </div>
+          /* Accent lanes */
+          --lane-red: var(--accent); /* uses your existing accent (New Path red) */
+          --lane-teal: #19d3c5;       /* Cipher teal glow lane */
+          --lane-teal-soft: rgba(25,211,197,0.22);
+          --lane-red-soft: rgba(220,38,38,0.18);
+        }
 
-              {/* Trust strip (badges only — NO BUTTONS) */}
-              <div className="flex flex-wrap items-center gap-2 pt-1">
-                <Badge>Soft pull friendly</Badge>
-                <Badge>Fast decision flow</Badge>
-                <Badge>No extra steps</Badge>
-                <Badge>Mobile-first</Badge>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
+        strong { font-weight: 900; color: var(--np-ink); }
 
-      {/* DOORS (Stacked) */}
-      <Section title="Choose Your Door">
-        <div className="relative mx-auto max-w-5xl px-4 pb-8 sm:px-6">
-          <div className="grid gap-7 sm:gap-9">
-            <DoorCard
-              tone="red"
-              laneLabel="DOOR 1 — ACTION LANE"
-              title="Start your application"
-              subtitle="Go straight to the application. If you’re ready to move, this is the fastest path."
-              bullets={[
-                "No friction — just start.",
-                "Designed for speed and clarity on mobile.",
-                "You’ll know what the next step is immediately.",
-              ]}
-              ctaText="Start my application"
-              href={DOOR_1_HREF}
-              icon={<IconRoad className="h-full w-full" />}
-            />
+        /* HERO STAGE (decision moment) */
+        .heroStage {
+          position: relative;
+          overflow: hidden;
+          padding-bottom: 22px;
+          background:
+            radial-gradient(900px 420px at 18% 22%, rgba(0,0,0,0.04), transparent 70%),
+            radial-gradient(800px 460px at 70% 25%, rgba(0,0,0,0.03), transparent 70%),
+            linear-gradient(180deg, rgba(0,0,0,0.02), transparent 52%);
+        }
+        .heroStage::before{
+          content:"";
+          position:absolute;
+          inset:-2px;
+          background:
+            radial-gradient(720px 360px at 22% 36%, var(--lane-red-soft), transparent 68%),
+            radial-gradient(820px 420px at 70% 38%, var(--lane-teal-soft), transparent 70%);
+          filter: blur(18px);
+          opacity: 0.95;
+          pointer-events:none;
+        }
+        .heroStage::after{
+          content:"";
+          position:absolute;
+          inset:0;
+          background:
+            linear-gradient(90deg, rgba(255,255,255,0.86), rgba(255,255,255,0.80)),
+            radial-gradient(1200px 520px at 50% 0%, rgba(0,0,0,0.04), transparent 70%);
+          pointer-events:none;
+        }
 
-            <DoorCard
-              tone="teal"
-              laneLabel="DOOR 2 — CLARITY LANE"
-              title="Open the Cipher"
-              subtitle="If you want to understand what’s happening (and why), the Cipher turns confusion into one clear next move."
-              bullets={[
-                "Decode the pattern behind credit + money decisions.",
-                "Get a simple, doable step — not a lecture.",
-                "Clarity that sticks (and compounds).",
-              ]}
-              ctaText="Open the Cipher"
-              href={DOOR_2_HREF}
-              icon={<IconCipher className="h-full w-full" />}
-            />
-          </div>
-        </div>
-      </Section>
+        .heroInner {
+          position: relative;
+          z-index: 2;
+        }
 
-      {/* CIPHER SECTION (Integrated — NO CTA) */}
-      <Section title="Cipher Stage">
-        <div className="relative mx-auto max-w-5xl px-4 pb-16 sm:px-6">
-          <div className="relative overflow-hidden rounded-3xl border border-black/10 bg-white/70 shadow-[0_22px_70px_-55px_rgba(0,0,0,0.65)] backdrop-blur">
-            {/* Teal stage glow */}
-            <div className="pointer-events-none absolute -right-24 -top-24 h-80 w-80 rounded-full bg-teal-500/14 blur-3xl" />
-            <div className="pointer-events-none absolute -left-24 bottom-[-140px] h-80 w-80 rounded-full bg-teal-500/10 blur-3xl" />
+        /* Bring back contrast + energy */
+        .h1 { 
+          letter-spacing: -0.03em;
+          color: rgba(0,0,0,0.92);
+          font-weight: 950;
+        }
+        .sub { 
+          line-height: 1.45;
+          color: rgba(15,23,42,0.82);
+          font-size: 16px;
+          max-width: 760px;
+        }
 
-            <div className="grid gap-0 md:grid-cols-[1fr_1.2fr]">
-              {/* Emblem stage (premium card stage) */}
-              <div className="relative border-b border-black/10 p-7 sm:p-10 md:border-b-0 md:border-r">
-                <div className="grid gap-3">
-                  <p className="text-xs font-bold tracking-widest text-black/55">
-                    THE CIPHER STAGE
-                  </p>
-                  <h3 className="text-2xl font-extrabold tracking-tight text-black sm:text-3xl">
-                    Clarity that feels cinematic — not clinical.
-                  </h3>
-                  <p className="text-sm font-medium leading-relaxed text-black/70 sm:text-base">
-                    This is where the Cipher emblem lives — not pasted in, but
-                    staged. (Drop your real emblem component/image here when
-                    ready.)
-                  </p>
+        /* HERO CARD */
+        .heroCard {
+          border: 1px solid var(--np-border);
+          border-radius: var(--np-radius);
+          background: rgba(255,255,255,0.92);
+          box-shadow: var(--np-shadow);
+          backdrop-filter: blur(8px);
+        }
+        .heroCardInner{
+          padding: 22px 20px;
+          display:grid;
+          gap: 12px;
+        }
+
+        /* Trust strip */
+        .trustStrip{
+          display:flex;
+          flex-wrap:wrap;
+          gap:10px;
+          margin-top: 10px;
+        }
+        .trustBadge{
+          display:inline-flex;
+          align-items:center;
+          gap:10px;
+          padding: 10px 12px;
+          border-radius: var(--np-pill);
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(255,255,255,0.92);
+          box-shadow: 0 12px 26px rgba(0,0,0,0.06);
+          font-weight: 850;
+          font-size: 12px;
+          color: rgba(15,23,42,0.78);
+          white-space: nowrap;
+        }
+        .trustDot{
+          width: 8px;
+          height: 8px;
+          border-radius: var(--np-pill);
+          background: rgba(0,0,0,0.24);
+          opacity: 0.6;
+        }
+
+        /* Cipher pill (kept, but upgraded) */
+        .cipherPill {
+          display: inline-flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 14px;
+          border-radius: var(--np-pill);
+          border: 1px solid rgba(0,0,0,0.12);
+          background: rgba(255,255,255,0.92);
+          box-shadow: 0 12px 28px rgba(0,0,0,0.06);
+          white-space: nowrap;
+        }
+        .cipherPillText {
+          font-weight: 950;
+          font-size: 12px;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          opacity: 0.82;
+        }
+        .cipherPillAccent {
+          width: 10px;
+          height: 38px;
+          border-radius: var(--np-pill);
+          background: var(--lane-teal);
+          opacity: 0.18;
+          flex: 0 0 auto;
+          box-shadow: 0 0 24px rgba(25,211,197,0.24);
+        }
+        .cipherPillEmblem {
+          height: 38px;
+          width: auto;
+          display: block;
+          object-fit: contain;
+          background: transparent !important;
+          border: none !important;
+          border-radius: 0 !important;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+
+        .heroRow {
+          display:flex;
+          flex-wrap:wrap;
+          align-items:center;
+          gap: 10px;
+          margin-top: 6px;
+        }
+
+        /* TWO DOORS */
+        #doors .sectionTitle{
+          font-size: clamp(34px, 5vw, 54px);
+          line-height: 1.04;
+          letter-spacing: -0.03em;
+        }
+        #doors .sectionDesc{
+          font-size: 16px;
+          max-width: 820px;
+          line-height: 1.55;
+        }
+
+        /* Stack doors vertically (premium + clear) */
+        .doorStack{
+          display:grid;
+          gap: 18px;
+        }
+
+        .doorCard{
+          position: relative;
+          border: 1px solid rgba(0,0,0,0.10);
+          border-radius: var(--np-radius);
+          background: rgba(255,255,255,0.94);
+          box-shadow: var(--np-shadow-soft);
+          overflow:hidden;
+          transform: translateZ(0);
+        }
+
+        /* Visual “door top rail” */
+        .doorRail{
+          height: 10px;
+          width: 100%;
+          background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.00));
+        }
+        .doorRail.red{
+          background: linear-gradient(90deg, rgba(220,38,38,0.22), rgba(220,38,38,0.04), transparent);
+        }
+        .doorRail.teal{
+          background: linear-gradient(90deg, rgba(25,211,197,0.22), rgba(25,211,197,0.06), transparent);
+        }
+
+        .doorInner{
+          padding: 22px 20px 20px;
+          display:grid;
+          gap: 12px;
+        }
+
+        .doorHeader{
+          display:flex;
+          flex-wrap:wrap;
+          align-items:center;
+          justify-content: space-between;
+          gap: 12px;
+        }
+
+        .doorKicker{
+          display:inline-flex;
+          align-items:center;
+          gap: 10px;
+        }
+
+        .doorPill{
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          padding: 8px 12px;
+          border-radius: var(--np-pill);
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(0,0,0,0.02);
+          font-weight: 950;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          font-size: 11px;
+          color: rgba(15,23,42,0.72);
+          white-space: nowrap;
+        }
+
+        .laneTag{
+          font-size: 12px;
+          font-weight: 900;
+          color: rgba(15,23,42,0.62);
+          white-space: nowrap;
+        }
+
+        .doorTitle{
+          margin: 0;
+          font-size: 22px;
+          line-height: 1.16;
+          letter-spacing: -0.02em;
+          font-weight: 950;
+          color: var(--np-ink);
+        }
+        .doorBody{
+          margin: 0;
+          font-size: 16px;
+          line-height: 1.60;
+          color: rgba(15,23,42,0.78);
+          max-width: 900px;
+        }
+
+        /* Door “visual block” */
+        .doorVisual{
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(0,0,0,0.02);
+          border-radius: 18px;
+          padding: 14px 14px;
+          display:flex;
+          align-items:center;
+          justify-content: space-between;
+          gap: 14px;
+        }
+        .visualLeft{
+          display:flex;
+          align-items:center;
+          gap: 12px;
+          min-width: 0;
+        }
+        .visualIcon{
+          width: 44px;
+          height: 44px;
+          border-radius: 14px;
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(255,255,255,0.88);
+          box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+          position: relative;
+          flex: 0 0 auto;
+        }
+
+        /* Simple icon shapes (no extra deps) */
+        .iconRoad::before{
+          content:"";
+          position:absolute;
+          left: 12px;
+          right: 12px;
+          top: 9px;
+          bottom: 9px;
+          border-radius: 10px;
+          background: linear-gradient(180deg, rgba(220,38,38,0.22), rgba(220,38,38,0.06));
+          border: 1px solid rgba(220,38,38,0.18);
+        }
+        .iconRoad::after{
+          content:"";
+          position:absolute;
+          left: 21px;
+          top: 14px;
+          bottom: 14px;
+          width: 2px;
+          border-radius: 2px;
+          background: rgba(220,38,38,0.40);
+          opacity: 0.7;
+        }
+
+        .iconCipher::before{
+          content:"";
+          position:absolute;
+          inset: 10px;
+          border-radius: 999px;
+          border: 2px solid rgba(25,211,197,0.38);
+          box-shadow: 0 0 18px rgba(25,211,197,0.28);
+        }
+        .iconCipher::after{
+          content:"";
+          position:absolute;
+          inset: 18px;
+          border-radius: 999px;
+          border: 1px solid rgba(25,211,197,0.22);
+        }
+
+        .visualText{
+          display:grid;
+          gap: 2px;
+          min-width: 0;
+        }
+        .visualTitle{
+          font-weight: 950;
+          color: rgba(15,23,42,0.90);
+          letter-spacing: -0.01em;
+          font-size: 14px;
+        }
+        .visualSub{
+          font-size: 13px;
+          color: rgba(15,23,42,0.66);
+          line-height: 1.35;
+        }
+
+        /* Bullets */
+        .miniList{
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display: grid;
+          gap: 10px;
+        }
+        .miniItem{
+          display: grid;
+          grid-template-columns: 16px 1fr;
+          gap: 10px;
+          align-items: start;
+          font-size: 15px;
+          line-height: 1.55;
+          color: rgba(15,23,42,0.74);
+          font-weight: 650;
+        }
+        .miniMark{
+          width: 10px;
+          height: 10px;
+          border-radius: var(--np-pill);
+          margin-top: 7px;
+          background: rgba(0,0,0,0.22);
+          opacity: 0.7;
+        }
+        .miniMark.red{ background: rgba(220,38,38,0.34); }
+        .miniMark.teal{ background: rgba(25,211,197,0.34); }
+
+        /* CTA pills INSIDE doors (ONLY 2 CTAs total on whole page) */
+        .doorCtaRow{
+          display:flex;
+          flex-wrap:wrap;
+          gap: 12px;
+          align-items:center;
+          margin-top: 4px;
+        }
+        .ctaPill{
+          display:inline-flex;
+          align-items:center;
+          justify-content:center;
+          height: 52px;
+          padding: 0 22px;
+          border-radius: var(--np-pill);
+          text-decoration:none;
+          font-weight: 950;
+          letter-spacing: 0.01em;
+          border: 1px solid rgba(0,0,0,0.10);
+          box-shadow: 0 14px 34px rgba(0,0,0,0.10);
+          transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+          white-space: nowrap;
+        }
+        .ctaPill:active{ transform: translateY(1px) scale(0.99); }
+
+        .ctaPill.red{
+          background: var(--lane-red);
+          color: #fff;
+          border-color: rgba(0,0,0,0.06);
+        }
+        .ctaPill.red:hover{ filter: brightness(1.02); box-shadow: 0 18px 42px rgba(0,0,0,0.14); }
+
+        .ctaPill.teal{
+          background: rgba(11,11,15,0.94);
+          color: #fff;
+          border-color: rgba(25,211,197,0.30);
+          box-shadow: 0 18px 46px rgba(0,0,0,0.14), 0 0 0 1px rgba(25,211,197,0.10) inset;
+        }
+        .ctaPill.teal:hover{
+          box-shadow: 0 22px 54px rgba(0,0,0,0.16), 0 0 22px rgba(25,211,197,0.20);
+          transform: translateY(-1px);
+        }
+
+        /* Integrated Cipher section */
+        .cipherCard{
+          border: 1px solid rgba(0,0,0,0.10);
+          border-radius: var(--np-radius);
+          background: rgba(255,255,255,0.94);
+          box-shadow: var(--np-shadow-soft);
+          overflow:hidden;
+          position: relative;
+        }
+        .cipherGlow{
+          position:absolute;
+          inset:-40px;
+          background: radial-gradient(520px 240px at 50% 22%, rgba(25,211,197,0.18), transparent 70%);
+          filter: blur(10px);
+          pointer-events:none;
+        }
+        .cipherInner{
+          position:relative;
+          padding: 22px 20px;
+          display:grid;
+          gap: 12px;
+          align-items:center;
+        }
+        .cipherTitle{
+          margin:0;
+          font-size: clamp(26px, 4vw, 38px);
+          line-height: 1.10;
+          letter-spacing: -0.03em;
+          color: rgba(0,0,0,0.92);
+          font-weight: 950;
+        }
+        .cipherCopy{
+          margin:0;
+          max-width: 820px;
+          line-height: 1.65;
+          color: rgba(15,23,42,0.78);
+          font-size: 16px;
+        }
+        .cipherBullets{
+          margin: 0;
+          padding: 0;
+          list-style: none;
+          display:grid;
+          gap: 10px;
+          max-width: 860px;
+        }
+        .cipherBullets li{
+          display:grid;
+          grid-template-columns: 16px 1fr;
+          gap: 10px;
+          align-items:start;
+          font-size: 15px;
+          line-height: 1.6;
+          color: rgba(15,23,42,0.74);
+          font-weight: 650;
+        }
+        .cipherBullets .bDot{
+          width: 10px;
+          height: 10px;
+          border-radius: var(--np-pill);
+          margin-top: 7px;
+          background: rgba(25,211,197,0.34);
+        }
+
+        /* Keep your existing hero/nav layout classes from your CSS system.
+           We only enhance, not replace, so Section + existing styles keep working. */
+      `}</style>
+
+      <header className="heroStage">
+        <div className="heroInner">
+          <header className="hero">
+            <div className="container">
+              <div className="nav">
+                <div className="brand" style={{ gap: 12 }}>
+                  <img
+                    src="/brand/newpath-auto-finance.png"
+                    alt="New Path Auto Finance"
+                    style={{ width: 288, height: 288, objectFit: "contain", display: "block" }}
+                  />
                 </div>
+                <div className="badge">Simple. Clear. Actionable.</div>
+              </div>
 
-                {/* Placeholder emblem */}
-                <div className="mt-6 grid place-items-center">
-                  <div className="relative h-40 w-40 rounded-[32px] border border-teal-500/25 bg-white/55 shadow-[0_18px_55px_-45px_rgba(13,148,136,0.7)]">
-                    <div className="pointer-events-none absolute inset-0 rounded-[32px] bg-[radial-gradient(circle_at_30%_20%,rgba(13,148,136,0.22),transparent_60%)]" />
-                    <div className="pointer-events-none absolute inset-0 rounded-[32px] bg-[radial-gradient(circle_at_70%_80%,rgba(13,148,136,0.16),transparent_62%)]" />
-                    <div className="absolute inset-0 grid place-items-center">
-                      <div className="h-16 w-16 text-teal-700">
-                        <IconCipher className="h-full w-full" />
+              <div className="gridHero">
+                <div className="card heroCard">
+                  <div className="cardInner heroCardInner">
+                    <h1 className="h1">
+                      Create a New Path <span style={{ color: "var(--accent)" }}>forward</span>.
+                    </h1>
+
+                    <p className="sub">
+                      Two doors. One clear next step—powered by the <strong>BALANCE Cipher</strong> and guided by the{" "}
+                      <strong>Co-Pilot</strong>.
+                    </p>
+
+                    <div className="heroRow">
+                      <div className="pills">
+                        <div className="pill">No pressure</div>
+                        <div className="pill">No confusion</div>
+                        <div className="pill">Real next step</div>
                       </div>
+
+                      <span className="cipherPill" aria-label="AI guided by the BALANCE Cipher">
+                        <span className="cipherPillText">AI guided by</span>
+                        <span className="cipherPillAccent" aria-hidden="true" />
+                        <img
+                          className="cipherPillEmblem"
+                          src="/brand/balance-cipher-emblem.png"
+                          alt="BALANCE Cipher emblem"
+                        />
+                      </span>
+                    </div>
+
+                    {/* Trust strip (non-click) */}
+                    <div className="trustStrip" aria-label="Trust badges">
+                      <span className="trustBadge"><span className="trustDot" />No pressure</span>
+                      <span className="trustBadge"><span className="trustDot" />Simple steps</span>
+                      <span className="trustBadge"><span className="trustDot" />Real next move</span>
+                      <span className="trustBadge"><span className="trustDot" />Clear direction</span>
+                    </div>
+
+                    <div className="muted" style={{ fontSize: 13, marginTop: 2, color: "rgba(15,23,42,0.70)" }}>
+                      Door 1 is <strong>today</strong>. Door 2 is <strong>tomorrow</strong>. Scroll to choose.
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+          </header>
+        </div>
+      </header>
 
-              {/* Scan bullets */}
-              <div className="p-7 sm:p-10">
-                <div className="grid gap-5">
-                  <div className="grid gap-2">
-                    <h4 className="text-xl font-extrabold tracking-tight text-black sm:text-2xl">
-                      What you get when the Cipher is doing its job
-                    </h4>
-                    <p className="text-sm font-medium leading-relaxed text-black/70 sm:text-base">
-                      Three quick “scan” outcomes — clear, practical, and built
-                      for real life.
-                    </p>
-                  </div>
+      <Section
+        id="doors"
+        title="Choose your door"
+        desc="Door 1 is for getting approved today. Door 2 is for understanding the pattern and building your next move."
+      >
+        <div className="doorStack">
+          {/* DOOR 1 — TODAY (CTA #1) */}
+          <div className="doorCard" id="door-1" aria-label="Door 1: Today">
+            <div className="doorRail red" aria-hidden="true" />
+            <div className="doorInner">
+              <div className="doorHeader">
+                <div className="doorKicker">
+                  <span className="doorPill">Door 1</span>
+                  <span className="laneTag">Today • Approval Path</span>
+                </div>
+              </div>
 
-                  <ul className="grid gap-3">
-                    {[
-                      {
-                        title: "See what’s real",
-                        body: "Separate facts from fear — so you stop guessing and start moving.",
-                      },
-                      {
-                        title: "Find the pattern",
-                        body: "Identify the loop that keeps repeating (and what breaks it).",
-                      },
-                      {
-                        title: "One next step",
-                        body: "No overwhelm. Just one move you can actually execute today.",
-                      },
-                    ].map((x) => (
-                      <li
-                        key={x.title}
-                        className="rounded-2xl border border-black/10 bg-white/60 p-4 shadow-sm"
-                      >
-                        <p className="text-sm font-extrabold text-black">
-                          {x.title}
-                        </p>
-                        <p className="mt-1 text-sm font-medium leading-relaxed text-black/70">
-                          {x.body}
-                        </p>
-                      </li>
-                    ))}
-                  </ul>
+              <h3 className="doorTitle">Today: Get approved the right way</h3>
 
-                  {/* NO CTA HERE (Canon) */}
-                  <div className="rounded-2xl border border-teal-500/15 bg-teal-500/5 p-4">
-                    <p className="text-sm font-semibold text-black">
-                      Reminder:
-                      <span className="font-medium text-black/70">
-                        {" "}
-                        the Cipher CTA lives inside Door 2 above — no extra
-                        buttons down here.
-                      </span>
-                    </p>
+              <p className="doorBody">
+                If you’re ready to move now, the application is your cleanest first step. We route you into a calm,
+                lender-aligned path—without overwhelm.
+              </p>
+
+              <div className="doorVisual">
+                <div className="visualLeft">
+                  <span className="visualIcon iconRoad" aria-hidden="true" />
+                  <div className="visualText">
+                    <div className="visualTitle">Action-first. One move.</div>
+                    <div className="visualSub">Start the application → get routed.</div>
                   </div>
                 </div>
+
+                {/* CTA #1 */}
+                <a
+                  className="ctaPill red"
+                  href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=two-door"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Start my application →
+                </a>
+              </div>
+
+              <ul className="miniList" aria-label="Door 1 points">
+                <li className="miniItem">
+                  <span className="miniMark red" aria-hidden="true" />
+                  <span><strong>One move:</strong> start the application.</span>
+                </li>
+                <li className="miniItem">
+                  <span className="miniMark red" aria-hidden="true" />
+                  <span><strong>Today’s rules:</strong> focus on what lenders care about now.</span>
+                </li>
+                <li className="miniItem">
+                  <span className="miniMark red" aria-hidden="true" />
+                  <span><strong>Clean path:</strong> simple, clear, and direct.</span>
+                </li>
+              </ul>
+
+              <div className="muted" style={{ fontSize: 13, color: "rgba(15,23,42,0.66)" }}>
+                This is the direct “today” door. No extra decisions.
               </div>
             </div>
           </div>
 
-          {/* Tiny footer note (no links, no buttons) */}
-          <p className="mt-6 text-center text-xs font-medium text-black/45">
-            Choose a door above. Everything else supports that decision.
-          </p>
+          {/* DOOR 2 — TOMORROW (CTA #2) */}
+          <div className="doorCard" id="door-2" aria-label="Door 2: Tomorrow">
+            <div className="doorRail teal" aria-hidden="true" />
+            <div className="doorInner">
+              <div className="doorHeader">
+                <div className="doorKicker">
+                  <span className="doorPill">Door 2</span>
+                  <span className="laneTag">Tomorrow • The Map</span>
+                </div>
+              </div>
+
+              <h3 className="doorTitle">Tomorrow: The BALANCE Cipher (what it is—and what it isn’t)</h3>
+
+              <p className="doorBody">
+                The Cipher isn’t a checklist. It’s a map. It shows why outcomes repeat—and the Co-Pilot translates that
+                map into <strong>one clear next step</strong>.
+              </p>
+
+              <div className="doorVisual">
+                <div className="visualLeft">
+                  <span className="visualIcon iconCipher" aria-hidden="true" />
+                  <div className="visualText">
+                    <div className="visualTitle">Cinematic clarity. Real leverage.</div>
+                    <div className="visualSub">See the pattern → choose your next step.</div>
+                  </div>
+                </div>
+
+                {/* CTA #2 */}
+                <a
+                  className="ctaPill teal"
+                  href="https://app.balancecipher.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Open the Cipher →
+                </a>
+              </div>
+
+              <ul className="miniList" aria-label="Door 2 points">
+                <li className="miniItem">
+                  <span className="miniMark teal" aria-hidden="true" />
+                  <span><strong>See the pattern</strong> behind your results.</span>
+                </li>
+                <li className="miniItem">
+                  <span className="miniMark teal" aria-hidden="true" />
+                  <span><strong>Learn the next move</strong> that changes your outcome.</span>
+                </li>
+                <li className="miniItem">
+                  <span className="miniMark teal" aria-hidden="true" />
+                  <span><strong>Auto → Home:</strong> build stability and real readiness over time.</span>
+                </li>
+              </ul>
+
+              <div
+                style={{
+                  border: "1px solid rgba(0,0,0,0.10)",
+                  borderRadius: 18,
+                  background: "rgba(0,0,0,0.02)",
+                  padding: "14px 14px",
+                }}
+              >
+                <div style={{ fontWeight: 950, color: "rgba(15,23,42,0.90)", marginBottom: 6 }}>What it isn’t</div>
+                <div style={{ color: "rgba(15,23,42,0.74)", lineHeight: 1.55, fontSize: 14 }}>
+                  Not shame. Not lectures. Not “do 20 things.” Just clarity—then one move at a time.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="muted" style={{ fontSize: 13, marginTop: 14, color: "rgba(15,23,42,0.66)" }}>
+          If you only do one thing: Door 1 is your “today” move. Door 2 is your “map” when you want to build strength.
+        </div>
+      </Section>
+
+      {/* Cipher section integrated (NO extra CTA here — we already used CTA #2) */}
+      <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
+        <div className="cipherCard">
+          <div className="cipherGlow" aria-hidden="true" />
+          <div className="cipherInner">
+            <img
+              src="/brand/balance-cipher-emblem.png"
+              alt="BALANCE Cipher emblem"
+              style={{
+                width: "min(460px, 92vw)",
+                height: "auto",
+                display: "block",
+                margin: "6px auto 0",
+                filter: "drop-shadow(0 20px 44px rgba(0,0,0,0.18))",
+              }}
+            />
+
+            <h3 className="cipherTitle">
+              Open your new door—<span style={{ color: "var(--accent)" }}>with the Cipher</span>.
+            </h3>
+
+            <p className="cipherCopy">
+              Most people don’t need more information. They need to <strong>see what’s real</strong>—then take{" "}
+              <strong>one clean next step</strong>. The Cipher reveals the pattern, and the Co-Pilot translates it into
+              something <strong>simple</strong> and <strong>doable</strong>.
+            </p>
+
+            <ul className="cipherBullets" aria-label="Cipher outcomes">
+              <li><span className="bDot" aria-hidden="true" /><span><strong>Clarity first:</strong> know where you are and what matters.</span></li>
+              <li><span className="bDot" aria-hidden="true" /><span><strong>One next step:</strong> remove fog and take the right move.</span></li>
+              <li><span className="bDot" aria-hidden="true" /><span><strong>Options → freedom:</strong> better structure unlocks better terms over time.</span></li>
+            </ul>
+
+            <div className="muted" style={{ fontSize: 13, color: "rgba(15,23,42,0.66)" }}>
+              Quiet power. <strong>Clear direction.</strong> One move at a time.
+            </div>
+          </div>
         </div>
       </Section>
     </main>
