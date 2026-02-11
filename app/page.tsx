@@ -2,7 +2,7 @@
 // PASS: MOBILE-FIRST SIMPLIFICATION
 // - "Choose your door" becomes CLEAN + SIMPLE (one statement bar + two big door selectors)
 // - Removes busy decision cards, removes extra desc line, removes "tap to jump" hints
-// - Decision colors: MAGENTA (Door 1) + INK/BLACK (Door 2) — NO green, NO teal, NO gold, NO pink haze
+// - Decision colors: FIRE ENGINE RED (Door 1) + INK/BLACK (Door 2) — NO green, NO teal, NO gold, NO pink haze
 // - Keeps only 2 outbound CTAs total (application + cipher) inside their detail sections
 // - Door selectors scroll to the detail sections (Door 1 detail + Door 2 detail near Cipher)
 
@@ -29,9 +29,9 @@ export default function Page() {
           --np-pill: 999px;
 
           /* ✅ DECISION COLORS (LOCKED) */
-          --magenta: #D10B6F;         /* strong magenta (not soft pink) */
-          --magenta-deep: #A90758;    /* depth */
-          --ink: #0B0B0F;             /* premium near-black */
+          --fire: #E10600;           /* FIRE ENGINE RED (strong, not pink) */
+          --fire-deep: #B80000;      /* depth */
+          --ink: #0B0B0F;            /* premium near-black */
 
           --white: #ffffff;
           --ink-strong: rgba(0,0,0,0.92);
@@ -54,10 +54,11 @@ export default function Page() {
           position:absolute;
           inset:-2px;
           background:
-            radial-gradient(760px 360px at 18% 30%, rgba(209,11,111,0.08), transparent 70%),
+            /* ✅ switch “pink haze” → subtle red presence (reduced) */
+            radial-gradient(760px 360px at 18% 30%, rgba(225,6,0,0.05), transparent 72%),
             radial-gradient(820px 420px at 74% 34%, rgba(0,0,0,0.06), transparent 70%);
           filter: blur(18px);
-          opacity: 0.55;
+          opacity: 0.45;
           pointer-events:none;
         }
         .heroStage::after{
@@ -127,7 +128,7 @@ export default function Page() {
           color: rgba(15,23,42,0.92);
           line-height: 1.25;
         }
-        .commandLine .magenta{ color: var(--magenta); }
+        .commandLine .fire{ color: var(--fire); }
         .commandLine .ink{ color: var(--ink); }
 
         /* DOORS */
@@ -136,9 +137,6 @@ export default function Page() {
           line-height: 1.04;
           letter-spacing: -0.03em;
         }
-
-        /* ✅ We intentionally do NOT use section desc under the title anymore */
-        /* (desc will be passed as empty string) */
 
         .decisionStage{
           position: relative;
@@ -163,7 +161,7 @@ export default function Page() {
           position:absolute;
           left:0; top:0; bottom:0;
           width: 10px;
-          background: linear-gradient(180deg, var(--magenta), rgba(0,0,0,0.16));
+          background: linear-gradient(180deg, var(--fire), rgba(0,0,0,0.16));
         }
         .doorStatementText{
           position: relative;
@@ -174,7 +172,7 @@ export default function Page() {
           line-height: 1.26;
           letter-spacing: -0.01em;
         }
-        .doorStatementText .magenta{ color: var(--magenta); }
+        .doorStatementText .fire{ color: var(--fire); }
         .doorStatementText .ink{ color: var(--ink); }
 
         /* ✅ SIMPLE DOOR SELECTORS (ONLY) */
@@ -223,7 +221,7 @@ export default function Page() {
           border: 2px solid rgba(0,0,0,0.10);
           flex: 0 0 auto;
         }
-        .doorTag.magenta{ background: var(--magenta); }
+        .doorTag.fire{ background: var(--fire); }
         .doorTag.ink{ background: var(--ink); }
 
         .doorSelectText{
@@ -238,7 +236,7 @@ export default function Page() {
           letter-spacing: -0.02em;
           color: rgba(0,0,0,0.92);
         }
-        .doorSelectTitle .magenta{ color: var(--magenta); }
+        .doorSelectTitle .fire{ color: var(--fire); }
         .doorSelectTitle .ink{ color: var(--ink); }
 
         .doorSelectSub{
@@ -263,7 +261,7 @@ export default function Page() {
           color: rgba(15,23,42,0.70);
         }
 
-        /* DETAIL CARDS (kept, but quieter headers) */
+        /* DETAIL CARDS */
         .doorStack{
           display:grid;
           gap: 18px;
@@ -291,8 +289,8 @@ export default function Page() {
           background: rgba(0,0,0,0.06);
           opacity: 0.95;
         }
-        .doorCard.magenta::before{
-          background: linear-gradient(180deg, var(--magenta), rgba(209,11,111,0.12));
+        .doorCard.fire::before{
+          background: linear-gradient(180deg, var(--fire), rgba(225,6,0,0.10));
         }
         .doorCard.ink::before{
           background: linear-gradient(180deg, var(--ink), rgba(11,11,15,0.16));
@@ -303,8 +301,8 @@ export default function Page() {
           width: 100%;
           background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.00));
         }
-        .doorRail.magenta{
-          background: linear-gradient(90deg, rgba(209,11,111,0.24), rgba(209,11,111,0.06), transparent);
+        .doorRail.fire{
+          background: linear-gradient(90deg, rgba(225,6,0,0.22), rgba(225,6,0,0.06), transparent);
         }
         .doorRail.ink{
           background: linear-gradient(90deg, rgba(11,11,15,0.22), rgba(11,11,15,0.06), transparent);
@@ -316,7 +314,6 @@ export default function Page() {
           gap: 12px;
         }
 
-        /* quieter header pills */
         .doorKicker{
           display:flex;
           align-items:center;
@@ -410,8 +407,8 @@ export default function Page() {
           top: 9px;
           bottom: 9px;
           border-radius: 10px;
-          background: linear-gradient(180deg, rgba(209,11,111,0.18), rgba(209,11,111,0.06));
-          border: 1px solid rgba(209,11,111,0.18);
+          background: linear-gradient(180deg, rgba(225,6,0,0.16), rgba(225,6,0,0.05));
+          border: 1px solid rgba(225,6,0,0.18);
         }
         .iconRoad::after{
           content:"";
@@ -421,7 +418,7 @@ export default function Page() {
           bottom: 14px;
           width: 2px;
           border-radius: 2px;
-          background: rgba(209,11,111,0.70);
+          background: rgba(225,6,0,0.78);
           opacity: 0.95;
         }
 
@@ -438,7 +435,7 @@ export default function Page() {
           position:absolute;
           inset: 18px;
           border-radius: 999px;
-          border: 1px solid rgba(209,11,111,0.18);
+          border: 1px solid rgba(225,6,0,0.14);
         }
 
         .visualText{
@@ -490,7 +487,7 @@ export default function Page() {
           background: rgba(0,0,0,0.22);
           opacity: 0.7;
         }
-        .miniMark.magenta{ background: rgba(209,11,111,0.62); }
+        .miniMark.fire{ background: rgba(225,6,0,0.62); }
         .miniMark.ink{ background: rgba(11,11,15,0.56); }
 
         /* Outbound CTAs (still only 2 total) */
@@ -512,11 +509,11 @@ export default function Page() {
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
-        .ctaPill.magenta{
-          background: var(--magenta);
+        .ctaPill.fire{
+          background: var(--fire);
           color: #fff;
           border-color: rgba(0,0,0,0.10);
-          box-shadow: 0 18px 44px rgba(209,11,111,0.22);
+          box-shadow: 0 18px 44px rgba(225,6,0,0.20);
         }
         .ctaPill.ink{
           background: var(--ink);
@@ -567,7 +564,7 @@ export default function Page() {
         .cipherGlow{
           position:absolute;
           inset:-40px;
-          background: radial-gradient(520px 240px at 50% 22%, rgba(209,11,111,0.10), transparent 70%);
+          background: radial-gradient(520px 240px at 50% 22%, rgba(225,6,0,0.07), transparent 72%);
           filter: blur(10px);
           pointer-events:none;
         }
@@ -616,7 +613,7 @@ export default function Page() {
           height: 10px;
           border-radius: var(--np-pill);
           margin-top: 7px;
-          background: rgba(209,11,111,0.50);
+          background: rgba(225,6,0,0.48);
         }
       `}</style>
 
@@ -634,7 +631,7 @@ export default function Page() {
                 <div className="card heroCard">
                   <div className="cardInner heroCardInner">
                     <h1 className="h1">
-                      Create a New Path <span style={{ color: "var(--magenta)" }}>forward</span>.
+                      Create a New Path <span style={{ color: "var(--fire)" }}>forward</span>.
                     </h1>
 
                     <p className="sub">
@@ -644,7 +641,7 @@ export default function Page() {
 
                     <div className="commandStrip" aria-label="Door instructions">
                       <div className="commandLine">
-                        <span className="magenta">Get started today</span> → choose Door 1.
+                        <span className="fire">Get started today</span> → choose Door 1.
                       </div>
                       <div className="commandLine">
                         <span className="ink">Discover the AI-driven Cipher tomorrow</span> → choose Door 2.
@@ -663,7 +660,7 @@ export default function Page() {
           {/* Statement bar (kept) */}
           <div className="doorStatement" aria-label="Door meaning statement">
             <div className="doorStatementText">
-              <span className="magenta">Door 1</span> starts your New Path today.{" "}
+              <span className="fire">Door 1</span> starts your New Path today.{" "}
               <span className="ink">Door 2</span> unlocks the Cipher—your Co-Pilot beside you—turning tomorrow into a
               clear path to Freedom.
             </div>
@@ -673,10 +670,10 @@ export default function Page() {
           <div className="doorSelect" aria-label="Door selector">
             <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: Get started today">
               <div className="doorSelectLeft">
-                <span className="doorTag magenta">DOOR 1</span>
+                <span className="doorTag fire">DOOR 1</span>
                 <div className="doorSelectText">
                   <div className="doorSelectTitle">
-                    <span className="magenta">Get started</span> today.
+                    <span className="fire">Get started</span> today.
                   </div>
                   <div className="doorSelectSub">Start the process and get routed the right way.</div>
                 </div>
@@ -698,10 +695,10 @@ export default function Page() {
             </a>
           </div>
 
-          {/* Door 1 detail card (kept) */}
+          {/* Door 1 detail card */}
           <div className="doorStack">
-            <div className="doorCard magenta" id="door-1" aria-label="Door 1: Today">
-              <div className="doorRail magenta" aria-hidden="true" />
+            <div className="doorCard fire" id="door-1" aria-label="Door 1: Today">
+              <div className="doorRail fire" aria-hidden="true" />
               <div className="doorInner">
                 <div className="doorKicker">
                   <span className="doorPill">DOOR 1</span>
@@ -726,7 +723,7 @@ export default function Page() {
 
                   {/* CTA #1 */}
                   <a
-                    className="ctaPill magenta"
+                    className="ctaPill fire"
                     href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=two-door"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -737,15 +734,15 @@ export default function Page() {
 
                 <ul className="miniList" aria-label="Door 1 points">
                   <li className="miniItem">
-                    <span className="miniMark magenta" aria-hidden="true" />
+                    <span className="miniMark fire" aria-hidden="true" />
                     <span><strong>One move:</strong> start the application.</span>
                   </li>
                   <li className="miniItem">
-                    <span className="miniMark magenta" aria-hidden="true" />
+                    <span className="miniMark fire" aria-hidden="true" />
                     <span><strong>Today’s rules:</strong> focus on what lenders care about now.</span>
                   </li>
                   <li className="miniItem">
-                    <span className="miniMark magenta" aria-hidden="true" />
+                    <span className="miniMark fire" aria-hidden="true" />
                     <span><strong>Clean path:</strong> simple, clear, and direct.</span>
                   </li>
                 </ul>
@@ -845,7 +842,7 @@ export default function Page() {
             />
 
             <h3 className="cipherTitle">
-              Open your new door—<span style={{ color: "var(--magenta)" }}>with the Cipher</span>.
+              Open your new door—<span style={{ color: "var(--fire)" }}>with the Cipher</span>.
             </h3>
 
             <p className="cipherCopy">
