@@ -281,13 +281,7 @@ export default function Page() {
                     Start my application →
                   </a>
 
-                  {/* Door 2 destination */}
-                  <a
-                    className="btnGhostTight"
-                    href="https://app.balancecipher.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <a className="btnGhostTight" href="#door-2">
                     Open the Cipher →
                   </a>
                 </div>
@@ -408,7 +402,7 @@ export default function Page() {
             something <strong>simple</strong> and <strong>doable</strong>.
           </p>
 
-          {/* Door 2 destination (UPDATED) */}
+          {/* This is NOT an extra CTA button row — it’s the Door 2 destination */}
           <div style={{ display: "flex", justifyContent: "flex-start", marginTop: 8 }}>
             <a
               className="btnPrimaryTight"
