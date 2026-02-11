@@ -1,10 +1,10 @@
 // app/page.tsx
-// PASS: MOBILE-FIRST SIMPLIFICATION
-// - "Choose your door" becomes CLEAN + SIMPLE (one statement bar + two big door selectors)
-// - Removes busy decision cards, removes extra desc line, removes "tap to jump" hints
-// - Decision colors: FIRE ENGINE RED (Door 1) + INK/BLACK (Door 2) — NO green, NO teal, NO gold, NO pink haze
-// - Keeps only 2 outbound CTAs total (application + cipher) inside their detail sections
-// - Door selectors scroll to the detail sections (Door 1 detail + Door 2 detail near Cipher)
+// PASS: MOBILE-FIRST SIMPLIFICATION (CLEANUP)
+// ✅ Changes in this pass:
+// 1) Hero sub-copy becomes stacked "steps" with spacing
+// 2) Remove the hero "choose door" command strip block (the messy two-line instruction box)
+// 3) Split the Door Statement bar into clean separated beats (Door 1 line, Door 2 line, Tomorrow/Freedom line)
+// Everything else stays the same.
 
 import Section from "../components/Section";
 
@@ -29,7 +29,7 @@ export default function Page() {
           --np-pill: 999px;
 
           /* ✅ DECISION COLORS (LOCKED) */
-          --fire: #E10600;           /* FIRE ENGINE RED (strong, not pink) */
+          --fire: #E10600;           /* FIRE ENGINE RED */
           --fire-deep: #B80000;      /* depth */
           --ink: #0B0B0F;            /* premium near-black */
 
@@ -54,7 +54,6 @@ export default function Page() {
           position:absolute;
           inset:-2px;
           background:
-            /* ✅ switch “pink haze” → subtle red presence (reduced) */
             radial-gradient(760px 360px at 18% 30%, rgba(225,6,0,0.05), transparent 72%),
             radial-gradient(820px 420px at 74% 34%, rgba(0,0,0,0.06), transparent 70%);
           filter: blur(18px);
@@ -78,13 +77,24 @@ export default function Page() {
           font-weight: 950;
         }
 
-        /* Bigger, bolder story line (requested) */
-        .sub { 
-          line-height: 1.24;
+        /* ✅ Hero copy becomes stacked steps */
+        .subStack{
+          display: grid;
+          gap: 10px;
+          margin: 0;
+          max-width: 900px;
+        }
+        .subStep{
+          line-height: 1.18;
           color: rgba(15,23,42,0.94);
           font-size: 20px;
           font-weight: 950;
-          max-width: 900px;
+          letter-spacing: -0.01em;
+        }
+        .subStep.small{
+          font-size: 18px;
+          font-weight: 900;
+          color: rgba(15,23,42,0.90);
         }
 
         .heroCard {
@@ -97,7 +107,7 @@ export default function Page() {
         .heroCardInner{
           padding: 20px 18px;
           display:grid;
-          gap: 12px;
+          gap: 14px;
         }
 
         /* Remove any old filler UI blocks */
@@ -112,24 +122,8 @@ export default function Page() {
           object-fit: contain;
         }
 
-        /* HERO COMMAND STRIP — short + clean */
-        .commandStrip{
-          border-radius: 18px;
-          border: 2px solid rgba(0,0,0,0.14);
-          background: rgba(255,255,255,0.98);
-          box-shadow: 0 14px 34px rgba(0,0,0,0.08);
-          padding: 14px 14px;
-          display:grid;
-          gap: 8px;
-        }
-        .commandLine{
-          font-size: 15px;
-          font-weight: 950;
-          color: rgba(15,23,42,0.92);
-          line-height: 1.25;
-        }
-        .commandLine .fire{ color: var(--fire); }
-        .commandLine .ink{ color: var(--ink); }
+        /* ✅ Command strip removed (we keep styles harmless, but it's no longer rendered) */
+        .commandStrip{ display:none !important; }
 
         /* DOORS */
         #doors .sectionTitle{
@@ -145,7 +139,7 @@ export default function Page() {
           background: transparent;
         }
 
-        /* ✅ Statement bar (kept) */
+        /* ✅ Statement bar (kept, but split into separate beats) */
         .doorStatement{
           border-radius: 22px;
           border: 2px solid rgba(0,0,0,0.14);
@@ -166,6 +160,8 @@ export default function Page() {
         .doorStatementText{
           position: relative;
           z-index: 2;
+          display: grid;
+          gap: 10px;
           font-size: 17px;
           font-weight: 950;
           color: rgba(15,23,42,0.92);
@@ -634,19 +630,19 @@ export default function Page() {
                       Create a New Path <span style={{ color: "var(--fire)" }}>forward</span>.
                     </h1>
 
-                    <p className="sub">
-                      Two doors. One clear next step—powered by the <strong>BALANCE Cipher</strong> and guided by the{" "}
-                      <strong>Co-Pilot</strong>.
-                    </p>
-
-                    <div className="commandStrip" aria-label="Door instructions">
-                      <div className="commandLine">
-                        <span className="fire">Get started today</span> → choose Door 1.
+                    {/* ✅ Stacked hero steps (replaces the messy single line) */}
+                    <div className="subStack" aria-label="Hero steps">
+                      <div className="subStep">Two doors.</div>
+                      <div className="subStep">One clear next step.</div>
+                      <div className="subStep small">
+                        Powered by the <strong>BALANCE Cipher</strong>.
                       </div>
-                      <div className="commandLine">
-                        <span className="ink">Discover the AI-driven Cipher tomorrow</span> → choose Door 2.
+                      <div className="subStep small">
+                        Guided by the <strong>Co-Pilot</strong>.
                       </div>
                     </div>
+
+                    {/* ✅ Command strip removed (intentionally) */}
                   </div>
                 </div>
               </div>
@@ -657,12 +653,20 @@ export default function Page() {
 
       <Section id="doors" title="Choose your door" desc="">
         <div className="decisionStage" aria-label="Decision stage">
-          {/* Statement bar (kept) */}
+          {/* ✅ Statement bar split into clean beats */}
           <div className="doorStatement" aria-label="Door meaning statement">
             <div className="doorStatementText">
-              <span className="fire">Door 1</span> starts your New Path today.{" "}
-              <span className="ink">Door 2</span> unlocks the Cipher—your Co-Pilot beside you—turning tomorrow into a
-              clear path to Freedom.
+              <div>
+                <span className="fire">Door 1</span> starts your New Path today.
+              </div>
+
+              <div>
+                <span className="ink">Door 2</span> unlocks the Cipher—your Co-Pilot beside you.
+              </div>
+
+              <div>
+                Turning tomorrow into a clear path to Freedom.
+              </div>
             </div>
           </div>
 
