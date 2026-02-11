@@ -1,9 +1,10 @@
 // app/page.tsx
-// PASS: MOBILE-FIRST SIMPLIFICATION (CLICK-AND-GO)
+// PASS: MOBILE-FIRST SIMPLIFICATION (SEQUENTIAL DOOR FLOW)
 // ✅ Changes in this pass:
-// 1) Remove the statement block under "Choose your door" (no extra reading)
-// 2) Merge the Door meaning into the Door selector pills (Door 1 + Door 2)
-// 3) Keep the rest of the page structure the same (detail cards still explain after click)
+// 1) Under "Choose your door": show ONLY Door 1 selector (primary)
+// 2) Move Door 2 selector DOWN near "The BALANCE Cipher" section (secondary, after Door 1)
+// 3) Update Door 2 selector verbiage: "Complete Door 1 today. Unlock the Cipher tomorrow."
+// 4) Keep outbound CTAs at 2 total (Application + Cipher)
 
 import Section from "../components/Section";
 
@@ -121,9 +122,6 @@ export default function Page() {
           object-fit: contain;
         }
 
-        /* We keep styles but do not render command strip */
-        .commandStrip{ display:none !important; }
-
         /* DOORS */
         #doors .sectionTitle{
           font-size: clamp(34px, 5vw, 54px);
@@ -138,10 +136,7 @@ export default function Page() {
           background: transparent;
         }
 
-        /* ✅ Door statement block removed (no extra reading) */
-        .doorStatement{ display:none !important; }
-
-        /* ✅ SIMPLE DOOR SELECTORS (ONLY) */
+        /* ✅ SIMPLE DOOR SELECTORS */
         .doorSelect{
           display:grid;
           gap: 12px;
@@ -619,9 +614,7 @@ export default function Page() {
 
       <Section id="doors" title="Choose your door" desc="">
         <div className="decisionStage" aria-label="Decision stage">
-          {/* ✅ Statement block removed entirely */}
-
-          {/* ✅ ONLY TWO CHOICES — meaning is inside the pills now */}
+          {/* ✅ Door 1 selector ONLY (Door 2 moved down to Cipher section) */}
           <div className="doorSelect" aria-label="Door selector">
             <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: Start your New Path today">
               <div className="doorSelectLeft">
@@ -631,19 +624,6 @@ export default function Page() {
                     <span className="fire">Start your New Path</span> today.
                   </div>
                   <div className="doorSelectSub">Start the process and get routed the right way.</div>
-                </div>
-              </div>
-              <span className="doorSelectChevron" aria-hidden="true">↓</span>
-            </a>
-
-            <a className="doorSelectBtn" href="#door-2" aria-label="Door 2: Unlock the Cipher tomorrow">
-              <div className="doorSelectLeft">
-                <span className="doorTag ink">DOOR 2</span>
-                <div className="doorSelectText">
-                  <div className="doorSelectTitle">
-                    <span className="ink">Unlock the Cipher</span> tomorrow.
-                  </div>
-                  <div className="doorSelectSub">See the pattern, then take one clear next move.</div>
                 </div>
               </div>
               <span className="doorSelectChevron" aria-hidden="true">↓</span>
@@ -716,6 +696,22 @@ export default function Page() {
       </Section>
 
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
+        {/* ✅ Door 2 selector moved HERE (between Door 1 card and Door 2 complex) */}
+        <div className="doorSelect" aria-label="Door 2 selector" style={{ marginBottom: 14 }}>
+          <a className="doorSelectBtn" href="#door-2" aria-label="Door 2: Complete Door 1 today. Unlock the Cipher tomorrow.">
+            <div className="doorSelectLeft">
+              <span className="doorTag ink">DOOR 2</span>
+              <div className="doorSelectText">
+                <div className="doorSelectTitle">
+                  <span className="ink">Complete Door 1 today.</span> Unlock the Cipher tomorrow.
+                </div>
+                <div className="doorSelectSub">See the pattern, then take one clear next move.</div>
+              </div>
+            </div>
+            <span className="doorSelectChevron" aria-hidden="true">↓</span>
+          </a>
+        </div>
+
         {/* Door 2 detail placed near Cipher for clean flow */}
         <div style={{ marginBottom: 18 }}>
           <div className="doorCard ink" id="door-2" aria-label="Door 2: Tomorrow">
