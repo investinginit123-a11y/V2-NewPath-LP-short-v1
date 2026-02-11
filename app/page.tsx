@@ -1,9 +1,10 @@
 // app/page.tsx
-// VISUAL POWER PASS: Bold + Futuristic
-// - Keeps ONLY two accents: New Path RED + Cipher BLUE (NO pink, NO green/teal)
-// - Fixes Door 2 badge/title alignment
-// - Replaces underline with “energy highlight” emphasis
-// - Makes Door tiles feel like command UI (bigger, bolder, cleaner)
+// POWER + CLEAN PASS (Mobile-first)
+// FIXES:
+// - Removes ALL semi-transparent reds on white (prevents pink bleed)
+// - Red becomes: solid stripe/dot/CTA only (no red washes)
+// - Door pills replaced with tight "command badges" (monochrome + colored dot)
+// - Keeps ONLY: New Path RED + Cipher BLUE
 
 import Section from "../components/Section";
 
@@ -21,7 +22,6 @@ export default function Page() {
           --np-muted: rgba(11,18,32,0.70);
           --np-border: rgba(2,6,23,0.10);
 
-          /* Shadows tuned for “fintech / command” */
           --np-shadow: 0 26px 70px rgba(2,6,23,0.12);
           --np-shadow-soft: 0 18px 46px rgba(2,6,23,0.10);
           --np-shadow-tight: 0 12px 26px rgba(2,6,23,0.10);
@@ -29,19 +29,21 @@ export default function Page() {
           --np-radius: 26px;
           --np-pill: 999px;
 
-          /* ✅ ONLY TWO ACCENTS: RED + BLUE */
-          --lane-red: #C8102E;        /* automotive red */
-          --lane-red-deep: #8F0B20;
-          --lane-red-glow: rgba(200,16,46,0.14);
+          /* ✅ ONLY TWO ACCENTS */
+          --lane-red: #8F0B20;        /* darker red to avoid “pink” perception */
+          --lane-red-solid: #8F0B20;  /* explicit: NEVER alpha this on white */
 
-          --lane-blue: #1E4ED8;       /* cipher blue */
-          --lane-blue-deep: #153AA3;
-          --lane-blue-glow: rgba(30,78,216,0.14);
+          --lane-blue: #1E4ED8;
+          --lane-blue-solid: #1E4ED8;
+
+          /* neutrals */
+          --lane-ink: rgba(2,6,23,0.06);
+          --lane-ink-deep: rgba(2,6,23,0.12);
         }
 
         strong { font-weight: 900; color: var(--np-ink); }
 
-        /* HERO STAGE */
+        /* HERO STAGE — remove any red/blue glow washes that feel pastel */
         .heroStage {
           position: relative;
           overflow: hidden;
@@ -55,9 +57,10 @@ export default function Page() {
           content:"";
           position:absolute;
           inset:-2px;
+          /* keep it cinematic but neutral so nothing reads pink/green */
           background:
-            radial-gradient(720px 360px at 22% 36%, var(--lane-red-glow), transparent 68%),
-            radial-gradient(820px 420px at 70% 38%, var(--lane-blue-glow), transparent 70%);
+            radial-gradient(720px 360px at 22% 36%, rgba(2,6,23,0.06), transparent 68%),
+            radial-gradient(820px 420px at 70% 38%, rgba(2,6,23,0.05), transparent 70%);
           filter: blur(18px);
           opacity: 0.85;
           pointer-events:none;
@@ -102,7 +105,6 @@ export default function Page() {
           gap: 12px;
         }
 
-        /* Hide old filler UI blocks */
         .pills { display: none !important; }
         .heroRow { display: none !important; }
         .trustStrip { display: none !important; }
@@ -130,8 +132,8 @@ export default function Page() {
           color: rgba(11,18,32,0.90);
           line-height: 1.25;
         }
-        .commandLine .red{ color: var(--lane-red); }
-        .commandLine .blue{ color: var(--lane-blue); }
+        .commandLine .red{ color: var(--lane-red-solid); }
+        .commandLine .blue{ color: var(--lane-blue-solid); }
         .commandLine .arrow{ opacity: 0.70; }
 
         /* DOORS */
@@ -176,7 +178,7 @@ export default function Page() {
         }
         .doorChoice:active{ transform: translateY(1px) scale(0.995); }
 
-        /* left lane stripe */
+        /* left stripe: SOLID color only (no fades, no alpha washes) */
         .doorChoice::before{
           content:"";
           position:absolute;
@@ -184,14 +186,10 @@ export default function Page() {
           top:0;
           bottom:0;
           width: 10px;
-          background: rgba(2,6,23,0.06);
+          background: var(--lane-ink);
         }
-        .doorChoice.red::before{
-          background: linear-gradient(180deg, rgba(200,16,46,0.92), rgba(200,16,46,0.14));
-        }
-        .doorChoice.blue::before{
-          background: linear-gradient(180deg, rgba(30,78,216,0.92), rgba(30,78,216,0.14));
-        }
+        .doorChoice.red::before{ background: var(--lane-red-solid); }
+        .doorChoice.blue::before{ background: var(--lane-blue-solid); }
 
         .doorChoiceInner{
           display:grid;
@@ -199,7 +197,7 @@ export default function Page() {
           text-align: left;
           align-items:start;
           justify-items:start;
-          padding-left: 8px;
+          padding-left: 10px;
         }
 
         .doorChoiceTop{
@@ -210,35 +208,33 @@ export default function Page() {
           flex-wrap: wrap;
         }
 
-        /* BADGE (tighter, more command-like) */
-        .doorChip{
+        /* ✅ REPLACED “pills” with command badge (monochrome + colored dot) */
+        .doorBadge{
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          height: 36px;
-          padding: 0 14px;
+          height: 34px;
+          padding: 0 12px;
           border-radius: 12px;
           font-weight: 980;
-          letter-spacing: 0.18em;
+          letter-spacing: 0.16em;
           text-transform: uppercase;
           font-size: 12px;
           border: 1px solid rgba(2,6,23,0.16);
-          background: rgba(255,255,255,0.92);
+          background: rgba(255,255,255,0.96);
           box-shadow: 0 10px 22px rgba(2,6,23,0.10);
-          position: relative;
+          color: rgba(11,18,32,0.88);
         }
-        .doorChip::before{
-          content:"";
+        .doorBadgeDot{
           width: 9px;
           height: 9px;
           border-radius: 999px;
           margin-right: 10px;
-          background: rgba(2,6,23,0.20);
+          background: rgba(2,6,23,0.22);
+          flex: 0 0 auto;
         }
-        .doorChip.red{ border-color: rgba(143,11,32,0.26); }
-        .doorChip.red::before{ background: var(--lane-red); }
-        .doorChip.blue{ border-color: rgba(21,58,163,0.28); }
-        .doorChip.blue::before{ background: var(--lane-blue); }
+        .doorBadge.red .doorBadgeDot{ background: var(--lane-red-solid); }
+        .doorBadge.blue .doorBadgeDot{ background: var(--lane-blue-solid); }
 
         .doorChoiceTitle{
           font-weight: 980;
@@ -248,11 +244,11 @@ export default function Page() {
           line-height: 1.06;
         }
         .doorChoiceTitle .redWord{ 
-          color: var(--lane-red);
-          text-shadow: 0 10px 26px rgba(200,16,46,0.16);
+          color: var(--lane-red-solid);
+          text-shadow: 0 12px 30px rgba(2,6,23,0.12); /* neutral shadow (no pink) */
         }
 
-        /* ENERGY HIGHLIGHT (replaces underline) */
+        /* ENERGY HIGHLIGHT: BLUE only, no underline */
         .blueEmph{
           display: inline-block;
           position: relative;
@@ -268,7 +264,7 @@ export default function Page() {
           bottom: 2px;
           height: 0.68em;
           border-radius: 10px;
-          background: linear-gradient(90deg, rgba(30,78,216,0.28), rgba(30,78,216,0.12));
+          background: linear-gradient(90deg, rgba(30,78,216,0.30), rgba(30,78,216,0.12));
           box-shadow: 0 10px 24px rgba(30,78,216,0.12);
           z-index: -1;
         }
@@ -281,7 +277,6 @@ export default function Page() {
           max-width: 72ch;
         }
 
-        /* stronger directive microcopy */
         .doorChoiceHint{
           display:inline-flex;
           align-items:center;
@@ -322,7 +317,7 @@ export default function Page() {
           max-width: 100%;
         }
 
-        /* left spine */
+        /* left spine: SOLID (no fades that go pink) */
         .doorCard::before{
           content:"";
           position:absolute;
@@ -330,22 +325,17 @@ export default function Page() {
           top:0;
           bottom:0;
           width: 8px;
-          background: rgba(2,6,23,0.06);
+          background: var(--lane-ink);
           opacity: 0.95;
         }
-        .doorCard.red::before{ background: linear-gradient(180deg, rgba(200,16,46,0.92), rgba(200,16,46,0.18)); }
-        .doorCard.blue::before{ background: linear-gradient(180deg, rgba(30,78,216,0.92), rgba(30,78,216,0.18)); }
+        .doorCard.red::before{ background: var(--lane-red-solid); }
+        .doorCard.blue::before{ background: var(--lane-blue-solid); }
 
+        /* top rail: neutral only (no red wash) */
         .doorRail{
           height: 12px;
           width: 100%;
-          background: linear-gradient(90deg, rgba(2,6,23,0.02), rgba(2,6,23,0.00));
-        }
-        .doorRail.red{
-          background: linear-gradient(90deg, rgba(200,16,46,0.28), rgba(200,16,46,0.06), transparent);
-        }
-        .doorRail.blue{
-          background: linear-gradient(90deg, rgba(30,78,216,0.28), rgba(30,78,216,0.07), transparent);
+          background: linear-gradient(90deg, rgba(2,6,23,0.05), rgba(2,6,23,0.00));
         }
 
         .doorInner{
@@ -354,56 +344,54 @@ export default function Page() {
           gap: 12px;
         }
 
+        /* ✅ ALSO FIX THE “DOOR 1 / DOOR 2” pills here */
         .doorKicker{
           display:flex;
           align-items:center;
           justify-content:flex-start;
-          gap: 12px;
+          gap: 10px;
           flex-wrap: wrap;
           margin-top: 2px;
           margin-bottom: 2px;
         }
 
-        .doorPill{
+        .kickerBadge{
           display:inline-flex;
           align-items:center;
-          justify-content:center;
           height: 34px;
-          padding: 0 14px;
+          padding: 0 12px;
           border-radius: 12px;
           border: 1px solid rgba(2,6,23,0.14);
-          background: rgba(2,6,23,0.03);
+          background: rgba(255,255,255,0.96);
           font-weight: 980;
-          letter-spacing: 0.18em;
+          letter-spacing: 0.16em;
           text-transform: uppercase;
           font-size: 11px;
-          color: rgba(11,18,32,0.78);
-          white-space: nowrap;
+          color: rgba(11,18,32,0.84);
+          box-shadow: 0 10px 22px rgba(2,6,23,0.08);
         }
 
-        .laneTag{
+        .kickerLabel{
           display:inline-flex;
           align-items:center;
-          justify-content:center;
           height: 34px;
-          padding: 0 14px;
+          padding: 0 12px;
           border-radius: 12px;
+          border: 1px solid rgba(2,6,23,0.12);
+          background: rgba(2,6,23,0.02);
           font-size: 12px;
           font-weight: 980;
-          color: rgba(11,18,32,0.92);
-          border: 1px solid rgba(2,6,23,0.12);
-          background: #fff;
-          white-space: nowrap;
-          box-shadow: 0 12px 26px rgba(2,6,23,0.06);
+          color: rgba(11,18,32,0.86);
         }
-        .laneTag.red{
-          border-color: rgba(143,11,32,0.22);
-          background: rgba(200,16,46,0.04);
+        .kickerLabel .dot{
+          width: 8px;
+          height: 8px;
+          border-radius: 999px;
+          margin-right: 10px;
+          background: rgba(2,6,23,0.22);
         }
-        .laneTag.blue{
-          border-color: rgba(21,58,163,0.22);
-          background: rgba(30,78,216,0.04);
-        }
+        .kickerLabel.red .dot{ background: var(--lane-red-solid); }
+        .kickerLabel.blue .dot{ background: var(--lane-blue-solid); }
 
         .doorTitle{
           margin: 0;
@@ -422,8 +410,8 @@ export default function Page() {
         }
 
         .doorVisual{
-          border: 1px solid rgba(2,6,23,0.10);
-          background: rgba(2,6,23,0.02);
+          border: 1px solid rgba(2,6,23,0.12);
+          background: rgba(255,255,255,0.98);
           border-radius: 18px;
           padding: 14px 14px;
           display:flex;
@@ -432,7 +420,9 @@ export default function Page() {
           gap: 14px;
           max-width: 100%;
           min-width: 0;
+          box-shadow: 0 14px 34px rgba(2,6,23,0.10);
         }
+
         .visualLeft{
           display:flex;
           align-items:center;
@@ -441,17 +431,19 @@ export default function Page() {
           flex: 1 1 auto;
           max-width: 100%;
         }
+
         .visualIcon{
           width: 46px;
           height: 46px;
           border-radius: 14px;
           border: 1px solid rgba(2,6,23,0.10);
-          background: rgba(255,255,255,0.90);
+          background: rgba(255,255,255,0.98);
           box-shadow: 0 10px 24px rgba(2,6,23,0.06);
           position: relative;
           flex: 0 0 auto;
         }
 
+        /* icons use SOLID accents only */
         .iconRoad::before{
           content:"";
           position:absolute;
@@ -460,8 +452,8 @@ export default function Page() {
           top: 9px;
           bottom: 9px;
           border-radius: 10px;
-          background: linear-gradient(180deg, rgba(200,16,46,0.22), rgba(200,16,46,0.06));
-          border: 1px solid rgba(200,16,46,0.20);
+          background: rgba(2,6,23,0.02);
+          border: 1px solid rgba(2,6,23,0.10);
         }
         .iconRoad::after{
           content:"";
@@ -471,8 +463,8 @@ export default function Page() {
           bottom: 14px;
           width: 2px;
           border-radius: 2px;
-          background: rgba(200,16,46,0.66);
-          opacity: 0.95;
+          background: var(--lane-red-solid);
+          opacity: 1;
         }
 
         .iconCipher::before{
@@ -480,8 +472,8 @@ export default function Page() {
           position:absolute;
           inset: 10px;
           border-radius: 999px;
-          border: 2px solid rgba(30,78,216,0.56);
-          box-shadow: 0 0 20px rgba(30,78,216,0.18);
+          border: 2px solid rgba(30,78,216,0.62);
+          box-shadow: 0 0 22px rgba(30,78,216,0.16);
         }
         .iconCipher::after{
           content:"";
@@ -540,10 +532,10 @@ export default function Page() {
           background: rgba(2,6,23,0.22);
           opacity: 0.72;
         }
-        .miniMark.red{ background: rgba(200,16,46,0.44); }
-        .miniMark.blue{ background: rgba(30,78,216,0.36); }
+        .miniMark.red{ background: var(--lane-red-solid); opacity: 0.35; } /* controlled */
+        .miniMark.blue{ background: var(--lane-blue-solid); opacity: 0.30; }
 
-        /* Outbound CTAs (still only 2 total) */
+        /* CTAs */
         .ctaPill{
           display:inline-flex;
           align-items:center;
@@ -564,10 +556,10 @@ export default function Page() {
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
         .ctaPill.red{
-          background: var(--lane-red);
+          background: var(--lane-red-solid);
           color: #fff;
           border-color: rgba(2,6,23,0.08);
-          box-shadow: 0 22px 56px rgba(200,16,46,0.24);
+          box-shadow: 0 22px 56px rgba(2,6,23,0.14); /* neutral, no pink */
         }
         .ctaPill.blue{
           background: rgba(11,11,15,0.94);
@@ -577,7 +569,7 @@ export default function Page() {
         }
 
         @media (max-width: 820px){
-          .doorChoiceInner{ padding-left: 4px; }
+          .doorChoiceInner{ padding-left: 8px; }
           .doorVisual{
             flex-direction: column;
             align-items: stretch;
@@ -688,7 +680,7 @@ export default function Page() {
                   <div className="cardInner heroCardInner">
                     <h1 className="h1">
                       Create a New Path{" "}
-                      <span style={{ color: "var(--lane-red)" }}>forward</span>.
+                      <span style={{ color: "var(--lane-red-solid)" }}>forward</span>.
                     </h1>
 
                     <p className="sub">
@@ -725,7 +717,9 @@ export default function Page() {
             <a className="doorChoice red" href="#door-1" aria-label="Door 1: Get started today">
               <div className="doorChoiceInner">
                 <div className="doorChoiceTop">
-                  <span className="doorChip red">DOOR 1</span>
+                  <span className="doorBadge red">
+                    <span className="doorBadgeDot" /> DOOR 1
+                  </span>
                   <div className="doorChoiceTitle">
                     <span className="redWord">Get started</span> today.
                   </div>
@@ -740,7 +734,9 @@ export default function Page() {
             <a className="doorChoice blue" href="#door-2" aria-label="Door 2: Discover the AI-driven Cipher tomorrow">
               <div className="doorChoiceInner">
                 <div className="doorChoiceTop">
-                  <span className="doorChip blue">DOOR 2</span>
+                  <span className="doorBadge blue">
+                    <span className="doorBadgeDot" /> DOOR 2
+                  </span>
                   <div className="doorChoiceTitle">
                     Discover the <span className="blueEmph">AI-driven</span> Cipher tomorrow.
                   </div>
@@ -755,11 +751,11 @@ export default function Page() {
 
           <div className="doorStack">
             <div className="doorCard red" id="door-1" aria-label="Door 1: Today">
-              <div className="doorRail red" aria-hidden="true" />
+              <div className="doorRail" aria-hidden="true" />
               <div className="doorInner">
                 <div className="doorKicker">
-                  <span className="doorPill">DOOR 1</span>
-                  <span className="laneTag red">Get started today</span>
+                  <span className="kickerBadge">DOOR 1</span>
+                  <span className="kickerLabel red"><span className="dot" /> Get started today</span>
                 </div>
 
                 <h3 className="doorTitle">Today: Get started the right way</h3>
@@ -810,11 +806,11 @@ export default function Page() {
             </div>
 
             <div className="doorCard blue" id="door-2" aria-label="Door 2: Tomorrow">
-              <div className="doorRail blue" aria-hidden="true" />
+              <div className="doorRail" aria-hidden="true" />
               <div className="doorInner">
                 <div className="doorKicker">
-                  <span className="doorPill">DOOR 2</span>
-                  <span className="laneTag blue">Discover tomorrow</span>
+                  <span className="kickerBadge">DOOR 2</span>
+                  <span className="kickerLabel blue"><span className="dot" /> Discover tomorrow</span>
                 </div>
 
                 <h3 className="doorTitle">Tomorrow: Discover the AI-driven BALANCE Cipher</h3>
@@ -896,7 +892,7 @@ export default function Page() {
             />
 
             <h3 className="cipherTitle">
-              Open your new door—<span style={{ color: "var(--lane-red)" }}>with the Cipher</span>.
+              Open your new door—<span style={{ color: "var(--lane-red-solid)" }}>with the Cipher</span>.
             </h3>
 
             <p className="cipherCopy">
