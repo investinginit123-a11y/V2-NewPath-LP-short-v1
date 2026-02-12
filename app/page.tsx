@@ -5,6 +5,9 @@
 // - Door 2 selector moved down into Cipher section
 // - Door 1 now contains an INTERNAL accordion: "Learn the 4 moves" (page-inside-page)
 // - Outbound CTAs remain ONLY 2 total (Application + Cipher)
+// ✅ NEW IN THIS PASS:
+// - Cipher "comes alive" with a subtle premium pulse (emblem + ambient glow)
+// - Respects prefers-reduced-motion
 
 import Section from "../components/Section";
 import React from "react";
@@ -582,6 +585,8 @@ export default function Page() {
           position: relative;
           max-width: 100%;
         }
+
+        /* ✅ Alive: ambient glow breath */
         .cipherGlow{
           position:absolute;
           inset:-40px;
@@ -589,6 +594,12 @@ export default function Page() {
           filter: blur(10px);
           pointer-events:none;
         }
+        .cipherGlowAlive{
+          animation: cipherGlowPulse 4.8s ease-in-out infinite;
+          transform: translateZ(0);
+          will-change: opacity, filter, transform;
+        }
+
         .cipherInner{
           position:relative;
           padding: 22px 20px;
@@ -635,6 +646,29 @@ export default function Page() {
           border-radius: var(--np-pill);
           margin-top: 7px;
           background: rgba(225,6,0,0.48);
+        }
+
+        /* ✅ Alive: emblem breath (premium, quiet) */
+        .cipherEmblemAlive{
+          transform-origin: 50% 50%;
+          animation: cipherBreath 4.8s ease-in-out infinite;
+          will-change: transform, filter;
+        }
+
+        @keyframes cipherBreath {
+          0%   { transform: scale(1);   filter: drop-shadow(0 20px 44px rgba(0,0,0,0.18)) drop-shadow(0 0 0 rgba(225,6,0,0.00)); }
+          50%  { transform: scale(1.018); filter: drop-shadow(0 22px 52px rgba(0,0,0,0.22)) drop-shadow(0 0 18px rgba(225,6,0,0.10)); }
+          100% { transform: scale(1);   filter: drop-shadow(0 20px 44px rgba(0,0,0,0.18)) drop-shadow(0 0 0 rgba(225,6,0,0.00)); }
+        }
+
+        @keyframes cipherGlowPulse {
+          0%   { opacity: 0.65; filter: blur(10px); transform: scale(1); }
+          50%  { opacity: 1.00; filter: blur(13px); transform: scale(1.02); }
+          100% { opacity: 0.65; filter: blur(10px); transform: scale(1); }
+        }
+
+        @media (prefers-reduced-motion: reduce){
+          .cipherGlowAlive, .cipherEmblemAlive { animation: none !important; }
         }
 
         /* ✅ Mini Guide Accordion (Door 1) */
@@ -1065,17 +1099,17 @@ export default function Page() {
 
         {/* Cipher content */}
         <div className="cipherCard">
-          <div className="cipherGlow" aria-hidden="true" />
+          <div className="cipherGlow cipherGlowAlive" aria-hidden="true" />
           <div className="cipherInner">
             <img
               src="/brand/balance-cipher-emblem.png"
               alt="BALANCE Cipher emblem"
+              className="cipherEmblemAlive"
               style={{
                 width: "min(460px, 92vw)",
                 height: "auto",
                 display: "block",
                 margin: "6px auto 0",
-                filter: "drop-shadow(0 20px 44px rgba(0,0,0,0.18))",
               }}
             />
 
