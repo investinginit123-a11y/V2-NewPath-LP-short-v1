@@ -3,11 +3,9 @@
 // ✅ This pass:
 // - Door 1 selector only under "Choose your door"
 // - Door 2 selector moved down into Cipher section
-// - Door 1 now contains an INTERNAL accordion: "Learn the 4 moves" (page-inside-page)
+// - Door 1 contains an INTERNAL accordion
+// - Door 2 restores "Examples (tap to expand)" accordion (3 items) + removes "tomorrow" gating language
 // - Outbound CTAs remain ONLY 2 total (Application + Cipher)
-// ✅ CURRENT PASS (this file):
-// - Door 2 selector copy updated to invitation tone (Option 3)
-// - Door 2 micro-invite line added inside Door 2 card
 
 import Section from "../components/Section";
 import React from "react";
@@ -393,18 +391,6 @@ export default function Page() {
           max-width: 900px;
         }
 
-        .microInvite{
-          font-size: 13px;
-          line-height: 1.45;
-          color: rgba(15,23,42,0.66);
-          font-weight: 800;
-          border: 1px solid rgba(0,0,0,0.08);
-          background: rgba(0,0,0,0.018);
-          padding: 10px 12px;
-          border-radius: 14px;
-          max-width: 920px;
-        }
-
         .doorVisual{
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(0,0,0,0.02);
@@ -652,7 +638,7 @@ export default function Page() {
           background: rgba(225,6,0,0.48);
         }
 
-        /* ✅ Mini Guide Accordion (Door 1) */
+        /* ✅ Mini Guide Accordion */
         .miniGuide{
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(0,0,0,0.015);
@@ -837,11 +823,7 @@ export default function Page() {
             <div className="container">
               <div className="nav">
                 <div className="brand" style={{ gap: 12 }}>
-                  <img
-                    src="/brand/newpath-auto-finance.png"
-                    alt="New Path Auto Finance"
-                    className="npLogo"
-                  />
+                  <img src="/brand/newpath-auto-finance.png" alt="New Path Auto Finance" className="npLogo" />
                 </div>
               </div>
 
@@ -849,8 +831,7 @@ export default function Page() {
                 <div className="card heroCard">
                   <div className="cardInner heroCardInner">
                     <h1 className="h1">
-                      Create a New Path{" "}
-                      <span style={{ color: "var(--fire)" }}>forward</span>.
+                      Create a New Path <span style={{ color: "var(--fire)" }}>forward</span>.
                     </h1>
 
                     <div className="subStack" aria-label="Hero steps">
@@ -875,25 +856,17 @@ export default function Page() {
         <div className="decisionStage" aria-label="Decision stage">
           {/* ✅ Door 1 selector ONLY */}
           <div className="doorSelect" aria-label="Door selector">
-            <a
-              className="doorSelectBtn"
-              href="#door-1"
-              aria-label="Door 1: Start your New Path today"
-            >
+            <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: Start your New Path today">
               <div className="doorSelectLeft">
                 <span className="doorTag fire">DOOR 1</span>
                 <div className="doorSelectText">
                   <div className="doorSelectTitle">
                     <span className="fire">Start your New Path</span> today.
                   </div>
-                  <div className="doorSelectSub">
-                    Start the process and get routed the right way.
-                  </div>
+                  <div className="doorSelectSub">Start the process and get routed the right way.</div>
                 </div>
               </div>
-              <span className="doorSelectChevron" aria-hidden="true">
-                ↓
-              </span>
+              <span className="doorSelectChevron" aria-hidden="true">↓</span>
             </a>
           </div>
 
@@ -910,12 +883,11 @@ export default function Page() {
                 <h3 className="doorTitle">Today: Get started the right way</h3>
 
                 <p className="doorBody">
-                  If you’re ready to move now, the application is your cleanest
-                  first step. We route you into a calm, lender-aligned path—without
-                  overwhelm.
+                  If you’re ready to move now, the application is your cleanest first step. We route you into a calm,
+                  lender-aligned path—without overwhelm.
                 </p>
 
-                {/* ✅ Door 1 mini-guide (page inside the page) */}
+                {/* ✅ Door 1 mini-guide */}
                 <MiniAccordion
                   title="Learn the 4 moves (no noise)"
                   subtitle="Same flow as the best guides—just cleaner. Expand only what you need."
@@ -986,21 +958,15 @@ export default function Page() {
                 <ul className="miniList" aria-label="Door 1 points">
                   <li className="miniItem">
                     <span className="miniMark fire" aria-hidden="true" />
-                    <span>
-                      <strong>One move:</strong> start the application.
-                    </span>
+                    <span><strong>One move:</strong> start the application.</span>
                   </li>
                   <li className="miniItem">
                     <span className="miniMark fire" aria-hidden="true" />
-                    <span>
-                      <strong>Today’s rules:</strong> focus on what lenders care about now.
-                    </span>
+                    <span><strong>Today’s rules:</strong> focus on what lenders care about now.</span>
                   </li>
                   <li className="miniItem">
                     <span className="miniMark fire" aria-hidden="true" />
-                    <span>
-                      <strong>Clean path:</strong> simple, clear, and direct.
-                    </span>
+                    <span><strong>Clean path:</strong> simple, clear, and direct.</span>
                   </li>
                 </ul>
 
@@ -1018,58 +984,62 @@ export default function Page() {
       </Section>
 
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
-        {/* ✅ Door 2 selector moved HERE */}
+        {/* ✅ Door 2 selector moved HERE (NO “tomorrow” gating) */}
         <div className="doorSelect" aria-label="Door 2 selector" style={{ marginBottom: 14 }}>
-          <a
-            className="doorSelectBtn"
-            href="#door-2"
-            aria-label="Door 2: Invitation preview of the Cipher"
-          >
+          <a className="doorSelectBtn" href="#door-2" aria-label="Door 2: Preview the Cipher now">
             <div className="doorSelectLeft">
               <span className="doorTag ink">DOOR 2</span>
               <div className="doorSelectText">
                 <div className="doorSelectTitle">
-                  <span className="ink">By completing Door 1 today,</span> you’ve unlocked Door 2 for tomorrow.
+                  <span className="ink">Preview Door 2</span> now.
                 </div>
-                <div className="doorSelectSub">
-                  You’re invited to preview the Cipher—see what’s real, then take one clear next step.
-                </div>
+                <div className="doorSelectSub">See what’s real—then take one clear next move.</div>
               </div>
             </div>
-            <span className="doorSelectChevron" aria-hidden="true">
-              ↓
-            </span>
+            <span className="doorSelectChevron" aria-hidden="true">↓</span>
           </a>
         </div>
 
         {/* Door 2 detail */}
         <div style={{ marginBottom: 18 }}>
-          <div className="doorCard ink" id="door-2" aria-label="Door 2: Tomorrow">
+          <div className="doorCard ink" id="door-2" aria-label="Door 2: Preview">
             <div className="doorRail ink" aria-hidden="true" />
             <div className="doorInner">
               <div className="doorKicker">
                 <span className="doorPill">DOOR 2</span>
-                <span className="laneTag">Discover tomorrow</span>
+                <span className="laneTag">Preview now</span>
               </div>
 
-              <h3 className="doorTitle">Tomorrow: Discover the AI-driven BALANCE Cipher</h3>
+              {/* ✅ Removed “Tomorrow:” language */}
+              <h3 className="doorTitle">Discover the AI-driven BALANCE Cipher</h3>
 
               <p className="doorBody">
                 The Cipher isn’t a checklist. It’s a map. It shows why outcomes repeat—and the Co-Pilot translates that
                 map into <strong>one clear next step</strong>.
               </p>
 
-              {/* ✅ Micro-invite (inside Door 2) */}
-              <div className="microInvite">
+              {/* ✅ Micro-invite line stays */}
+              <div
+                style={{
+                  border: "1px solid rgba(0,0,0,0.10)",
+                  borderRadius: 18,
+                  background: "rgba(0,0,0,0.02)",
+                  padding: "12px 14px",
+                  fontWeight: 850,
+                  color: "rgba(15,23,42,0.76)",
+                  fontSize: 14,
+                }}
+              >
                 You’re invited to preview the Cipher—no pressure, just clarity.
               </div>
 
+              {/* (3) Discover row + CTA */}
               <div className="doorVisual">
                 <div className="visualLeft">
                   <span className="visualIcon iconCipher" aria-hidden="true" />
                   <div className="visualText">
                     <div className="visualTitle">Discover the pattern.</div>
-                    <div className="visualSub">See it → then choose your next move.</div>
+                    <div className="visualSub">See it clearly → then choose one next move.</div>
                   </div>
                 </div>
 
@@ -1079,6 +1049,7 @@ export default function Page() {
                 </a>
               </div>
 
+              {/* (4) Bullet list stays as summary */}
               <ul className="miniList" aria-label="Door 2 points">
                 <li className="miniItem">
                   <span className="miniMark ink" aria-hidden="true" />
@@ -1094,6 +1065,45 @@ export default function Page() {
                 </li>
               </ul>
 
+              {/* (5) ✅ Restored Door 2 accordion: Examples (tap to expand) */}
+              <MiniAccordion
+                title="Examples (tap to expand)"
+                subtitle="The Cipher shows the pattern. The Co-Pilot translates it. You take one clean next move."
+                items={[
+                  {
+                    label: "Seeing the pattern",
+                    summary: "“Why does this keep happening?” gets answered.",
+                    means:
+                      "You stop guessing. The Cipher shows the repeated loop—what triggers it, what it costs you, and what keeps it alive.",
+                    notMeans:
+                      "It does not mean blame or shame. It means you finally have the map—and the map is neutral.",
+                    oneMove:
+                      "Name the loop in one sentence (ex: “I take the first offer because I feel rushed.”). That’s your leverage point.",
+                  },
+                  {
+                    label: "Getting the next move",
+                    summary: "One correct move beats ten random actions.",
+                    means:
+                      "Instead of “do 20 things,” you get the single move that actually changes the outcome—timing, order, and priority.",
+                    notMeans:
+                      "It does not mean perfection. It means direction—so you don’t waste energy on the wrong step.",
+                    oneMove:
+                      "Pick one move you can do today (call, dispute, budget, plan, apply once)—then let the Co-Pilot sequence the next.",
+                  },
+                  {
+                    label: "Auto → Home readiness",
+                    summary: "This is how stability becomes bigger doors.",
+                    means:
+                      "Auto is the on-ramp: build payment strength, structure, and consistency—so home readiness becomes possible later.",
+                    notMeans:
+                      "It does not mean rushing into a mortgage. It means building the foundation that makes better terms real.",
+                    oneMove:
+                      "Lock one stability behavior for 30 days (on-time payment + lower utilization + clean plan). That compounds.",
+                  },
+                ]}
+              />
+
+              {/* (6) What it isn’t stays last */}
               <div
                 style={{
                   border: "1px solid rgba(0,0,0,0.10)",
