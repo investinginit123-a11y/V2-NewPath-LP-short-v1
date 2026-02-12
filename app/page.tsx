@@ -1,11 +1,10 @@
 // app/page.tsx
-// PASS: MOBILE-FIRST SIMPLIFICATION (SEQUENTIAL DOOR FLOW)
+// PASS: DOOR 1 + DOOR 2 DISCIPLINE ALIGNMENT (NO DRIFT)
 // ✅ This pass:
-// - Door 1 selector only under "Choose your door"
-// - Door 2 selector moved down into Cipher section
-// - Door 1 contains an INTERNAL accordion
-// - Door 2 restores "Examples (tap to expand)" accordion (3 items) + removes "tomorrow" gating language
-// - Outbound CTAs remain ONLY 2 total (Application + Cipher)
+// - Door 1 accordion stays, but removes the redundant subtitle line
+// - Door 2 removes "tomorrow" repetition (selector/chip/headline)
+// - Door 2 removes redundant 3 bullets once "Examples" accordion exists
+// - Cipher emblem motion: ~50% more obvious on mobile, subtle on desktop
 
 import Section from "../components/Section";
 import React from "react";
@@ -14,6 +13,7 @@ function MiniAccordion({
   title,
   subtitle,
   items,
+  className,
 }: {
   title: string;
   subtitle?: string;
@@ -24,9 +24,10 @@ function MiniAccordion({
     notMeans: string;
     oneMove: string;
   }>;
+  className?: string;
 }) {
   return (
-    <div className="miniGuide" aria-label="Mini guide">
+    <div className={`miniGuide ${className ?? ""}`.trim()} aria-label="Mini guide">
       <div className="miniGuideHead">
         <div className="miniGuideTitleRow">
           <div className="miniGuideTitle">{title}</div>
@@ -102,6 +103,10 @@ export default function Page() {
 
           --white: #ffffff;
           --ink-strong: rgba(0,0,0,0.92);
+
+          /* Cipher glow lane */
+          --cipher-glow: rgba(25,211,197,0.26);
+          --cipher-glow-strong: rgba(25,211,197,0.42);
         }
 
         strong { font-weight: 900; color: var(--np-ink); }
@@ -461,6 +466,16 @@ export default function Page() {
           border: 1px solid rgba(225,6,0,0.14);
         }
 
+        /* Door 2 “Discover the pattern” highlight */
+        .doorCard.ink .doorVisual{
+          background: linear-gradient(90deg, rgba(25,211,197,0.16), rgba(255,255,255,0.96) 55%);
+          border-color: rgba(0,0,0,0.10);
+        }
+        .doorCard.ink .visualIcon{
+          box-shadow: 0 14px 30px rgba(25,211,197,0.16);
+          border-color: rgba(25,211,197,0.18);
+        }
+
         .visualText{
           display:grid;
           gap: 2px;
@@ -585,11 +600,50 @@ export default function Page() {
         }
         .cipherGlow{
           position:absolute;
-          inset:-40px;
-          background: radial-gradient(520px 240px at 50% 22%, rgba(225,6,0,0.07), transparent 72%);
-          filter: blur(10px);
+          inset:-50px;
+          background:
+            radial-gradient(520px 240px at 50% 22%, rgba(25,211,197,0.16), transparent 72%),
+            radial-gradient(560px 260px at 50% 60%, rgba(225,6,0,0.06), transparent 74%);
+          filter: blur(14px);
           pointer-events:none;
+          opacity: 0.85;
+          animation: glowPulse 5.6s ease-in-out infinite;
         }
+
+        /* Cipher emblem “alive” */
+        .cipherEmblem{
+          display:block;
+          margin: 6px auto 0;
+          filter: drop-shadow(0 22px 48px rgba(0,0,0,0.22));
+          transform-origin: 50% 50%;
+          will-change: transform, filter;
+          animation: cipherBreathDesktop 7.8s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse{
+          0%, 100% { transform: scale(1); opacity: 0.78; }
+          50%      { transform: scale(1.05); opacity: 0.98; }
+        }
+
+        @keyframes cipherBreathDesktop{
+          0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 22px 48px rgba(0,0,0,0.22)); }
+          50%      { transform: translateY(-2px) scale(1.015); filter: drop-shadow(0 26px 58px rgba(25,211,197,0.20)); }
+        }
+
+        /* ✅ Mobile: 50%+ more obvious */
+        @media (max-width: 820px){
+          .cipherGlow{
+            animation-duration: 3.8s;
+          }
+          .cipherEmblem{
+            animation: cipherBreathMobile 3.2s ease-in-out infinite;
+          }
+          @keyframes cipherBreathMobile{
+            0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 22px 48px rgba(0,0,0,0.22)); }
+            50%      { transform: translateY(-4px) scale(1.045); filter: drop-shadow(0 30px 72px rgba(25,211,197,0.34)); }
+          }
+        }
+
         .cipherInner{
           position:relative;
           padding: 22px 20px;
@@ -646,6 +700,11 @@ export default function Page() {
           padding: 14px 14px;
           display: grid;
           gap: 12px;
+        }
+        /* Door 2 variant (subtle cipher tint) */
+        .miniGuide.cipher{
+          background: linear-gradient(180deg, rgba(25,211,197,0.10), rgba(0,0,0,0.012));
+          border-color: rgba(25,211,197,0.16);
         }
         .miniGuideHead{
           display: grid;
@@ -723,6 +782,11 @@ export default function Page() {
           flex: 0 0 auto;
           font-size: 13px;
         }
+        /* Door 2 step number uses premium ink (not red) */
+        .miniGuide.cipher .miniStepNum{
+          background: var(--ink);
+        }
+
         .miniSummaryText{
           display:grid;
           gap: 2px;
@@ -802,6 +866,12 @@ export default function Page() {
           border-radius: 14px;
           padding: 10px 10px;
         }
+        /* Door 2 one-move uses cipher tint instead of red */
+        .miniGuide.cipher .miniOneMove{
+          border-color: rgba(25,211,197,0.22);
+          background: rgba(25,211,197,0.08);
+        }
+
         .miniOneMoveTitle{
           font-weight: 950;
           font-size: 12px;
@@ -823,7 +893,11 @@ export default function Page() {
             <div className="container">
               <div className="nav">
                 <div className="brand" style={{ gap: 12 }}>
-                  <img src="/brand/newpath-auto-finance.png" alt="New Path Auto Finance" className="npLogo" />
+                  <img
+                    src="/brand/newpath-auto-finance.png"
+                    alt="New Path Auto Finance"
+                    className="npLogo"
+                  />
                 </div>
               </div>
 
@@ -856,7 +930,11 @@ export default function Page() {
         <div className="decisionStage" aria-label="Decision stage">
           {/* ✅ Door 1 selector ONLY */}
           <div className="doorSelect" aria-label="Door selector">
-            <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: Start your New Path today">
+            <a
+              className="doorSelectBtn"
+              href="#door-1"
+              aria-label="Door 1: Start your New Path today"
+            >
               <div className="doorSelectLeft">
                 <span className="doorTag fire">DOOR 1</span>
                 <div className="doorSelectText">
@@ -866,7 +944,9 @@ export default function Page() {
                   <div className="doorSelectSub">Start the process and get routed the right way.</div>
                 </div>
               </div>
-              <span className="doorSelectChevron" aria-hidden="true">↓</span>
+              <span className="doorSelectChevron" aria-hidden="true">
+                ↓
+              </span>
             </a>
           </div>
 
@@ -887,10 +967,9 @@ export default function Page() {
                   lender-aligned path—without overwhelm.
                 </p>
 
-                {/* ✅ Door 1 mini-guide */}
+                {/* ✅ Door 1 mini-guide (subtitle removed per markup) */}
                 <MiniAccordion
                   title="Learn the 4 moves (no noise)"
-                  subtitle="Same flow as the best guides—just cleaner. Expand only what you need."
                   items={[
                     {
                       label: "Check your credit",
@@ -958,15 +1037,21 @@ export default function Page() {
                 <ul className="miniList" aria-label="Door 1 points">
                   <li className="miniItem">
                     <span className="miniMark fire" aria-hidden="true" />
-                    <span><strong>One move:</strong> start the application.</span>
+                    <span>
+                      <strong>One move:</strong> start the application.
+                    </span>
                   </li>
                   <li className="miniItem">
                     <span className="miniMark fire" aria-hidden="true" />
-                    <span><strong>Today’s rules:</strong> focus on what lenders care about now.</span>
+                    <span>
+                      <strong>Today’s rules:</strong> focus on what lenders care about now.
+                    </span>
                   </li>
                   <li className="miniItem">
                     <span className="miniMark fire" aria-hidden="true" />
-                    <span><strong>Clean path:</strong> simple, clear, and direct.</span>
+                    <span>
+                      <strong>Clean path:</strong> simple, clear, and direct.
+                    </span>
                   </li>
                 </ul>
 
@@ -983,34 +1068,41 @@ export default function Page() {
         </div>
       </Section>
 
-      <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
-        {/* ✅ Door 2 selector moved HERE (NO “tomorrow” gating) */}
+      {/* ✅ Reframed as “for your tomorrow” (without repeating "tomorrow" everywhere) */}
+      <Section id="cipher" title="The BALANCE Cipher" desc="For your tomorrow.">
+        {/* ✅ Door 2 selector moved HERE (remove "tomorrow" repetition) */}
         <div className="doorSelect" aria-label="Door 2 selector" style={{ marginBottom: 14 }}>
-          <a className="doorSelectBtn" href="#door-2" aria-label="Door 2: Preview the Cipher now">
+          <a
+            className="doorSelectBtn"
+            href="#door-2"
+            aria-label="Door 2: Complete Door 1 today. Unlock the Cipher."
+          >
             <div className="doorSelectLeft">
               <span className="doorTag ink">DOOR 2</span>
               <div className="doorSelectText">
                 <div className="doorSelectTitle">
-                  <span className="ink">Preview Door 2</span> now.
+                  <span className="ink">Complete Door 1 today.</span> Unlock the Cipher.
                 </div>
-                <div className="doorSelectSub">See what’s real—then take one clear next move.</div>
+                <div className="doorSelectSub">See the pattern, then take one clear next move.</div>
               </div>
             </div>
-            <span className="doorSelectChevron" aria-hidden="true">↓</span>
+            <span className="doorSelectChevron" aria-hidden="true">
+              ↓
+            </span>
           </a>
         </div>
 
         {/* Door 2 detail */}
         <div style={{ marginBottom: 18 }}>
-          <div className="doorCard ink" id="door-2" aria-label="Door 2: Preview">
+          <div className="doorCard ink" id="door-2" aria-label="Door 2: Cipher door">
             <div className="doorRail ink" aria-hidden="true" />
             <div className="doorInner">
               <div className="doorKicker">
                 <span className="doorPill">DOOR 2</span>
-                <span className="laneTag">Preview now</span>
+                <span className="laneTag">Discover the map</span>
               </div>
 
-              {/* ✅ Removed “Tomorrow:” language */}
+              {/* ✅ Remove "Tomorrow:" prefix */}
               <h3 className="doorTitle">Discover the AI-driven BALANCE Cipher</h3>
 
               <p className="doorBody">
@@ -1018,22 +1110,6 @@ export default function Page() {
                 map into <strong>one clear next step</strong>.
               </p>
 
-              {/* ✅ Micro-invite line stays */}
-              <div
-                style={{
-                  border: "1px solid rgba(0,0,0,0.10)",
-                  borderRadius: 18,
-                  background: "rgba(0,0,0,0.02)",
-                  padding: "12px 14px",
-                  fontWeight: 850,
-                  color: "rgba(15,23,42,0.76)",
-                  fontSize: 14,
-                }}
-              >
-                You’re invited to preview the Cipher—no pressure, just clarity.
-              </div>
-
-              {/* (3) Discover row + CTA */}
               <div className="doorVisual">
                 <div className="visualLeft">
                   <span className="visualIcon iconCipher" aria-hidden="true" />
@@ -1049,61 +1125,60 @@ export default function Page() {
                 </a>
               </div>
 
-              {/* (4) Bullet list stays as summary */}
-              <ul className="miniList" aria-label="Door 2 points">
-                <li className="miniItem">
-                  <span className="miniMark ink" aria-hidden="true" />
-                  <span><strong>See the pattern</strong> behind your results.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark ink" aria-hidden="true" />
-                  <span><strong>Learn the next move</strong> that changes your outcome.</span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark ink" aria-hidden="true" />
-                  <span><strong>Auto → Home:</strong> build stability and real readiness over time.</span>
-                </li>
-              </ul>
+              {/* ✅ Remove the redundant 3 bullets (per markup).
+                  Door 2 keeps the Examples accordion as the structured content. */}
+              <div
+                style={{
+                  border: "1px solid rgba(0,0,0,0.10)",
+                  borderRadius: 18,
+                  background: "rgba(0,0,0,0.02)",
+                  padding: "14px 14px",
+                }}
+              >
+                <div style={{ fontWeight: 950, color: "rgba(15,23,42,0.90)", marginBottom: 6 }}>Examples (tap to expand)</div>
+                <div style={{ color: "rgba(15,23,42,0.74)", lineHeight: 1.55, fontSize: 14, marginBottom: 12 }}>
+                  The Cipher shows the pattern. The Co-Pilot translates it. You take one clean next move.
+                </div>
 
-              {/* (5) ✅ Restored Door 2 accordion: Examples (tap to expand) */}
-              <MiniAccordion
-                title="Examples (tap to expand)"
-                subtitle="The Cipher shows the pattern. The Co-Pilot translates it. You take one clean next move."
-                items={[
-                  {
-                    label: "Seeing the pattern",
-                    summary: "“Why does this keep happening?” gets answered.",
-                    means:
-                      "You stop guessing. The Cipher shows the repeated loop—what triggers it, what it costs you, and what keeps it alive.",
-                    notMeans:
-                      "It does not mean blame or shame. It means you finally have the map—and the map is neutral.",
-                    oneMove:
-                      "Name the loop in one sentence (ex: “I take the first offer because I feel rushed.”). That’s your leverage point.",
-                  },
-                  {
-                    label: "Getting the next move",
-                    summary: "One correct move beats ten random actions.",
-                    means:
-                      "Instead of “do 20 things,” you get the single move that actually changes the outcome—timing, order, and priority.",
-                    notMeans:
-                      "It does not mean perfection. It means direction—so you don’t waste energy on the wrong step.",
-                    oneMove:
-                      "Pick one move you can do today (call, dispute, budget, plan, apply once)—then let the Co-Pilot sequence the next.",
-                  },
-                  {
-                    label: "Auto → Home readiness",
-                    summary: "This is how stability becomes bigger doors.",
-                    means:
-                      "Auto is the on-ramp: build payment strength, structure, and consistency—so home readiness becomes possible later.",
-                    notMeans:
-                      "It does not mean rushing into a mortgage. It means building the foundation that makes better terms real.",
-                    oneMove:
-                      "Lock one stability behavior for 30 days (on-time payment + lower utilization + clean plan). That compounds.",
-                  },
-                ]}
-              />
+                <MiniAccordion
+                  className="cipher"
+                  title="Examples"
+                  subtitle={undefined}
+                  items={[
+                    {
+                      label: "Seeing the pattern",
+                      summary: "“Why does this keep happening?” gets answered.",
+                      means:
+                        "You stop guessing and finally see what’s driving the repeat loop: credit signals, timing, structure, and decisions that compound.",
+                      notMeans:
+                        "It does not mean you relive the past. It means you see it clearly so you don’t repeat it again.",
+                      oneMove:
+                        "Pick one area (credit, payments, savings, or decisions) and let the Cipher show the repeat pattern in plain language.",
+                    },
+                    {
+                      label: "Getting the next move",
+                      summary: "One correct action beats ten random actions.",
+                      means:
+                        "The Co-Pilot turns the map into a single step you can actually do—without overwhelm or a 20-step plan.",
+                      notMeans:
+                        "It does not mean perfection. It means direction: one move you can execute today.",
+                      oneMove:
+                        "Do the next right move first—then the next. You earn momentum by stacking clean steps.",
+                    },
+                    {
+                      label: "Auto → Home readiness",
+                      summary: "Stability now so bigger doors open later.",
+                      means:
+                        "Auto is the on-ramp: structure, consistency, and credit signals that eventually translate into home readiness and better terms.",
+                      notMeans:
+                        "It does not mean rushing into homeownership. It means building the foundation the right way.",
+                      oneMove:
+                        "Use auto decisions to strengthen your profile: clean payment lane + clean timing + clean structure.",
+                    },
+                  ]}
+                />
+              </div>
 
-              {/* (6) What it isn’t stays last */}
               <div
                 style={{
                   border: "1px solid rgba(0,0,0,0.10)",
@@ -1128,12 +1203,10 @@ export default function Page() {
             <img
               src="/brand/balance-cipher-emblem.png"
               alt="BALANCE Cipher emblem"
+              className="cipherEmblem"
               style={{
                 width: "min(460px, 92vw)",
                 height: "auto",
-                display: "block",
-                margin: "6px auto 0",
-                filter: "drop-shadow(0 20px 44px rgba(0,0,0,0.18))",
               }}
             />
 
@@ -1148,9 +1221,24 @@ export default function Page() {
             </p>
 
             <ul className="cipherBullets" aria-label="Cipher outcomes">
-              <li><span className="bDot" aria-hidden="true" /><span><strong>Clarity first:</strong> know where you are and what matters.</span></li>
-              <li><span className="bDot" aria-hidden="true" /><span><strong>One next step:</strong> remove fog and take the right move.</span></li>
-              <li><span className="bDot" aria-hidden="true" /><span><strong>Options → freedom:</strong> better structure unlocks better terms over time.</span></li>
+              <li>
+                <span className="bDot" aria-hidden="true" />
+                <span>
+                  <strong>Clarity first:</strong> know where you are and what matters.
+                </span>
+              </li>
+              <li>
+                <span className="bDot" aria-hidden="true" />
+                <span>
+                  <strong>One next step:</strong> remove fog and take the right move.
+                </span>
+              </li>
+              <li>
+                <span className="bDot" aria-hidden="true" />
+                <span>
+                  <strong>Options → freedom:</strong> better structure unlocks better terms over time.
+                </span>
+              </li>
             </ul>
 
             <div className="muted" style={{ fontSize: 13, color: "rgba(15,23,42,0.66)" }}>
