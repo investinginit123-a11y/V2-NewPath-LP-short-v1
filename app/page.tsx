@@ -1,10 +1,9 @@
 // app/page.tsx
-// PASS: DOOR 2 "ALIVE" DISCIPLINE + CIPHER "ALIVE" PULSE
+// PASS: DOOR 2 MINI-ACCORDION + STRONGER MOBILE CIPHER MOTION
 // ✅ This pass:
-// - Door 2 "Discover the pattern" row becomes visually intentional (bigger, higher contrast, subtle pulse)
-// - Door 2 bullets read as a 3-part promise (pattern → next move → auto→home readiness)
-// - Bottom Cipher emblem gets breathing glow/pulse (premium, quiet)
-// - NO refactors, NO new components, still 2 outbound CTAs total
+// - Door 2 gets a mini-accordion (same "discipline" as Door 1) under the 3 bullets
+// - Cipher emblem motion is ~50% stronger on mobile (more obvious), still premium/subtle on desktop
+// - NO refactors, NO new components, still only 2 outbound CTAs total
 
 import Section from "../components/Section";
 import React from "react";
@@ -457,7 +456,7 @@ export default function Page() {
           opacity: 0.95;
         }
 
-        /* Door 2 icon — make it feel intentional + alive */
+        /* Door 2 icon — intentional + alive */
         .iconCipher{
           width: 54px;
           height: 54px;
@@ -469,7 +468,7 @@ export default function Page() {
           box-shadow:
             0 14px 34px rgba(0,0,0,0.08),
             0 0 0 0 rgba(25,211,197,0.00);
-          animation: cipherIconBreath 4.8s ease-in-out infinite;
+          animation: cipherIconBreath 4.2s ease-in-out infinite;
         }
         .iconCipher::before{
           content:"";
@@ -478,7 +477,7 @@ export default function Page() {
           border-radius: 999px;
           border: 2px solid rgba(0,0,0,0.22);
           box-shadow: 0 0 0 0 rgba(25,211,197,0.00);
-          animation: cipherRing 4.8s ease-in-out infinite;
+          animation: cipherRing 4.2s ease-in-out infinite;
         }
         .iconCipher::after{
           content:"";
@@ -490,11 +489,11 @@ export default function Page() {
 
         @keyframes cipherIconBreath{
           0%, 100% { transform: scale(1); filter: saturate(1); }
-          50% { transform: scale(1.02); filter: saturate(1.08); }
+          50% { transform: scale(1.03); filter: saturate(1.10); }
         }
         @keyframes cipherRing{
           0%, 100% { box-shadow: 0 0 0 0 rgba(25,211,197,0.00); }
-          50% { box-shadow: 0 0 18px 2px rgba(25,211,197,0.18); }
+          50% { box-shadow: 0 0 20px 3px rgba(25,211,197,0.18); }
         }
 
         .visualText{
@@ -647,11 +646,11 @@ export default function Page() {
           filter: blur(12px);
           opacity: 0.55;
           pointer-events:none;
-          animation: cipherAmbient 8.5s ease-in-out infinite;
+          animation: cipherAmbient 7.2s ease-in-out infinite;
         }
         @keyframes cipherAmbient{
           0%, 100% { transform: translateY(0px); opacity: 0.52; }
-          50% { transform: translateY(-8px); opacity: 0.62; }
+          50% { transform: translateY(-10px); opacity: 0.64; }
         }
 
         .cipherGlow{
@@ -723,16 +722,16 @@ export default function Page() {
           inset: -28px;
           border-radius: 999px;
           background:
-            radial-gradient(260px 180px at 50% 45%, rgba(25,211,197,0.16), transparent 70%),
-            radial-gradient(340px 220px at 50% 55%, rgba(25,211,197,0.10), transparent 72%);
+            radial-gradient(260px 180px at 50% 45%, rgba(25,211,197,0.18), transparent 70%),
+            radial-gradient(340px 220px at 50% 55%, rgba(25,211,197,0.12), transparent 72%);
           filter: blur(10px);
           opacity: 0.65;
-          animation: emblemHalo 4.6s ease-in-out infinite;
+          animation: emblemHalo 3.9s ease-in-out infinite;
           pointer-events:none;
         }
         @keyframes emblemHalo{
-          0%, 100% { transform: scale(1); opacity: 0.55; }
-          50% { transform: scale(1.06); opacity: 0.78; }
+          0%, 100% { transform: scale(1); opacity: 0.58; }
+          50% { transform: scale(1.07); opacity: 0.82; }
         }
 
         .cipherEmblem{
@@ -740,15 +739,33 @@ export default function Page() {
           height: auto;
           display: block;
           filter: drop-shadow(0 20px 44px rgba(0,0,0,0.18));
-          animation: emblemBreath 4.6s ease-in-out infinite;
+          animation: emblemBreath 3.9s ease-in-out infinite;
           transform-origin: center;
         }
         @keyframes emblemBreath{
           0%, 100% { transform: scale(1); filter: drop-shadow(0 20px 44px rgba(0,0,0,0.18)); }
-          50% { transform: scale(1.02); filter: drop-shadow(0 26px 56px rgba(0,0,0,0.22)); }
+          50% { transform: scale(1.025); filter: drop-shadow(0 28px 60px rgba(0,0,0,0.24)); }
         }
 
-        /* ✅ Mini Guide Accordion (Door 1) */
+        /* ✅ MOBILE: make it 50% more obvious */
+        @media (max-width: 820px){
+          .cipherEmblemWrap::before{
+            animation-duration: 2.6s;
+          }
+          .cipherEmblem{
+            animation-duration: 2.6s;
+          }
+          @keyframes emblemHalo{
+            0%, 100% { transform: scale(1); opacity: 0.62; }
+            50% { transform: scale(1.12); opacity: 0.90; }
+          }
+          @keyframes emblemBreath{
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 22px 48px rgba(0,0,0,0.20)); }
+            50% { transform: scale(1.04); filter: drop-shadow(0 34px 72px rgba(0,0,0,0.26)); }
+          }
+        }
+
+        /* ✅ Mini Guide Accordion (Door 1 + Door 2) */
         .miniGuide{
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(0,0,0,0.015);
@@ -756,6 +773,12 @@ export default function Page() {
           padding: 14px 14px;
           display: grid;
           gap: 12px;
+        }
+        .miniGuide.inkGuide{
+          background:
+            radial-gradient(520px 220px at 18% 30%, var(--cipher-teal-faint), transparent 70%),
+            rgba(0,0,0,0.015);
+          border-color: rgba(0,0,0,0.10);
         }
         .miniGuideHead{
           display: grid;
@@ -833,6 +856,16 @@ export default function Page() {
           flex: 0 0 auto;
           font-size: 13px;
         }
+        .miniStepNum.inkNum{
+          background: var(--ink);
+          box-shadow: 0 0 0 0 rgba(25,211,197,0.00);
+          animation: inkNumPulse 4.2s ease-in-out infinite;
+        }
+        @keyframes inkNumPulse{
+          0%, 100% { box-shadow: 0 0 0 0 rgba(25,211,197,0.00); }
+          50% { box-shadow: 0 0 18px 2px rgba(25,211,197,0.14); }
+        }
+
         .miniSummaryText{
           display:grid;
           gap: 2px;
@@ -911,6 +944,10 @@ export default function Page() {
           background: rgba(225,6,0,0.04);
           border-radius: 14px;
           padding: 10px 10px;
+        }
+        .miniOneMove.inkMove{
+          border-color: rgba(25,211,197,0.20);
+          background: rgba(25,211,197,0.06);
         }
         .miniOneMoveTitle{
           font-weight: 950;
@@ -1204,6 +1241,141 @@ export default function Page() {
                   </span>
                 </li>
               </ul>
+
+              {/* ✅ NEW: Door 2 mini-guide (examples under the bullets) */}
+              <div style={{ marginTop: 6 }}>
+                <div className="miniGuide inkGuide" aria-label="Door 2 mini guide">
+                  <div className="miniGuideHead">
+                    <div className="miniGuideTitleRow">
+                      <div className="miniGuideTitle">Examples (tap to expand)</div>
+                      <div className="miniGuideHint">Tap to expand</div>
+                    </div>
+                    <div className="miniGuideSub">
+                      The Cipher shows the pattern. The Co-Pilot translates it. You take one clean next move.
+                    </div>
+                  </div>
+
+                  <div className="miniGuideList" role="list">
+                    <details className="miniItemDetails">
+                      <summary className="miniSummary">
+                        <div className="miniSummaryLeft">
+                          <span className="miniStepNum inkNum">1</span>
+                          <div className="miniSummaryText">
+                            <div className="miniLabel">Seeing the pattern</div>
+                            <div className="miniSummaryLine">“Why does this keep happening?” gets answered.</div>
+                          </div>
+                        </div>
+                        <span className="miniCaret" aria-hidden="true">+</span>
+                      </summary>
+
+                      <div className="miniExpand">
+                        <div className="miniGrid">
+                          <div className="miniBox">
+                            <div className="miniBoxTitle">What this means</div>
+                            <div className="miniBoxBody">
+                              You stop guessing. The Cipher helps you spot the repeat loop—like timing issues,
+                              utilization swings, thin file, inquiry clustering, or mismatched expectations
+                              versus what lenders actually score.
+                            </div>
+                          </div>
+                          <div className="miniBox">
+                            <div className="miniBoxTitle">What this does not mean</div>
+                            <div className="miniBoxBody">
+                              It’s not a lecture and it’s not shame. It’s not “do 20 things.” It’s a clean map that
+                              shows what’s real—so you can act with clarity.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="miniOneMove inkMove">
+                          <div className="miniOneMoveTitle">One move</div>
+                          <div className="miniOneMoveBody">
+                            Identify the *one* repeat loop that’s costing you the most right now—and label it.
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+
+                    <details className="miniItemDetails">
+                      <summary className="miniSummary">
+                        <div className="miniSummaryLeft">
+                          <span className="miniStepNum inkNum">2</span>
+                          <div className="miniSummaryText">
+                            <div className="miniLabel">Getting the next move</div>
+                            <div className="miniSummaryLine">One correct action beats ten random actions.</div>
+                          </div>
+                        </div>
+                        <span className="miniCaret" aria-hidden="true">+</span>
+                      </summary>
+
+                      <div className="miniExpand">
+                        <div className="miniGrid">
+                          <div className="miniBox">
+                            <div className="miniBoxTitle">What this means</div>
+                            <div className="miniBoxBody">
+                              The Co-Pilot turns the pattern into a single step you can actually execute—right timing,
+                              right order, right priority—so your next move changes your outcome.
+                            </div>
+                          </div>
+                          <div className="miniBox">
+                            <div className="miniBoxTitle">What this does not mean</div>
+                            <div className="miniBoxBody">
+                              It’s not generic advice. It’s not “do everything.” It’s a targeted step that fits where
+                              you are *today*—and it’s meant to be doable.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="miniOneMove inkMove">
+                          <div className="miniOneMoveTitle">One move</div>
+                          <div className="miniOneMoveBody">
+                            Choose one next step you can complete this week—and let everything else wait.
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+
+                    <details className="miniItemDetails">
+                      <summary className="miniSummary">
+                        <div className="miniSummaryLeft">
+                          <span className="miniStepNum inkNum">3</span>
+                          <div className="miniSummaryText">
+                            <div className="miniLabel">Auto → Home readiness</div>
+                            <div className="miniSummaryLine">This is how stability becomes bigger doors.</div>
+                          </div>
+                        </div>
+                        <span className="miniCaret" aria-hidden="true">+</span>
+                      </summary>
+
+                      <div className="miniExpand">
+                        <div className="miniGrid">
+                          <div className="miniBox">
+                            <div className="miniBoxTitle">What this means</div>
+                            <div className="miniBoxBody">
+                              Auto is often the on-ramp. The Cipher helps you build stability—clean structure,
+                              clean timing, clean habits—so your profile becomes stronger for bigger approvals later.
+                            </div>
+                          </div>
+                          <div className="miniBox">
+                            <div className="miniBoxTitle">What this does not mean</div>
+                            <div className="miniBoxBody">
+                              It’s not “wait years.” It’s not perfection. It’s building the right pattern over time so
+                              your options expand—step by step.
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="miniOneMove inkMove">
+                          <div className="miniOneMoveTitle">One move</div>
+                          <div className="miniOneMoveBody">
+                            Make one stability move: reduce chaos, improve consistency, and keep your next steps clean.
+                          </div>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                </div>
+              </div>
 
               <div
                 style={{
