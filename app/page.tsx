@@ -1,10 +1,8 @@
 // app/page.tsx
-// PASS: DOOR 1 + DOOR 2 DISCIPLINE ALIGNMENT (NO DRIFT)
+// PASS: MOBILE FIX 4.0 — CONSISTENT PULSE + DOOR 2 COPY (NO DRIFT)
 // ✅ This pass:
-// - Door 1 accordion stays, but removes the redundant subtitle line
-// - Door 2 removes "tomorrow" repetition (selector/chip/headline)
-// - Door 2 removes redundant 3 bullets once "Examples" accordion exists
-// - Cipher emblem motion: ~50% more obvious on mobile, subtle on desktop
+// - Adds consistent “alive” pulse across Door selectors + both CTA pills + subtle door rails (respects reduced motion)
+// - Updates Door 2 selector copy to: “By completing Door 1 today, you unlocked Door 2.” + “Door 2 is for tomorrow — see a preview.”
 
 import Section from "../components/Section";
 import React from "react";
@@ -111,6 +109,41 @@ export default function Page() {
 
         strong { font-weight: 900; color: var(--np-ink); }
 
+        /* =========================================================
+           ✅ CONSISTENT “ALIVE” PULSE SYSTEM (page-wide)
+           - Subtle on desktop, a bit more present on mobile
+           - Respects reduced motion
+        ========================================================= */
+        @keyframes aliveFloat {
+          0%, 100% { transform: translateY(0px); }
+          50%      { transform: translateY(-2px); }
+        }
+        @keyframes aliveGlowFire {
+          0%, 100% { box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
+          50%      { box-shadow: 0 26px 78px rgba(225,6,0,0.16); }
+        }
+        @keyframes aliveGlowInk {
+          0%, 100% { box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
+          50%      { box-shadow: 0 26px 82px rgba(0,0,0,0.18); }
+        }
+        @keyframes railShimmerFire {
+          0%, 100% { filter: brightness(1); opacity: 0.92; }
+          50%      { filter: brightness(1.12); opacity: 1; }
+        }
+        @keyframes railShimmerInk {
+          0%, 100% { filter: brightness(1); opacity: 0.90; }
+          50%      { filter: brightness(1.10); opacity: 1; }
+        }
+
+        /* Reduced motion: kill all non-essential animations */
+        @media (prefers-reduced-motion: reduce){
+          *, *::before, *::after{
+            animation: none !important;
+            transition: none !important;
+            scroll-behavior: auto !important;
+          }
+        }
+
         /* HERO STAGE — clean, minimal */
         .heroStage {
           position: relative;
@@ -143,7 +176,7 @@ export default function Page() {
         }
         .heroInner { position: relative; z-index: 2; }
 
-        .h1 { 
+        .h1 {
           letter-spacing: -0.03em;
           color: var(--ink-strong);
           font-weight: 950;
@@ -223,9 +256,15 @@ export default function Page() {
           justify-content: space-between;
           gap: 14px;
           transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+          will-change: transform, box-shadow;
         }
         .doorSelectBtn:active{ transform: translateY(1px) scale(0.99); }
         .doorSelectBtn:hover{ box-shadow: 0 28px 84px rgba(0,0,0,0.16); }
+
+        /* ✅ Alive pulse on door selectors */
+        .doorSelectBtn{
+          animation: aliveFloat 6.4s ease-in-out infinite;
+        }
 
         .doorSelectLeft{
           display:flex;
@@ -331,9 +370,11 @@ export default function Page() {
         }
         .doorRail.fire{
           background: linear-gradient(90deg, rgba(225,6,0,0.22), rgba(225,6,0,0.06), transparent);
+          animation: railShimmerFire 5.8s ease-in-out infinite;
         }
         .doorRail.ink{
           background: linear-gradient(90deg, rgba(11,11,15,0.22), rgba(11,11,15,0.06), transparent);
+          animation: railShimmerInk 6.2s ease-in-out infinite;
         }
 
         .doorInner{
@@ -544,6 +585,7 @@ export default function Page() {
           white-space: nowrap;
           max-width: 100%;
           flex: 0 0 auto;
+          will-change: transform, box-shadow;
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
@@ -552,15 +594,22 @@ export default function Page() {
           color: #fff;
           border-color: rgba(0,0,0,0.10);
           box-shadow: 0 18px 44px rgba(225,6,0,0.20);
+          animation: aliveFloat 6.8s ease-in-out infinite, aliveGlowFire 6.8s ease-in-out infinite;
         }
         .ctaPill.ink{
           background: var(--ink);
           color: #fff;
           border-color: rgba(0,0,0,0.10);
           box-shadow: 0 18px 46px rgba(0,0,0,0.18);
+          animation: aliveFloat 7.2s ease-in-out infinite, aliveGlowInk 7.2s ease-in-out infinite;
         }
 
         @media (max-width: 820px){
+          /* Slightly more present on mobile */
+          .doorSelectBtn{ animation-duration: 4.6s; }
+          .ctaPill.fire{ animation-duration: 4.9s; }
+          .ctaPill.ink{ animation-duration: 5.2s; }
+
           .doorVisual{
             flex-direction: column;
             align-items: stretch;
@@ -1070,20 +1119,20 @@ export default function Page() {
 
       {/* ✅ Reframed as “for your tomorrow” (without repeating "tomorrow" everywhere) */}
       <Section id="cipher" title="The BALANCE Cipher" desc="For your tomorrow.">
-        {/* ✅ Door 2 selector moved HERE (remove "tomorrow" repetition) */}
+        {/* ✅ Door 2 selector moved HERE */}
         <div className="doorSelect" aria-label="Door 2 selector" style={{ marginBottom: 14 }}>
           <a
             className="doorSelectBtn"
             href="#door-2"
-            aria-label="Door 2: Complete Door 1 today. Unlock the Cipher."
+            aria-label="Door 2: By completing Door 1 today, you unlocked Door 2."
           >
             <div className="doorSelectLeft">
               <span className="doorTag ink">DOOR 2</span>
               <div className="doorSelectText">
                 <div className="doorSelectTitle">
-                  <span className="ink">Complete Door 1 today.</span> Unlock the Cipher.
+                  <span className="ink">By completing Door 1 today,</span> you unlocked Door 2.
                 </div>
-                <div className="doorSelectSub">See the pattern, then take one clear next move.</div>
+                <div className="doorSelectSub">Door 2 is for tomorrow — see a preview.</div>
               </div>
             </div>
             <span className="doorSelectChevron" aria-hidden="true">
@@ -1102,7 +1151,6 @@ export default function Page() {
                 <span className="laneTag">Discover the map</span>
               </div>
 
-              {/* ✅ Remove "Tomorrow:" prefix */}
               <h3 className="doorTitle">Discover the AI-driven BALANCE Cipher</h3>
 
               <p className="doorBody">
@@ -1125,8 +1173,6 @@ export default function Page() {
                 </a>
               </div>
 
-              {/* ✅ Remove the redundant 3 bullets (per markup).
-                  Door 2 keeps the Examples accordion as the structured content. */}
               <div
                 style={{
                   border: "1px solid rgba(0,0,0,0.10)",
