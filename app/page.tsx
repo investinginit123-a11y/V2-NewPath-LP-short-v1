@@ -1,7 +1,8 @@
 // app/page.tsx
-// PASS: 60-SECOND APPROVAL PROMISE (Option A) + CIPHER HIGHLIGHT
-// - Door 1: 60-second approval identity (4x), non-invasive language
-// - Door 2: "Discover the pattern" row becomes clear + alive (bigger, higher contrast, subtle pulse)
+// PASS: 60-SECOND APPROVAL PROMISE (Option A)
+// - Door 1 becomes "60-Second Approval" identity (repeated 4x)
+// - Adds "Non-invasive" + "No obligation" language
+// - Keeps ONLY 2 outbound CTAs total (application + cipher)
 
 import Section from "../components/Section";
 
@@ -25,8 +26,8 @@ export default function Page() {
           --np-radius: 26px;
           --np-pill: 999px;
 
-          /* ✅ PRIMARY RED (no pink) */
-          --magenta: #D00000;         /* fire engine red */
+          /* ✅ DECISION COLORS (LOCKED) — fire-engine red lane + ink */
+          --magenta: #D00000;         /* fire engine red (no pink) */
           --magenta-deep: #A40000;    /* depth */
           --ink: #0B0B0F;             /* premium near-black */
 
@@ -95,6 +96,7 @@ export default function Page() {
           gap: 12px;
         }
 
+        /* Remove any old filler UI blocks */
         .pills { display: none !important; }
         .heroRow { display: none !important; }
         .trustStrip { display: none !important; }
@@ -106,6 +108,7 @@ export default function Page() {
           object-fit: contain;
         }
 
+        /* HERO COMMAND STRIP — short + clean */
         .commandStrip{
           border-radius: 18px;
           border: 2px solid rgba(0,0,0,0.14);
@@ -124,6 +127,7 @@ export default function Page() {
         .commandLine .magenta{ color: var(--magenta); }
         .commandLine .ink{ color: var(--ink); }
 
+        /* DOORS */
         #doors .sectionTitle{
           font-size: clamp(34px, 5vw, 54px);
           line-height: 1.04;
@@ -137,6 +141,7 @@ export default function Page() {
           background: transparent;
         }
 
+        /* ✅ SIMPLE DOOR SELECTORS (ONLY) */
         .doorSelect{
           display:grid;
           gap: 12px;
@@ -222,6 +227,7 @@ export default function Page() {
           color: rgba(15,23,42,0.70);
         }
 
+        /* DETAIL CARDS */
         .doorStack{
           display:grid;
           gap: 18px;
@@ -328,6 +334,7 @@ export default function Page() {
           max-width: 900px;
         }
 
+        /* Small trust chips (non-invasive / 60 seconds / no obligation) */
         .trustChips{
           display:flex;
           flex-wrap: wrap;
@@ -367,14 +374,6 @@ export default function Page() {
           max-width: 100%;
           min-width: 0;
         }
-
-        /* ✅ Cipher highlight strip (Door 2 only) */
-        .doorVisual.cipherFocus{
-          background: linear-gradient(180deg, rgba(11,11,15,0.03), rgba(11,11,15,0.015));
-          border-color: rgba(0,0,0,0.14);
-          box-shadow: 0 18px 40px rgba(0,0,0,0.06);
-        }
-
         .visualLeft{
           display:flex;
           align-items:center;
@@ -392,15 +391,6 @@ export default function Page() {
           box-shadow: 0 10px 24px rgba(0,0,0,0.06);
           position: relative;
           flex: 0 0 auto;
-        }
-
-        /* ✅ Bigger icon for cipher row */
-        .cipherFocus .visualIcon{
-          width: 54px;
-          height: 54px;
-          border-radius: 16px;
-          box-shadow: 0 14px 34px rgba(0,0,0,0.10);
-          border-color: rgba(0,0,0,0.14);
         }
 
         .iconRoad::before{
@@ -429,37 +419,17 @@ export default function Page() {
         .iconCipher::before{
           content:"";
           position:absolute;
-          inset: 11px;
+          inset: 10px;
           border-radius: 999px;
-          border: 2px solid rgba(0,0,0,0.28);
-          box-shadow: 0 0 16px rgba(0,0,0,0.12);
+          border: 2px solid rgba(0,0,0,0.26);
+          box-shadow: 0 0 14px rgba(0,0,0,0.10);
         }
         .iconCipher::after{
           content:"";
           position:absolute;
-          inset: 19px;
+          inset: 18px;
           border-radius: 999px;
-          border: 1px solid rgba(208,0,0,0.22);
-        }
-
-        /* ✅ Subtle pulse ring (reads as “alive”, not flashy) */
-        .cipherPulse{
-          position: relative;
-        }
-        .cipherPulse::before{
-          content:"";
-          position:absolute;
-          inset:-6px;
-          border-radius: 18px;
-          background: radial-gradient(120px 60px at 50% 40%, rgba(208,0,0,0.14), transparent 70%);
-          opacity: 0.55;
-          filter: blur(6px);
-          animation: cipherBreath 2.8s ease-in-out infinite;
-          pointer-events:none;
-        }
-        @keyframes cipherBreath{
-          0%,100% { transform: scale(0.98); opacity: 0.45; }
-          50%     { transform: scale(1.03); opacity: 0.70; }
+          border: 1px solid rgba(208,0,0,0.18);
         }
 
         .visualText{
@@ -484,18 +454,6 @@ export default function Page() {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
-
-        /* ✅ Bigger, clearer cipher-row typography */
-        .cipherFocus .visualTitle{
-          font-size: 16px;
-          font-weight: 1000;
-          color: rgba(0,0,0,0.90);
-        }
-        .cipherFocus .visualSub{
-          font-size: 14px;
-          font-weight: 850;
-          color: rgba(15,23,42,0.72);
         }
 
         .miniList{
@@ -526,6 +484,7 @@ export default function Page() {
         .miniMark.magenta{ background: rgba(208,0,0,0.70); }
         .miniMark.ink{ background: rgba(11,11,15,0.56); }
 
+        /* Outbound CTAs (still only 2 total) */
         .ctaPill{
           display:inline-flex;
           align-items:center;
@@ -592,6 +551,7 @@ export default function Page() {
           .doorSelectTitle{ font-size: 17px; }
         }
 
+        /* Cipher section — clean */
         .cipherCard{
           border: 1px solid rgba(0,0,0,0.10);
           border-radius: var(--np-radius);
@@ -701,6 +661,7 @@ export default function Page() {
 
       <Section id="doors" title="Choose your door" desc="">
         <div className="decisionStage" aria-label="Decision stage">
+          {/* ✅ ONLY TWO CHOICES (clean + mobile-first) */}
           <div className="doorSelect" aria-label="Door selector">
             <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: 60-Second Approval">
               <div className="doorSelectLeft">
@@ -729,6 +690,7 @@ export default function Page() {
             </a>
           </div>
 
+          {/* Door 1 detail card */}
           <div className="doorStack">
             <div className="doorCard magenta" id="door-1" aria-label="Door 1: 60-Second Approval">
               <div className="doorRail magenta" aria-hidden="true" />
@@ -760,6 +722,7 @@ export default function Page() {
                     </div>
                   </div>
 
+                  {/* CTA #1 */}
                   <a
                     className="ctaPill magenta"
                     href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=two-door"
@@ -803,6 +766,7 @@ export default function Page() {
       </Section>
 
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
+        {/* Door 2 detail placed near Cipher for clean flow */}
         <div style={{ marginBottom: 18 }}>
           <div className="doorCard ink" id="door-2" aria-label="Door 2: Cipher">
             <div className="doorRail ink" aria-hidden="true" />
@@ -819,17 +783,22 @@ export default function Page() {
                 map into <strong>one clear next step</strong>.
               </p>
 
-              {/* ✅ This is the row you circled — now bigger + clearer + subtle pulse */}
-              <div className="doorVisual cipherFocus">
+              <div className="doorVisual">
                 <div className="visualLeft">
-                  <span className="visualIcon iconCipher cipherPulse" aria-hidden="true" />
+                  <span className="visualIcon iconCipher" aria-hidden="true" />
                   <div className="visualText">
                     <div className="visualTitle">Discover the pattern.</div>
                     <div className="visualSub">See it → then choose your next move.</div>
                   </div>
                 </div>
 
-                <a className="ctaPill ink" href="https://app.balancecipher.com/" target="_blank" rel="noopener noreferrer">
+                {/* CTA #2 */}
+                <a
+                  className="ctaPill ink"
+                  href="https://app.balancecipher.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Open the Cipher →
                 </a>
               </div>
@@ -866,6 +835,7 @@ export default function Page() {
           </div>
         </div>
 
+        {/* Cipher content */}
         <div className="cipherCard">
           <div className="cipherGlow" aria-hidden="true" />
           <div className="cipherInner">
