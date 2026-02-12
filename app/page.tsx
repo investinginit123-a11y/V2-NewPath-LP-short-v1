@@ -1,9 +1,10 @@
 // app/page.tsx
-// PASS: DOOR 2 ALIVE + RITUAL ROW + STRONGER CIPHER MOTION (MOBILE UP, DESKTOP SUBTLE)
+// PASS: DOOR 1 + DOOR 2 DISCIPLINE ALIGNMENT (NO DRIFT)
 // ✅ This pass:
-// - Door 2 gets "alive" lane discipline (ink + teal glow) so it matches Door 1 energy
-// - Door 2 action row becomes an intentional "decode" ritual moment (still only 2 outbound CTAs total)
-// - Cipher emblem animation: subtle on desktop, ~50% stronger/faster on mobile
+// - Door 1 accordion stays, but removes the redundant subtitle line
+// - Door 2 removes "tomorrow" repetition (selector/chip/headline)
+// - Door 2 removes redundant 3 bullets once "Examples" accordion exists
+// - Cipher emblem motion: ~50% more obvious on mobile, subtle on desktop
 
 import Section from "../components/Section";
 import React from "react";
@@ -12,6 +13,7 @@ function MiniAccordion({
   title,
   subtitle,
   items,
+  className,
 }: {
   title: string;
   subtitle?: string;
@@ -22,9 +24,10 @@ function MiniAccordion({
     notMeans: string;
     oneMove: string;
   }>;
+  className?: string;
 }) {
   return (
-    <div className="miniGuide" aria-label="Mini guide">
+    <div className={`miniGuide ${className ?? ""}`.trim()} aria-label="Mini guide">
       <div className="miniGuideHead">
         <div className="miniGuideTitleRow">
           <div className="miniGuideTitle">{title}</div>
@@ -98,13 +101,12 @@ export default function Page() {
           --fire-deep: #B80000;      /* depth */
           --ink: #0B0B0F;            /* premium near-black */
 
-          /* ✅ Cipher teal lane */
-          --teal: #19d3c5;
-          --teal-soft: rgba(25,211,197,0.20);
-          --teal-mid: rgba(25,211,197,0.32);
-
           --white: #ffffff;
           --ink-strong: rgba(0,0,0,0.92);
+
+          /* Cipher glow lane */
+          --cipher-glow: rgba(25,211,197,0.26);
+          --cipher-glow-strong: rgba(25,211,197,0.42);
         }
 
         strong { font-weight: 900; color: var(--np-ink); }
@@ -225,28 +227,6 @@ export default function Page() {
         .doorSelectBtn:active{ transform: translateY(1px) scale(0.99); }
         .doorSelectBtn:hover{ box-shadow: 0 28px 84px rgba(0,0,0,0.16); }
 
-        /* Door 2 selector gets subtle teal lane energy */
-        .doorSelectBtn.inkAlive{
-          border-color: rgba(0,0,0,0.12);
-          box-shadow:
-            0 18px 54px rgba(0,0,0,0.12),
-            0 0 0 1px rgba(25,211,197,0.10) inset;
-          position: relative;
-          overflow: hidden;
-        }
-        .doorSelectBtn.inkAlive::after{
-          content:"";
-          position:absolute;
-          inset:-40px;
-          background:
-            radial-gradient(520px 240px at 18% 30%, rgba(25,211,197,0.14), transparent 70%),
-            radial-gradient(640px 320px at 70% 22%, rgba(0,0,0,0.12), transparent 72%);
-          filter: blur(10px);
-          opacity: 0.85;
-          pointer-events:none;
-        }
-        .doorSelectBtn.inkAlive > *{ position: relative; z-index: 2; }
-
         .doorSelectLeft{
           display:flex;
           align-items:center;
@@ -344,20 +324,6 @@ export default function Page() {
           background: linear-gradient(180deg, var(--ink), rgba(11,11,15,0.16));
         }
 
-        /* ✅ Door 2 alive lane overlay (teal glow) */
-        .doorCard.ink.inkAlive::after{
-          content:"";
-          position:absolute;
-          inset:-70px;
-          background:
-            radial-gradient(560px 260px at 22% 18%, rgba(25,211,197,0.18), transparent 70%),
-            radial-gradient(720px 320px at 78% 24%, rgba(0,0,0,0.16), transparent 72%);
-          filter: blur(12px);
-          opacity: 0.95;
-          pointer-events:none;
-        }
-        .doorCard.ink.inkAlive > *{ position: relative; z-index: 2; }
-
         .doorRail{
           height: 10px;
           width: 100%;
@@ -368,9 +334,6 @@ export default function Page() {
         }
         .doorRail.ink{
           background: linear-gradient(90deg, rgba(11,11,15,0.22), rgba(11,11,15,0.06), transparent);
-        }
-        .doorRail.inkAlive{
-          background: linear-gradient(90deg, rgba(25,211,197,0.22), rgba(11,11,15,0.10), transparent);
         }
 
         .doorInner{
@@ -444,29 +407,7 @@ export default function Page() {
           gap: 14px;
           max-width: 100%;
           min-width: 0;
-          position: relative;
-          overflow: hidden;
         }
-
-        /* ✅ Door 2 ritual row styling (intentional, alive, quiet premium) */
-        .doorVisual.cipherRitual{
-          background:
-            linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.90)),
-            radial-gradient(560px 220px at 18% 50%, rgba(25,211,197,0.10), transparent 72%);
-          border-color: rgba(0,0,0,0.10);
-        }
-        .doorVisual.cipherRitual::after{
-          content:"";
-          position:absolute;
-          inset:-60px;
-          background:
-            radial-gradient(520px 240px at 20% 42%, rgba(25,211,197,0.12), transparent 70%);
-          filter: blur(10px);
-          opacity: 0.85;
-          pointer-events:none;
-        }
-        .doorVisual.cipherRitual > *{ position: relative; z-index: 2; }
-
         .visualLeft{
           display:flex;
           align-items:center;
@@ -484,14 +425,6 @@ export default function Page() {
           box-shadow: 0 10px 24px rgba(0,0,0,0.06);
           position: relative;
           flex: 0 0 auto;
-        }
-        .cipherRitual .visualIcon{
-          width: 56px;
-          height: 56px;
-          border-radius: 16px;
-          box-shadow:
-            0 12px 30px rgba(0,0,0,0.08),
-            0 0 0 1px rgba(25,211,197,0.10) inset;
         }
 
         .iconRoad::before{
@@ -525,10 +458,6 @@ export default function Page() {
           border: 2px solid rgba(0,0,0,0.26);
           box-shadow: 0 0 14px rgba(0,0,0,0.10);
         }
-        .cipherRitual .iconCipher::before{
-          border-color: rgba(25,211,197,0.28);
-          box-shadow: 0 0 18px rgba(25,211,197,0.18);
-        }
         .iconCipher::after{
           content:"";
           position:absolute;
@@ -536,13 +465,20 @@ export default function Page() {
           border-radius: 999px;
           border: 1px solid rgba(225,6,0,0.14);
         }
-        .cipherRitual .iconCipher::after{
+
+        /* Door 2 “Discover the pattern” highlight */
+        .doorCard.ink .doorVisual{
+          background: linear-gradient(90deg, rgba(25,211,197,0.16), rgba(255,255,255,0.96) 55%);
+          border-color: rgba(0,0,0,0.10);
+        }
+        .doorCard.ink .visualIcon{
+          box-shadow: 0 14px 30px rgba(25,211,197,0.16);
           border-color: rgba(25,211,197,0.18);
         }
 
         .visualText{
           display:grid;
-          gap: 3px;
+          gap: 2px;
           min-width: 0;
           max-width: 100%;
         }
@@ -555,12 +491,6 @@ export default function Page() {
           overflow: hidden;
           text-overflow: ellipsis;
         }
-        .cipherRitual .visualTitle{
-          font-size: 13px;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: rgba(15,23,42,0.86);
-        }
         .visualSub{
           font-size: 13px;
           color: rgba(15,23,42,0.66);
@@ -568,17 +498,6 @@ export default function Page() {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
-        .cipherRitual .visualSub{
-          font-size: 14px;
-          font-weight: 950;
-          color: rgba(15,23,42,0.88);
-          letter-spacing: -0.01em;
-        }
-        .cipherRitual .visualMicro{
-          font-size: 12px;
-          font-weight: 800;
-          color: rgba(15,23,42,0.64);
         }
 
         .miniList{
@@ -625,8 +544,6 @@ export default function Page() {
           white-space: nowrap;
           max-width: 100%;
           flex: 0 0 auto;
-          position: relative;
-          z-index: 2;
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
@@ -641,11 +558,6 @@ export default function Page() {
           color: #fff;
           border-color: rgba(0,0,0,0.10);
           box-shadow: 0 18px 46px rgba(0,0,0,0.18);
-        }
-        .ctaPill.inkTeal{
-          box-shadow:
-            0 18px 46px rgba(0,0,0,0.18),
-            0 0 0 1px rgba(25,211,197,0.10) inset;
         }
 
         @media (max-width: 820px){
@@ -688,13 +600,50 @@ export default function Page() {
         }
         .cipherGlow{
           position:absolute;
-          inset:-40px;
+          inset:-50px;
           background:
-            radial-gradient(520px 240px at 50% 22%, rgba(225,6,0,0.07), transparent 72%),
-            radial-gradient(620px 280px at 50% 18%, rgba(25,211,197,0.06), transparent 74%);
-          filter: blur(10px);
+            radial-gradient(520px 240px at 50% 22%, rgba(25,211,197,0.16), transparent 72%),
+            radial-gradient(560px 260px at 50% 60%, rgba(225,6,0,0.06), transparent 74%);
+          filter: blur(14px);
           pointer-events:none;
+          opacity: 0.85;
+          animation: glowPulse 5.6s ease-in-out infinite;
         }
+
+        /* Cipher emblem “alive” */
+        .cipherEmblem{
+          display:block;
+          margin: 6px auto 0;
+          filter: drop-shadow(0 22px 48px rgba(0,0,0,0.22));
+          transform-origin: 50% 50%;
+          will-change: transform, filter;
+          animation: cipherBreathDesktop 7.8s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse{
+          0%, 100% { transform: scale(1); opacity: 0.78; }
+          50%      { transform: scale(1.05); opacity: 0.98; }
+        }
+
+        @keyframes cipherBreathDesktop{
+          0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 22px 48px rgba(0,0,0,0.22)); }
+          50%      { transform: translateY(-2px) scale(1.015); filter: drop-shadow(0 26px 58px rgba(25,211,197,0.20)); }
+        }
+
+        /* ✅ Mobile: 50%+ more obvious */
+        @media (max-width: 820px){
+          .cipherGlow{
+            animation-duration: 3.8s;
+          }
+          .cipherEmblem{
+            animation: cipherBreathMobile 3.2s ease-in-out infinite;
+          }
+          @keyframes cipherBreathMobile{
+            0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 22px 48px rgba(0,0,0,0.22)); }
+            50%      { transform: translateY(-4px) scale(1.045); filter: drop-shadow(0 30px 72px rgba(25,211,197,0.34)); }
+          }
+        }
+
         .cipherInner{
           position:relative;
           padding: 22px 20px;
@@ -743,82 +692,7 @@ export default function Page() {
           background: rgba(225,6,0,0.48);
         }
 
-        /* ✅ Cipher emblem "alive" motion (desktop subtle, mobile stronger) */
-        .cipherEmblemWrap{
-          position: relative;
-          width: min(460px, 92vw);
-          margin: 6px auto 0;
-          display: grid;
-          place-items: center;
-          pointer-events: none;
-        }
-        .cipherEmblemWrap::before{
-          content:"";
-          position:absolute;
-          inset:-38px;
-          background:
-            radial-gradient(240px 240px at 50% 50%, rgba(25,211,197,0.16), transparent 70%),
-            radial-gradient(320px 240px at 50% 48%, rgba(0,0,0,0.10), transparent 72%);
-          filter: blur(10px);
-          opacity: 0.65;
-        }
-        .cipherEmblem{
-          position: relative;
-          z-index: 2;
-          width: 100%;
-          height: auto;
-          display:block;
-          filter: drop-shadow(0 20px 44px rgba(0,0,0,0.18));
-          transform-origin: 50% 50%;
-          animation: cipherFloatDesktop 6.6s ease-in-out infinite;
-        }
-        @keyframes cipherFloatDesktop{
-          0%   { transform: translateY(0px) scale(1.00); filter: drop-shadow(0 20px 44px rgba(0,0,0,0.18)); }
-          50%  { transform: translateY(-2px) scale(1.01); filter: drop-shadow(0 26px 56px rgba(0,0,0,0.20)); }
-          100% { transform: translateY(0px) scale(1.00); filter: drop-shadow(0 20px 44px rgba(0,0,0,0.18)); }
-        }
-
-        .cipherHalo{
-          position:absolute;
-          inset:-18px;
-          border-radius: 999px;
-          background: radial-gradient(closest-side, rgba(25,211,197,0.18), transparent 68%);
-          filter: blur(8px);
-          opacity: 0.55;
-          animation: haloPulseDesktop 6.6s ease-in-out infinite;
-        }
-        @keyframes haloPulseDesktop{
-          0%   { opacity: 0.45; transform: scale(1.00); }
-          50%  { opacity: 0.62; transform: scale(1.04); }
-          100% { opacity: 0.45; transform: scale(1.00); }
-        }
-
-        @media (max-width: 820px){
-          .cipherEmblemWrap::before{
-            inset:-48px;
-            opacity: 0.82;
-          }
-          .cipherEmblem{
-            animation: cipherFloatMobile 4.2s ease-in-out infinite; /* ~50% more noticeable */
-          }
-          .cipherHalo{
-            inset:-26px;
-            opacity: 0.72;
-            animation: haloPulseMobile 4.2s ease-in-out infinite;
-          }
-          @keyframes cipherFloatMobile{
-            0%   { transform: translateY(0px) scale(1.00); filter: drop-shadow(0 18px 42px rgba(0,0,0,0.18)); }
-            50%  { transform: translateY(-5px) scale(1.02); filter: drop-shadow(0 28px 62px rgba(0,0,0,0.22)); }
-            100% { transform: translateY(0px) scale(1.00); filter: drop-shadow(0 18px 42px rgba(0,0,0,0.18)); }
-          }
-          @keyframes haloPulseMobile{
-            0%   { opacity: 0.60; transform: scale(1.00); }
-            50%  { opacity: 0.82; transform: scale(1.08); }
-            100% { opacity: 0.60; transform: scale(1.00); }
-          }
-        }
-
-        /* ✅ Mini Guide Accordion (Door 1) */
+        /* ✅ Mini Guide Accordion */
         .miniGuide{
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(0,0,0,0.015);
@@ -826,6 +700,11 @@ export default function Page() {
           padding: 14px 14px;
           display: grid;
           gap: 12px;
+        }
+        /* Door 2 variant (subtle cipher tint) */
+        .miniGuide.cipher{
+          background: linear-gradient(180deg, rgba(25,211,197,0.10), rgba(0,0,0,0.012));
+          border-color: rgba(25,211,197,0.16);
         }
         .miniGuideHead{
           display: grid;
@@ -903,6 +782,11 @@ export default function Page() {
           flex: 0 0 auto;
           font-size: 13px;
         }
+        /* Door 2 step number uses premium ink (not red) */
+        .miniGuide.cipher .miniStepNum{
+          background: var(--ink);
+        }
+
         .miniSummaryText{
           display:grid;
           gap: 2px;
@@ -982,6 +866,12 @@ export default function Page() {
           border-radius: 14px;
           padding: 10px 10px;
         }
+        /* Door 2 one-move uses cipher tint instead of red */
+        .miniGuide.cipher .miniOneMove{
+          border-color: rgba(25,211,197,0.22);
+          background: rgba(25,211,197,0.08);
+        }
+
         .miniOneMoveTitle{
           font-weight: 950;
           font-size: 12px;
@@ -1015,8 +905,7 @@ export default function Page() {
                 <div className="card heroCard">
                   <div className="cardInner heroCardInner">
                     <h1 className="h1">
-                      Create a New Path{" "}
-                      <span style={{ color: "var(--fire)" }}>forward</span>.
+                      Create a New Path <span style={{ color: "var(--fire)" }}>forward</span>.
                     </h1>
 
                     <div className="subStack" aria-label="Hero steps">
@@ -1052,9 +941,7 @@ export default function Page() {
                   <div className="doorSelectTitle">
                     <span className="fire">Start your New Path</span> today.
                   </div>
-                  <div className="doorSelectSub">
-                    Start the process and get routed the right way.
-                  </div>
+                  <div className="doorSelectSub">Start the process and get routed the right way.</div>
                 </div>
               </div>
               <span className="doorSelectChevron" aria-hidden="true">
@@ -1076,14 +963,13 @@ export default function Page() {
                 <h3 className="doorTitle">Today: Get started the right way</h3>
 
                 <p className="doorBody">
-                  If you’re ready to move now, the application is your cleanest first step.
-                  We route you into a calm, lender-aligned path—without overwhelm.
+                  If you’re ready to move now, the application is your cleanest first step. We route you into a calm,
+                  lender-aligned path—without overwhelm.
                 </p>
 
-                {/* ✅ Door 1 mini-guide (accordion) */}
+                {/* ✅ Door 1 mini-guide (subtitle removed per markup) */}
                 <MiniAccordion
                   title="Learn the 4 moves (no noise)"
-                  subtitle="Same flow as the best guides—just cleaner. Expand only what you need."
                   items={[
                     {
                       label: "Check your credit",
@@ -1182,19 +1068,20 @@ export default function Page() {
         </div>
       </Section>
 
-      <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
-        {/* ✅ Door 2 selector moved HERE (and made “alive”) */}
+      {/* ✅ Reframed as “for your tomorrow” (without repeating "tomorrow" everywhere) */}
+      <Section id="cipher" title="The BALANCE Cipher" desc="For your tomorrow.">
+        {/* ✅ Door 2 selector moved HERE (remove "tomorrow" repetition) */}
         <div className="doorSelect" aria-label="Door 2 selector" style={{ marginBottom: 14 }}>
           <a
-            className="doorSelectBtn inkAlive"
+            className="doorSelectBtn"
             href="#door-2"
-            aria-label="Door 2: Complete Door 1 today. Unlock the Cipher tomorrow."
+            aria-label="Door 2: Complete Door 1 today. Unlock the Cipher."
           >
             <div className="doorSelectLeft">
               <span className="doorTag ink">DOOR 2</span>
               <div className="doorSelectText">
                 <div className="doorSelectTitle">
-                  <span className="ink">Complete Door 1 today.</span> Unlock the Cipher tomorrow.
+                  <span className="ink">Complete Door 1 today.</span> Unlock the Cipher.
                 </div>
                 <div className="doorSelectSub">See the pattern, then take one clear next move.</div>
               </div>
@@ -1207,63 +1094,90 @@ export default function Page() {
 
         {/* Door 2 detail */}
         <div style={{ marginBottom: 18 }}>
-          <div className="doorCard ink inkAlive" id="door-2" aria-label="Door 2: Tomorrow">
-            <div className="doorRail inkAlive" aria-hidden="true" />
+          <div className="doorCard ink" id="door-2" aria-label="Door 2: Cipher door">
+            <div className="doorRail ink" aria-hidden="true" />
             <div className="doorInner">
               <div className="doorKicker">
                 <span className="doorPill">DOOR 2</span>
-                <span className="laneTag">Discover tomorrow</span>
+                <span className="laneTag">Discover the map</span>
               </div>
 
-              <h3 className="doorTitle">Tomorrow: Discover the AI-driven BALANCE Cipher</h3>
+              {/* ✅ Remove "Tomorrow:" prefix */}
+              <h3 className="doorTitle">Discover the AI-driven BALANCE Cipher</h3>
 
               <p className="doorBody">
                 The Cipher isn’t a checklist. It’s a map. It shows why outcomes repeat—and the Co-Pilot translates that
                 map into <strong>one clear next step</strong>.
               </p>
 
-              {/* ✅ Ritual action row (intentional, alive, quiet-premium) */}
-              <div className="doorVisual cipherRitual">
+              <div className="doorVisual">
                 <div className="visualLeft">
                   <span className="visualIcon iconCipher" aria-hidden="true" />
                   <div className="visualText">
-                    <div className="visualTitle">Cipher + Co-Pilot + You = Balance</div>
-                    <div className="visualSub">Are you ready to start decoding?</div>
-                    <div className="visualMicro">Quiet power. One move at a time.</div>
+                    <div className="visualTitle">Discover the pattern.</div>
+                    <div className="visualSub">See it clearly → then choose one next move.</div>
                   </div>
                 </div>
 
                 {/* ✅ CTA #2 (Outbound) */}
-                <a
-                  className="ctaPill ink inkTeal"
-                  href="https://app.balancecipher.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a className="ctaPill ink" href="https://app.balancecipher.com/" target="_blank" rel="noopener noreferrer">
                   Open the Cipher →
                 </a>
               </div>
 
-              <ul className="miniList" aria-label="Door 2 points">
-                <li className="miniItem">
-                  <span className="miniMark ink" aria-hidden="true" />
-                  <span>
-                    <strong>See the pattern</strong> behind your results.
-                  </span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark ink" aria-hidden="true" />
-                  <span>
-                    <strong>Learn the next move</strong> that changes your outcome.
-                  </span>
-                </li>
-                <li className="miniItem">
-                  <span className="miniMark ink" aria-hidden="true" />
-                  <span>
-                    <strong>Auto → Home:</strong> build stability and real readiness over time.
-                  </span>
-                </li>
-              </ul>
+              {/* ✅ Remove the redundant 3 bullets (per markup).
+                  Door 2 keeps the Examples accordion as the structured content. */}
+              <div
+                style={{
+                  border: "1px solid rgba(0,0,0,0.10)",
+                  borderRadius: 18,
+                  background: "rgba(0,0,0,0.02)",
+                  padding: "14px 14px",
+                }}
+              >
+                <div style={{ fontWeight: 950, color: "rgba(15,23,42,0.90)", marginBottom: 6 }}>Examples (tap to expand)</div>
+                <div style={{ color: "rgba(15,23,42,0.74)", lineHeight: 1.55, fontSize: 14, marginBottom: 12 }}>
+                  The Cipher shows the pattern. The Co-Pilot translates it. You take one clean next move.
+                </div>
+
+                <MiniAccordion
+                  className="cipher"
+                  title="Examples"
+                  subtitle={undefined}
+                  items={[
+                    {
+                      label: "Seeing the pattern",
+                      summary: "“Why does this keep happening?” gets answered.",
+                      means:
+                        "You stop guessing and finally see what’s driving the repeat loop: credit signals, timing, structure, and decisions that compound.",
+                      notMeans:
+                        "It does not mean you relive the past. It means you see it clearly so you don’t repeat it again.",
+                      oneMove:
+                        "Pick one area (credit, payments, savings, or decisions) and let the Cipher show the repeat pattern in plain language.",
+                    },
+                    {
+                      label: "Getting the next move",
+                      summary: "One correct action beats ten random actions.",
+                      means:
+                        "The Co-Pilot turns the map into a single step you can actually do—without overwhelm or a 20-step plan.",
+                      notMeans:
+                        "It does not mean perfection. It means direction: one move you can execute today.",
+                      oneMove:
+                        "Do the next right move first—then the next. You earn momentum by stacking clean steps.",
+                    },
+                    {
+                      label: "Auto → Home readiness",
+                      summary: "Stability now so bigger doors open later.",
+                      means:
+                        "Auto is the on-ramp: structure, consistency, and credit signals that eventually translate into home readiness and better terms.",
+                      notMeans:
+                        "It does not mean rushing into homeownership. It means building the foundation the right way.",
+                      oneMove:
+                        "Use auto decisions to strengthen your profile: clean payment lane + clean timing + clean structure.",
+                    },
+                  ]}
+                />
+              </div>
 
               <div
                 style={{
@@ -1286,15 +1200,15 @@ export default function Page() {
         <div className="cipherCard">
           <div className="cipherGlow" aria-hidden="true" />
           <div className="cipherInner">
-            {/* ✅ Alive cipher emblem wrapper */}
-            <div className="cipherEmblemWrap" aria-hidden="true">
-              <div className="cipherHalo" />
-              <img
-                src="/brand/balance-cipher-emblem.png"
-                alt="BALANCE Cipher emblem"
-                className="cipherEmblem"
-              />
-            </div>
+            <img
+              src="/brand/balance-cipher-emblem.png"
+              alt="BALANCE Cipher emblem"
+              className="cipherEmblem"
+              style={{
+                width: "min(460px, 92vw)",
+                height: "auto",
+              }}
+            />
 
             <h3 className="cipherTitle">
               Open your new door—<span style={{ color: "var(--fire)" }}>with the Cipher</span>.
