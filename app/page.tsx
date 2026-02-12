@@ -1,12 +1,78 @@
 // app/page.tsx
 // PASS: MOBILE-FIRST SIMPLIFICATION (SEQUENTIAL DOOR FLOW)
-// ✅ Changes in this pass:
-// 1) Under "Choose your door": show ONLY Door 1 selector (primary)
-// 2) Move Door 2 selector DOWN near "The BALANCE Cipher" section (secondary, after Door 1)
-// 3) Update Door 2 selector verbiage: "Complete Door 1 today. Unlock the Cipher tomorrow."
-// 4) Keep outbound CTAs at 2 total (Application + Cipher)
+// ✅ This pass:
+// - Door 1 selector only under "Choose your door"
+// - Door 2 selector moved down into Cipher section
+// - Door 1 now contains an INTERNAL accordion: "Learn the 4 moves" (page-inside-page)
+// - Outbound CTAs remain ONLY 2 total (Application + Cipher)
 
 import Section from "../components/Section";
+import React from "react";
+
+function MiniAccordion({
+  title,
+  subtitle,
+  items,
+}: {
+  title: string;
+  subtitle?: string;
+  items: Array<{
+    label: string;
+    summary: string;
+    means: string;
+    notMeans: string;
+    oneMove: string;
+  }>;
+}) {
+  return (
+    <div className="miniGuide" aria-label="Mini guide">
+      <div className="miniGuideHead">
+        <div className="miniGuideTitleRow">
+          <div className="miniGuideTitle">{title}</div>
+          <div className="miniGuideHint">Tap to expand</div>
+        </div>
+        {subtitle ? <div className="miniGuideSub">{subtitle}</div> : null}
+      </div>
+
+      <div className="miniGuideList" role="list">
+        {items.map((it, idx) => (
+          <details key={idx} className="miniItemDetails">
+            <summary className="miniSummary">
+              <div className="miniSummaryLeft">
+                <span className="miniStepNum">{idx + 1}</span>
+                <div className="miniSummaryText">
+                  <div className="miniLabel">{it.label}</div>
+                  <div className="miniSummaryLine">{it.summary}</div>
+                </div>
+              </div>
+              <span className="miniCaret" aria-hidden="true">
+                +
+              </span>
+            </summary>
+
+            <div className="miniExpand">
+              <div className="miniGrid">
+                <div className="miniBox">
+                  <div className="miniBoxTitle">What this means</div>
+                  <div className="miniBoxBody">{it.means}</div>
+                </div>
+                <div className="miniBox">
+                  <div className="miniBoxTitle">What this does not mean</div>
+                  <div className="miniBoxBody">{it.notMeans}</div>
+                </div>
+              </div>
+
+              <div className="miniOneMove">
+                <div className="miniOneMoveTitle">One move</div>
+                <div className="miniOneMoveBody">{it.oneMove}</div>
+              </div>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export default function Page() {
   return (
@@ -109,11 +175,6 @@ export default function Page() {
           display:grid;
           gap: 14px;
         }
-
-        /* Remove any old filler UI blocks */
-        .pills { display: none !important; }
-        .heroRow { display: none !important; }
-        .trustStrip { display: none !important; }
 
         .npLogo{
           width: min(220px, 72vw);
@@ -575,6 +636,184 @@ export default function Page() {
           margin-top: 7px;
           background: rgba(225,6,0,0.48);
         }
+
+        /* ✅ Mini Guide Accordion (Door 1) */
+        .miniGuide{
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(0,0,0,0.015);
+          border-radius: 18px;
+          padding: 14px 14px;
+          display: grid;
+          gap: 12px;
+        }
+        .miniGuideHead{
+          display: grid;
+          gap: 6px;
+        }
+        .miniGuideTitleRow{
+          display:flex;
+          align-items:baseline;
+          justify-content: space-between;
+          gap: 10px;
+        }
+        .miniGuideTitle{
+          font-weight: 950;
+          letter-spacing: -0.01em;
+          color: rgba(0,0,0,0.92);
+          font-size: 16px;
+        }
+        .miniGuideHint{
+          font-size: 12px;
+          font-weight: 900;
+          color: rgba(15,23,42,0.60);
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(255,255,255,0.80);
+          padding: 6px 10px;
+          border-radius: 999px;
+          white-space: nowrap;
+        }
+        .miniGuideSub{
+          color: rgba(15,23,42,0.70);
+          font-size: 13px;
+          line-height: 1.4;
+          font-weight: 700;
+        }
+
+        .miniGuideList{
+          display: grid;
+          gap: 10px;
+        }
+
+        .miniItemDetails{
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(255,255,255,0.92);
+          border-radius: 16px;
+          overflow: hidden;
+        }
+
+        .miniSummary{
+          list-style: none;
+          cursor: pointer;
+          display:flex;
+          align-items:center;
+          justify-content: space-between;
+          gap: 12px;
+          padding: 12px 12px;
+          user-select: none;
+        }
+        .miniSummary::-webkit-details-marker { display:none; }
+
+        .miniSummaryLeft{
+          display:flex;
+          align-items:flex-start;
+          gap: 10px;
+          min-width: 0;
+        }
+        .miniStepNum{
+          width: 28px;
+          height: 28px;
+          border-radius: 10px;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-weight: 950;
+          color: #fff;
+          background: var(--fire);
+          flex: 0 0 auto;
+          font-size: 13px;
+        }
+        .miniSummaryText{
+          display:grid;
+          gap: 2px;
+          min-width: 0;
+        }
+        .miniLabel{
+          font-weight: 950;
+          color: rgba(0,0,0,0.92);
+          letter-spacing: -0.01em;
+          font-size: 14px;
+          line-height: 1.2;
+        }
+        .miniSummaryLine{
+          font-size: 13px;
+          font-weight: 750;
+          color: rgba(15,23,42,0.70);
+          line-height: 1.3;
+        }
+        .miniCaret{
+          width: 34px;
+          height: 34px;
+          border-radius: 12px;
+          border: 1px solid rgba(0,0,0,0.10);
+          background: rgba(255,255,255,0.92);
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-weight: 950;
+          color: rgba(15,23,42,0.70);
+          flex: 0 0 auto;
+        }
+
+        .miniItemDetails[open] .miniCaret{ content:"–"; }
+        .miniItemDetails[open] .miniCaret::before{ content:"–"; }
+        .miniItemDetails:not([open]) .miniCaret::before{ content:"+"; }
+        .miniCaret{ font-size: 18px; }
+        .miniCaret{ color: rgba(15,23,42,0.70); }
+
+        .miniExpand{
+          padding: 0 12px 12px 12px;
+          display: grid;
+          gap: 10px;
+        }
+
+        .miniGrid{
+          display:grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 10px;
+        }
+        @media (max-width: 820px){
+          .miniGrid{ grid-template-columns: 1fr; }
+        }
+
+        .miniBox{
+          border: 1px solid rgba(0,0,0,0.08);
+          background: rgba(0,0,0,0.02);
+          border-radius: 14px;
+          padding: 10px 10px;
+        }
+        .miniBoxTitle{
+          font-weight: 950;
+          font-size: 12px;
+          color: rgba(0,0,0,0.86);
+          margin-bottom: 6px;
+          letter-spacing: 0.02em;
+        }
+        .miniBoxBody{
+          font-size: 13px;
+          line-height: 1.45;
+          color: rgba(15,23,42,0.74);
+          font-weight: 700;
+        }
+
+        .miniOneMove{
+          border: 1px solid rgba(225,6,0,0.18);
+          background: rgba(225,6,0,0.04);
+          border-radius: 14px;
+          padding: 10px 10px;
+        }
+        .miniOneMoveTitle{
+          font-weight: 950;
+          font-size: 12px;
+          color: rgba(0,0,0,0.86);
+          margin-bottom: 6px;
+          letter-spacing: 0.02em;
+        }
+        .miniOneMoveBody{
+          font-size: 13px;
+          line-height: 1.45;
+          color: rgba(15,23,42,0.74);
+          font-weight: 750;
+        }
       `}</style>
 
       <header className="heroStage">
@@ -614,7 +853,7 @@ export default function Page() {
 
       <Section id="doors" title="Choose your door" desc="">
         <div className="decisionStage" aria-label="Decision stage">
-          {/* ✅ Door 1 selector ONLY (Door 2 moved down to Cipher section) */}
+          {/* ✅ Door 1 selector ONLY */}
           <div className="doorSelect" aria-label="Door selector">
             <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: Start your New Path today">
               <div className="doorSelectLeft">
@@ -647,6 +886,54 @@ export default function Page() {
                   lender-aligned path—without overwhelm.
                 </p>
 
+                {/* ✅ NEW: Door 1 mini-guide (page inside the page) */}
+                <MiniAccordion
+                  title="Learn the 4 moves (no noise)"
+                  subtitle="Same flow as the best guides—just cleaner. Expand only what you need."
+                  items={[
+                    {
+                      label: "Check your credit",
+                      summary: "Know what lenders see before you shop.",
+                      means:
+                        "Your score + history help lenders decide rate, terms, and approvals. You want clarity before you pick a vehicle.",
+                      notMeans:
+                        "It does not mean you’re stuck. It means you’re getting the map before you move.",
+                      oneMove:
+                        "Pull your report (or know your current score range) before you shop or negotiate.",
+                    },
+                    {
+                      label: "Know what you can afford",
+                      summary: "Think bigger than just the monthly payment.",
+                      means:
+                        "Budget for total ownership: payment, insurance, taxes/fees, gas, maintenance—plus a realistic comfort zone.",
+                      notMeans:
+                        "It does not mean ‘stretch to the max.’ The goal is stability—not a payment that traps you.",
+                      oneMove:
+                        "Choose a payment range you can hold every month, even when life happens.",
+                    },
+                    {
+                      label: "Get positioned before you shop",
+                      summary: "Don’t negotiate blind.",
+                      means:
+                        "Pre-qualification gives visibility into likely terms so you shop inside the right lane and avoid bad deals.",
+                      notMeans:
+                        "It does not mean you’re locked into a loan. It’s a visibility move—so you don’t shop in the dark.",
+                      oneMove:
+                        "Get a clean pre-qual plan before you start test-driving or negotiating.",
+                    },
+                    {
+                      label: "Apply the right way",
+                      summary: "Clarity first. Then you sign.",
+                      means:
+                        "Applying can trigger a credit inquiry. The goal is clean timing, clean numbers, and clear total cost.",
+                      notMeans:
+                        "It does not mean ‘apply everywhere.’ Scatter-shot applications can hurt positioning.",
+                      oneMove:
+                        "Apply once, with the right info ready, and confirm APR + term + total cost before you sign.",
+                    },
+                  ]}
+                />
+
                 <div className="doorVisual">
                   <div className="visualLeft">
                     <span className="visualIcon iconRoad" aria-hidden="true" />
@@ -656,14 +943,14 @@ export default function Page() {
                     </div>
                   </div>
 
-                  {/* CTA #1 */}
+                  {/* ✅ CTA #1 (Outbound) */}
                   <a
                     className="ctaPill fire"
                     href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=two-door"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Start my application →
+                    Start my approval path →
                   </a>
                 </div>
 
@@ -696,7 +983,7 @@ export default function Page() {
       </Section>
 
       <Section id="cipher" title="The BALANCE Cipher" desc="It’s not a checklist. It’s a map.">
-        {/* ✅ Door 2 selector moved HERE (between Door 1 card and Door 2 complex) */}
+        {/* ✅ Door 2 selector moved HERE */}
         <div className="doorSelect" aria-label="Door 2 selector" style={{ marginBottom: 14 }}>
           <a className="doorSelectBtn" href="#door-2" aria-label="Door 2: Complete Door 1 today. Unlock the Cipher tomorrow.">
             <div className="doorSelectLeft">
@@ -712,7 +999,7 @@ export default function Page() {
           </a>
         </div>
 
-        {/* Door 2 detail placed near Cipher for clean flow */}
+        {/* Door 2 detail */}
         <div style={{ marginBottom: 18 }}>
           <div className="doorCard ink" id="door-2" aria-label="Door 2: Tomorrow">
             <div className="doorRail ink" aria-hidden="true" />
@@ -738,7 +1025,7 @@ export default function Page() {
                   </div>
                 </div>
 
-                {/* CTA #2 */}
+                {/* ✅ CTA #2 (Outbound) */}
                 <a className="ctaPill ink" href="https://app.balancecipher.com/" target="_blank" rel="noopener noreferrer">
                   Open the Cipher →
                 </a>
