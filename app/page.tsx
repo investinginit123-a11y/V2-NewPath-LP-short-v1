@@ -1,9 +1,9 @@
 // app/page.tsx
-// PASS: MOBILE FIX 4.0 — DOOR 2 CTA RING VISIBILITY FIX (NO DRIFT)
+// PASS: MOBILE FIX 4.0 — DOOR 2 CTA ENERGY TRACE (NO DRIFT)
 // ✅ This pass:
-// - Door 1 (red) stays the same
-// - Door 2 (ink) CTA ring becomes Cipher-teal so it’s visible and premium
-// - Door 2 ring pulse + glow are intensified (still not tacky)
+// - Door 2 (ink) CTA gets an animated teal edge “energy trace” around the pill
+// - Keeps the stronger teal aura ring + heartbeat
+// - Door 1 stays as-is (no trace) to preserve discipline
 
 import Section from "../components/Section";
 import React from "react";
@@ -107,7 +107,7 @@ export default function Page() {
           --cipher-glow: rgba(25,211,197,0.26);
           --cipher-glow-strong: rgba(25,211,197,0.42);
 
-          /* ✅ NEW: cipher ring color for Door 2 CTA */
+          /* ✅ Door 2 CTA trace/ring */
           --cipher-ring: rgba(25,211,197,0.38);
           --cipher-ring-strong: rgba(25,211,197,0.62);
         }
@@ -133,7 +133,6 @@ export default function Page() {
           28%      { box-shadow: 0 32px 98px rgba(225,6,0,0.40); filter: brightness(1.07); }
         }
 
-        /* ✅ Updated: Door 2 glow uses cipher-teal instead of pure black */
         @keyframes ctaGlowInk {
           0%, 100% { box-shadow: 0 18px 46px rgba(0,0,0,0.18); filter: brightness(1); }
           28%      { box-shadow: 0 34px 120px rgba(25,211,197,0.20); filter: brightness(1.06); }
@@ -152,13 +151,19 @@ export default function Page() {
           100% { opacity: 0.00; transform: scale(1.26); }
         }
 
-        /* ✅ Updated: Door 2 ring now TEAL + stronger at peak */
         @keyframes ctaRingInk {
           0%   { opacity: 0.00; transform: scale(0.92); }
           8%   { opacity: 0.32; transform: scale(1.00); }
           28%  { opacity: 0.72; transform: scale(1.13); }
           52%  { opacity: 0.14; transform: scale(1.24); }
           100% { opacity: 0.00; transform: scale(1.28); }
+        }
+
+        /* ✅ ENERGY TRACE: rotating conic border that "travels" around the pill */
+        @keyframes traceSpin {
+          0%   { transform: rotate(0deg); opacity: 0.62; }
+          40%  { opacity: 0.92; }
+          100% { transform: rotate(360deg); opacity: 0.62; }
         }
 
         @media (prefers-reduced-motion: reduce){
@@ -169,6 +174,7 @@ export default function Page() {
           }
         }
 
+        /* HERO STAGE — clean, minimal */
         .heroStage {
           position: relative;
           overflow: hidden;
@@ -206,6 +212,7 @@ export default function Page() {
           font-weight: 950;
         }
 
+        /* ✅ Hero copy = stacked steps */
         .subStack{
           display: grid;
           gap: 10px;
@@ -245,6 +252,7 @@ export default function Page() {
           object-fit: contain;
         }
 
+        /* DOORS */
         #doors .sectionTitle{
           font-size: clamp(34px, 5vw, 54px);
           line-height: 1.04;
@@ -258,6 +266,7 @@ export default function Page() {
           background: transparent;
         }
 
+        /* ✅ SIMPLE DOOR SELECTORS */
         .doorSelect{
           display:grid;
           gap: 12px;
@@ -345,6 +354,7 @@ export default function Page() {
           color: rgba(15,23,42,0.70);
         }
 
+        /* DETAIL CARDS */
         .doorStack{
           display:grid;
           gap: 18px;
@@ -386,11 +396,9 @@ export default function Page() {
         }
         .doorRail.fire{
           background: linear-gradient(90deg, rgba(225,6,0,0.22), rgba(225,6,0,0.06), transparent);
-          opacity: 0.95;
         }
         .doorRail.ink{
           background: linear-gradient(90deg, rgba(11,11,15,0.22), rgba(11,11,15,0.06), transparent);
-          opacity: 0.92;
         }
 
         .doorInner{
@@ -465,7 +473,6 @@ export default function Page() {
           max-width: 100%;
           min-width: 0;
         }
-
         .visualLeft{
           display:flex;
           align-items:center;
@@ -524,6 +531,7 @@ export default function Page() {
           border: 1px solid rgba(225,6,0,0.14);
         }
 
+        /* Door 2 “Discover the pattern” highlight */
         .doorCard.ink .doorVisual{
           background: linear-gradient(90deg, rgba(25,211,197,0.16), rgba(255,255,255,0.96) 55%);
           border-color: rgba(0,0,0,0.10);
@@ -585,7 +593,7 @@ export default function Page() {
         .miniMark.fire{ background: rgba(225,6,0,0.62); }
         .miniMark.ink{ background: rgba(11,11,15,0.56); }
 
-        /* ✅ CTA BUTTONS — HEARTBEAT + SHEEN + RING PULSE */
+        /* ✅ Outbound CTAs */
         .ctaPill{
           position: relative;
           overflow: visible;
@@ -609,6 +617,13 @@ export default function Page() {
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
+        /* Keep CTA text on top */
+        .ctaText{
+          position: relative;
+          z-index: 3;
+        }
+
+        /* Sheen */
         .ctaPill::before{
           content:"";
           position:absolute;
@@ -619,9 +634,10 @@ export default function Page() {
           transform: translateX(-12%) translateY(-10%) scale(1);
           animation: ctaSheen 2.6s ease-in-out infinite;
           mix-blend-mode: screen;
-          z-index: 1;
+          z-index: 2;
         }
 
+        /* Ring pulse */
         .ctaPill::after{
           content:"";
           position:absolute;
@@ -669,6 +685,43 @@ export default function Page() {
           animation: ctaRingInk 2.8s ease-in-out infinite;
         }
 
+        /* ✅ NEW: Energy trace element (only for ink CTA) */
+        .ctaTrace{
+          position:absolute;
+          inset: -3px;
+          border-radius: calc(var(--np-pill) + 18px);
+          pointer-events:none;
+          z-index: 1;
+
+          /* Conic highlight lane */
+          background:
+            conic-gradient(
+              from 0deg,
+              transparent 0deg,
+              rgba(25,211,197,0.00) 18deg,
+              rgba(25,211,197,0.90) 42deg,
+              rgba(25,211,197,0.16) 70deg,
+              rgba(25,211,197,0.00) 92deg,
+              transparent 360deg
+            );
+
+          /* Mask to border only */
+          -webkit-mask:
+            linear-gradient(#000 0 0) content-box,
+            linear-gradient(#000 0 0);
+          -webkit-mask-composite: xor;
+          mask-composite: exclude;
+
+          padding: 2px;
+          filter: drop-shadow(0 0 12px rgba(25,211,197,0.22));
+          opacity: 0.0; /* default off unless ink CTA */
+        }
+
+        .ctaPill.ink .ctaTrace{
+          opacity: 0.92;
+          animation: traceSpin 2.4s linear infinite;
+        }
+
         .ctaPill:hover{
           filter: brightness(1.04);
         }
@@ -696,6 +749,7 @@ export default function Page() {
             top: -14px;
             bottom: -14px;
           }
+          .ctaTrace{ inset: -4px; }
           .visualTitle, .visualSub{
             white-space: normal;
             overflow: visible;
@@ -748,6 +802,7 @@ export default function Page() {
           50%      { transform: translateY(-2px) scale(1.015); filter: drop-shadow(0 26px 58px rgba(25,211,197,0.20)); }
         }
 
+        /* ✅ Mobile: more obvious */
         @media (max-width: 820px){
           .cipherGlow{
             animation-duration: 3.8s;
@@ -809,6 +864,7 @@ export default function Page() {
           background: rgba(225,6,0,0.48);
         }
 
+        /* ✅ Mini Guide Accordion */
         .miniGuide{
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(0,0,0,0.015);
@@ -937,7 +993,6 @@ export default function Page() {
         .miniItemDetails[open] .miniCaret::before{ content:"–"; }
         .miniItemDetails:not([open]) .miniCaret::before{ content:"+"; }
         .miniCaret{ font-size: 18px; }
-
       `}</style>
 
       <header className="heroStage">
@@ -1079,7 +1134,7 @@ export default function Page() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    Start my approval path →
+                    <span className="ctaText">Start my approval path →</span>
                   </a>
                 </div>
 
@@ -1165,7 +1220,8 @@ export default function Page() {
                 </div>
 
                 <a className="ctaPill ink" href="https://app.balancecipher.com/" target="_blank" rel="noopener noreferrer">
-                  Open the Cipher →
+                  <span className="ctaText">Open the Cipher →</span>
+                  <span className="ctaTrace" aria-hidden="true" />
                 </a>
               </div>
 
