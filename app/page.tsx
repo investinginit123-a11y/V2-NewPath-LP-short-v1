@@ -1,10 +1,9 @@
 // app/page.tsx
-// PASS: MOBILE FIX 4.0 — REMOVE RADAR TRACE, ADD “LIVING RIM” (NO DRIFT)
+// MOBILE FIX 4.0 — “ALIVE” CTA FIX (NO MASKES, NO RADAR, WORKS ON SAFARI)
 // ✅ This pass:
-// - Removes rotating conic “energy trace” (radar blip / jittery on mobile)
-// - Adds a stable “living rim” teal border (breath + corner sparks) for Door 2 CTA
-// - Keeps strong teal aura ring pulse for Door 2 CTA
-// - Door 1 stays unchanged
+// - Removes any mask-composite rim (Safari can render nothing)
+// - Makes Door 2 CTA glow/rim visible even if animations are reduced/blocked
+// - Keeps premium feel: breathing rim + aura pulse + subtle sheen (no rotation)
 
 import Section from "../components/Section";
 import React from "react";
@@ -97,94 +96,70 @@ export default function Page() {
           --np-pill: 999px;
 
           /* ✅ DECISION COLORS (LOCKED) */
-          --fire: #E10600;           /* FIRE ENGINE RED */
-          --fire-deep: #B80000;      /* depth */
-          --ink: #0B0B0F;            /* premium near-black */
+          --fire: #E10600;
+          --fire-deep: #B80000;
+          --ink: #0B0B0F;
 
           --white: #ffffff;
           --ink-strong: rgba(0,0,0,0.92);
 
-          /* Cipher glow lane */
-          --cipher-glow: rgba(25,211,197,0.26);
-          --cipher-glow-strong: rgba(25,211,197,0.42);
-
-          /* Door 2 CTA glow tokens */
-          --cipher-ring: rgba(25,211,197,0.40);
-          --cipher-ring-strong: rgba(25,211,197,0.70);
+          /* Cipher glow */
+          --teal: rgb(25,211,197);
+          --teal-soft: rgba(25,211,197,0.18);
+          --teal-mid: rgba(25,211,197,0.42);
+          --teal-strong: rgba(25,211,197,0.78);
         }
 
         strong { font-weight: 900; color: var(--np-ink); }
+
+        /* ============ MOTION ============ */
 
         @keyframes aliveFloat {
           0%, 100% { transform: translateY(0px); }
           50%      { transform: translateY(-2px); }
         }
 
+        /* Heartbeat: bigger + cleaner */
         @keyframes ctaHeart {
           0%   { transform: translateY(0px) scale(1); }
-          10%  { transform: translateY(-1px) scale(1.03); }
-          18%  { transform: translateY(0px) scale(0.995); }
-          28%  { transform: translateY(-2px) scale(1.048); }
-          40%  { transform: translateY(0px) scale(1); }
+          10%  { transform: translateY(-1px) scale(1.035); }
+          18%  { transform: translateY(0px) scale(0.992); }
+          30%  { transform: translateY(-2px) scale(1.06); }
+          44%  { transform: translateY(0px) scale(1); }
           100% { transform: translateY(0px) scale(1); }
         }
 
-        @keyframes ctaGlowFire {
-          0%, 100% { box-shadow: 0 18px 44px rgba(225,6,0,0.20); filter: brightness(1); }
-          28%      { box-shadow: 0 32px 98px rgba(225,6,0,0.40); filter: brightness(1.07); }
+        @keyframes glowFire {
+          0%,100% { box-shadow: 0 18px 44px rgba(225,6,0,0.22); filter: brightness(1); }
+          30%     { box-shadow: 0 36px 110px rgba(225,6,0,0.44); filter: brightness(1.08); }
         }
 
-        @keyframes ctaGlowInk {
-          0%, 100% { box-shadow: 0 18px 46px rgba(0,0,0,0.18); filter: brightness(1); }
-          28%      { box-shadow: 0 36px 128px rgba(25,211,197,0.22); filter: brightness(1.06); }
+        @keyframes glowInkTeal {
+          0%,100% { box-shadow: 0 18px 46px rgba(0,0,0,0.18), 0 0 0 rgba(25,211,197,0); filter: brightness(1); }
+          30%     { box-shadow: 0 44px 150px rgba(25,211,197,0.24), 0 0 42px rgba(25,211,197,0.18); filter: brightness(1.07); }
         }
 
-        @keyframes ctaSheen {
-          0%, 100% { opacity: 0.12; transform: translateX(-12%) translateY(-10%) scale(1); }
-          28%      { opacity: 0.36; transform: translateX(0%) translateY(-12%) scale(1.08); }
+        /* Aura ring pulse: visible baseline + pulse */
+        @keyframes auraPulse {
+          0%   { opacity: 0.18; transform: scale(1.02); }
+          14%  { opacity: 0.55; transform: scale(1.10); }
+          34%  { opacity: 0.22; transform: scale(1.20); }
+          100% { opacity: 0.18; transform: scale(1.02); }
         }
 
-        @keyframes ctaRingFire {
-          0%   { opacity: 0.00; transform: scale(0.92); }
-          8%   { opacity: 0.36; transform: scale(1.00); }
-          28%  { opacity: 0.58; transform: scale(1.12); }
-          52%  { opacity: 0.10; transform: scale(1.22); }
-          100% { opacity: 0.00; transform: scale(1.26); }
-        }
-
-        @keyframes ctaRingInk {
-          0%   { opacity: 0.00; transform: scale(0.92); }
-          8%   { opacity: 0.34; transform: scale(1.00); }
-          28%  { opacity: 0.78; transform: scale(1.14); }
-          52%  { opacity: 0.16; transform: scale(1.26); }
-          100% { opacity: 0.00; transform: scale(1.30); }
-        }
-
-        /* ✅ NEW: “Living rim” (no rotation, no scanning) */
+        /* Rim breath (no mask, no scan) */
         @keyframes rimBreath {
-          0%, 100% {
-            opacity: 0.34;
-            filter: drop-shadow(0 0 10px rgba(25,211,197,0.18));
-          }
-          40% {
-            opacity: 0.62;
-            filter: drop-shadow(0 0 16px rgba(25,211,197,0.28));
-          }
-          60% {
-            opacity: 0.92;
-            filter: drop-shadow(0 0 22px rgba(25,211,197,0.36));
-          }
+          0%,100% { opacity: 0.55; filter: drop-shadow(0 0 10px rgba(25,211,197,0.22)); }
+          40%     { opacity: 0.85; filter: drop-shadow(0 0 16px rgba(25,211,197,0.34)); }
         }
 
-        @media (prefers-reduced-motion: reduce){
-          *, *::before, *::after{
-            animation: none !important;
-            transition: none !important;
-            scroll-behavior: auto !important;
-          }
+        /* Sheen: subtle */
+        @keyframes sheen {
+          0%,100% { opacity: 0.10; transform: translateX(-10%) translateY(-10%) scale(1); }
+          30%     { opacity: 0.30; transform: translateX(4%) translateY(-12%) scale(1.06); }
         }
 
-        /* HERO STAGE — clean, minimal */
+        /* ============ HERO ============ */
         .heroStage {
           position: relative;
           overflow: hidden;
@@ -216,30 +191,11 @@ export default function Page() {
         }
         .heroInner { position: relative; z-index: 2; }
 
-        .h1 { 
-          letter-spacing: -0.03em;
-          color: var(--ink-strong);
-          font-weight: 950;
-        }
+        .h1 { letter-spacing: -0.03em; color: var(--ink-strong); font-weight: 950; }
 
-        .subStack{
-          display: grid;
-          gap: 10px;
-          margin: 0;
-          max-width: 900px;
-        }
-        .subStep{
-          line-height: 1.18;
-          color: rgba(15,23,42,0.94);
-          font-size: 20px;
-          font-weight: 950;
-          letter-spacing: -0.01em;
-        }
-        .subStep.small{
-          font-size: 18px;
-          font-weight: 900;
-          color: rgba(15,23,42,0.90);
-        }
+        .subStack{ display: grid; gap: 10px; margin: 0; max-width: 900px; }
+        .subStep{ line-height: 1.18; color: rgba(15,23,42,0.94); font-size: 20px; font-weight: 950; letter-spacing: -0.01em; }
+        .subStep.small{ font-size: 18px; font-weight: 900; color: rgba(15,23,42,0.90); }
 
         .heroCard {
           border: 1px solid rgba(0,0,0,0.10);
@@ -248,38 +204,15 @@ export default function Page() {
           box-shadow: var(--np-shadow);
           backdrop-filter: blur(8px);
         }
-        .heroCardInner{
-          padding: 20px 18px;
-          display:grid;
-          gap: 14px;
-        }
+        .heroCardInner{ padding: 20px 18px; display:grid; gap: 14px; }
 
-        .npLogo{
-          width: min(220px, 72vw);
-          height: auto;
-          display:block;
-          object-fit: contain;
-        }
+        .npLogo{ width: min(220px, 72vw); height: auto; display:block; object-fit: contain; }
 
-        #doors .sectionTitle{
-          font-size: clamp(34px, 5vw, 54px);
-          line-height: 1.04;
-          letter-spacing: -0.03em;
-        }
+        /* ============ DOORS ============ */
+        #doors .sectionTitle{ font-size: clamp(34px, 5vw, 54px); line-height: 1.04; letter-spacing: -0.03em; }
+        .decisionStage{ position: relative; border-radius: calc(var(--np-radius) + 10px); padding: 6px 0 6px; background: transparent; }
 
-        .decisionStage{
-          position: relative;
-          border-radius: calc(var(--np-radius) + 10px);
-          padding: 6px 0 6px;
-          background: transparent;
-        }
-
-        .doorSelect{
-          display:grid;
-          gap: 12px;
-          margin: 0 0 10px;
-        }
-
+        .doorSelect{ display:grid; gap: 12px; margin: 0 0 10px; }
         .doorSelectBtn{
           width: 100%;
           text-decoration:none;
@@ -299,73 +232,31 @@ export default function Page() {
         .doorSelectBtn:active{ transform: translateY(1px) scale(0.99); }
         .doorSelectBtn:hover{ box-shadow: 0 28px 84px rgba(0,0,0,0.16); }
 
-        .doorSelectLeft{
-          display:flex;
-          align-items:center;
-          gap: 12px;
-          min-width: 0;
-        }
+        .doorSelectLeft{ display:flex; align-items:center; gap: 12px; min-width: 0; }
 
         .doorTag{
-          display:inline-flex;
-          align-items:center;
-          justify-content:center;
-          height: 46px;
-          padding: 0 16px;
-          border-radius: 16px;
-          font-weight: 1000;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          font-size: 12px;
-          color: #fff;
-          border: 2px solid rgba(0,0,0,0.10);
-          flex: 0 0 auto;
+          display:inline-flex; align-items:center; justify-content:center;
+          height: 46px; padding: 0 16px; border-radius: 16px;
+          font-weight: 1000; letter-spacing: 0.18em; text-transform: uppercase;
+          font-size: 12px; color: #fff; border: 2px solid rgba(0,0,0,0.10); flex: 0 0 auto;
         }
         .doorTag.fire{ background: var(--fire); }
         .doorTag.ink{ background: var(--ink); }
 
-        .doorSelectText{
-          display:grid;
-          gap: 2px;
-          min-width: 0;
-        }
-        .doorSelectTitle{
-          font-size: 18px;
-          font-weight: 1000;
-          line-height: 1.12;
-          letter-spacing: -0.02em;
-          color: rgba(0,0,0,0.92);
-        }
+        .doorSelectText{ display:grid; gap: 2px; min-width: 0; }
+        .doorSelectTitle{ font-size: 18px; font-weight: 1000; line-height: 1.12; letter-spacing: -0.02em; color: rgba(0,0,0,0.92); }
         .doorSelectTitle .fire{ color: var(--fire); }
         .doorSelectTitle .ink{ color: var(--ink); }
-
-        .doorSelectSub{
-          font-size: 13px;
-          font-weight: 850;
-          color: rgba(15,23,42,0.70);
-          line-height: 1.25;
-        }
+        .doorSelectSub{ font-size: 13px; font-weight: 850; color: rgba(15,23,42,0.70); line-height: 1.25; }
 
         .doorSelectChevron{
-          width: 44px;
-          height: 44px;
-          border-radius: 16px;
-          border: 2px solid rgba(0,0,0,0.12);
-          background: rgba(255,255,255,0.98);
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          flex: 0 0 auto;
-          font-size: 18px;
-          font-weight: 1000;
-          color: rgba(15,23,42,0.70);
+          width: 44px; height: 44px; border-radius: 16px;
+          border: 2px solid rgba(0,0,0,0.12); background: rgba(255,255,255,0.98);
+          display:flex; align-items:center; justify-content:center;
+          flex: 0 0 auto; font-size: 18px; font-weight: 1000; color: rgba(15,23,42,0.70);
         }
 
-        .doorStack{
-          display:grid;
-          gap: 18px;
-          margin-top: 10px;
-        }
+        .doorStack{ display:grid; gap: 18px; margin-top: 10px; }
 
         .doorCard{
           position: relative;
@@ -377,95 +268,36 @@ export default function Page() {
           transform: translateZ(0);
           max-width: 100%;
         }
-
         .doorCard::before{
-          content:"";
-          position:absolute;
-          left:0;
-          top:0;
-          bottom:0;
-          width: 10px;
-          background: rgba(0,0,0,0.06);
-          opacity: 0.95;
+          content:""; position:absolute; left:0; top:0; bottom:0; width: 10px;
+          background: rgba(0,0,0,0.06); opacity: 0.95;
         }
-        .doorCard.fire::before{
-          background: linear-gradient(180deg, var(--fire), rgba(225,6,0,0.10));
-        }
-        .doorCard.ink::before{
-          background: linear-gradient(180deg, var(--ink), rgba(11,11,15,0.16));
-        }
+        .doorCard.fire::before{ background: linear-gradient(180deg, var(--fire), rgba(225,6,0,0.10)); }
+        .doorCard.ink::before{ background: linear-gradient(180deg, var(--ink), rgba(11,11,15,0.16)); }
 
-        .doorRail{
-          height: 10px;
-          width: 100%;
-          background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.00));
-        }
-        .doorRail.fire{
-          background: linear-gradient(90deg, rgba(225,6,0,0.22), rgba(225,6,0,0.06), transparent);
-        }
-        .doorRail.ink{
-          background: linear-gradient(90deg, rgba(11,11,15,0.22), rgba(11,11,15,0.06), transparent);
-        }
+        .doorRail{ height: 10px; width: 100%; background: linear-gradient(90deg, rgba(0,0,0,0.02), rgba(0,0,0,0.00)); }
+        .doorRail.fire{ background: linear-gradient(90deg, rgba(225,6,0,0.22), rgba(225,6,0,0.06), transparent); }
+        .doorRail.ink{ background: linear-gradient(90deg, rgba(11,11,15,0.22), rgba(11,11,15,0.06), transparent); }
 
-        .doorInner{
-          padding: 22px 20px 20px 20px;
-          display:grid;
-          gap: 12px;
-        }
+        .doorInner{ padding: 22px 20px 20px 20px; display:grid; gap: 12px; }
 
-        .doorKicker{
-          display:flex;
-          align-items:center;
-          gap: 10px;
-          flex-wrap: wrap;
-          justify-content:flex-start;
-          margin-top: 2px;
-          margin-bottom: 2px;
-        }
+        .doorKicker{ display:flex; align-items:center; gap: 10px; flex-wrap: wrap; justify-content:flex-start; margin-top: 2px; margin-bottom: 2px; }
         .doorPill{
-          display:inline-flex;
-          align-items:center;
-          justify-content:center;
-          padding: 10px 14px;
-          border-radius: 16px;
-          border: 1px solid rgba(0,0,0,0.12);
-          background: rgba(0,0,0,0.02);
-          font-weight: 950;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          font-size: 11px;
-          color: rgba(15,23,42,0.76);
-          white-space: nowrap;
+          display:inline-flex; align-items:center; justify-content:center;
+          padding: 10px 14px; border-radius: 16px;
+          border: 1px solid rgba(0,0,0,0.12); background: rgba(0,0,0,0.02);
+          font-weight: 950; letter-spacing: 0.16em; text-transform: uppercase;
+          font-size: 11px; color: rgba(15,23,42,0.76); white-space: nowrap;
         }
         .laneTag{
-          display:inline-flex;
-          align-items:center;
-          justify-content:center;
-          padding: 10px 14px;
-          border-radius: 16px;
-          font-size: 12px;
-          font-weight: 900;
-          color: rgba(15,23,42,0.82);
-          border: 1px solid rgba(0,0,0,0.12);
-          background: #fff;
-          white-space: nowrap;
+          display:inline-flex; align-items:center; justify-content:center;
+          padding: 10px 14px; border-radius: 16px;
+          font-size: 12px; font-weight: 900; color: rgba(15,23,42,0.82);
+          border: 1px solid rgba(0,0,0,0.12); background: #fff; white-space: nowrap;
         }
 
-        .doorTitle{
-          margin: 0;
-          font-size: 22px;
-          line-height: 1.16;
-          letter-spacing: -0.02em;
-          font-weight: 950;
-          color: var(--np-ink);
-        }
-        .doorBody{
-          margin: 0;
-          font-size: 16px;
-          line-height: 1.60;
-          color: rgba(15,23,42,0.78);
-          max-width: 900px;
-        }
+        .doorTitle{ margin: 0; font-size: 22px; line-height: 1.16; letter-spacing: -0.02em; font-weight: 950; color: var(--np-ink); }
+        .doorBody{ margin: 0; font-size: 16px; line-height: 1.60; color: rgba(15,23,42,0.78); max-width: 900px; }
 
         .doorVisual{
           border: 1px solid rgba(0,0,0,0.10);
@@ -479,61 +311,31 @@ export default function Page() {
           max-width: 100%;
           min-width: 0;
         }
-        .visualLeft{
-          display:flex;
-          align-items:center;
-          gap: 12px;
-          min-width: 0;
-          flex: 1 1 auto;
-          max-width: 100%;
-        }
+        .visualLeft{ display:flex; align-items:center; gap: 12px; min-width: 0; flex: 1 1 auto; max-width: 100%; }
         .visualIcon{
-          width: 46px;
-          height: 46px;
-          border-radius: 14px;
+          width: 46px; height: 46px; border-radius: 14px;
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(255,255,255,0.96);
           box-shadow: 0 10px 24px rgba(0,0,0,0.06);
           position: relative;
           flex: 0 0 auto;
         }
-
         .iconRoad::before{
-          content:"";
-          position:absolute;
-          left: 12px;
-          right: 12px;
-          top: 9px;
-          bottom: 9px;
-          border-radius: 10px;
+          content:""; position:absolute; left: 12px; right: 12px; top: 9px; bottom: 9px; border-radius: 10px;
           background: linear-gradient(180deg, rgba(225,6,0,0.16), rgba(225,6,0,0.05));
           border: 1px solid rgba(225,6,0,0.18);
         }
         .iconRoad::after{
-          content:"";
-          position:absolute;
-          left: 22px;
-          top: 14px;
-          bottom: 14px;
-          width: 2px;
-          border-radius: 2px;
-          background: rgba(225,6,0,0.78);
-          opacity: 0.95;
+          content:""; position:absolute; left: 22px; top: 14px; bottom: 14px; width: 2px; border-radius: 2px;
+          background: rgba(225,6,0,0.78); opacity: 0.95;
         }
-
         .iconCipher::before{
-          content:"";
-          position:absolute;
-          inset: 10px;
-          border-radius: 999px;
+          content:""; position:absolute; inset: 10px; border-radius: 999px;
           border: 2px solid rgba(0,0,0,0.26);
           box-shadow: 0 0 14px rgba(0,0,0,0.10);
         }
         .iconCipher::after{
-          content:"";
-          position:absolute;
-          inset: 18px;
-          border-radius: 999px;
+          content:""; position:absolute; inset: 18px; border-radius: 999px;
           border: 1px solid rgba(225,6,0,0.14);
         }
 
@@ -546,73 +348,24 @@ export default function Page() {
           border-color: rgba(25,211,197,0.18);
         }
 
-        .visualText{
-          display:grid;
-          gap: 2px;
-          min-width: 0;
-          max-width: 100%;
-        }
-        .visualTitle{
-          font-weight: 950;
-          color: rgba(15,23,42,0.90);
-          letter-spacing: -0.01em;
-          font-size: 14px;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-        .visualSub{
-          font-size: 13px;
-          color: rgba(15,23,42,0.66);
-          line-height: 1.35;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
+        .visualText{ display:grid; gap: 2px; min-width: 0; max-width: 100%; }
+        .visualTitle{ font-weight: 950; color: rgba(15,23,42,0.90); letter-spacing: -0.01em; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .visualSub{ font-size: 13px; color: rgba(15,23,42,0.66); line-height: 1.35; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        .miniList{
-          margin: 0;
-          padding: 0;
-          list-style: none;
-          display: grid;
-          gap: 10px;
-        }
-        .miniItem{
-          display: grid;
-          grid-template-columns: 16px 1fr;
-          gap: 10px;
-          align-items: start;
-          font-size: 15px;
-          line-height: 1.55;
-          color: rgba(15,23,42,0.74);
-          font-weight: 650;
-        }
-        .miniMark{
-          width: 10px;
-          height: 10px;
-          border-radius: var(--np-pill);
-          margin-top: 7px;
-          background: rgba(0,0,0,0.22);
-          opacity: 0.7;
-        }
-        .miniMark.fire{ background: rgba(225,6,0,0.62); }
-        .miniMark.ink{ background: rgba(11,11,15,0.56); }
-
-        /* ✅ Outbound CTAs */
+        /* ============ CTA ============ */
         .ctaPill{
           position: relative;
           overflow: visible;
           display:inline-flex;
           align-items:center;
           justify-content:center;
-          height: 54px;
+          height: 56px;
           padding: 0 22px;
           border-radius: var(--np-pill);
           text-decoration:none;
           font-weight: 950;
           letter-spacing: 0.01em;
           border: 1px solid rgba(0,0,0,0.10);
-          transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
           white-space: nowrap;
           max-width: 100%;
           flex: 0 0 auto;
@@ -622,133 +375,107 @@ export default function Page() {
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
-        .ctaText{
-          position: relative;
-          z-index: 3;
-        }
+        .ctaText{ position: relative; z-index: 3; }
 
-        /* Sheen (subtle, premium) */
+        /* Premium sheen */
         .ctaPill::before{
           content:"";
           position:absolute;
           inset:-40%;
           background: radial-gradient(closest-side at 30% 30%, rgba(255,255,255,0.38), transparent 62%);
           pointer-events:none;
-          opacity: 0.14;
-          transform: translateX(-12%) translateY(-10%) scale(1);
-          animation: ctaSheen 2.6s ease-in-out infinite;
+          opacity: 0.12;
+          transform: translateX(-10%) translateY(-10%) scale(1);
+          animation: sheen 2.8s ease-in-out infinite;
           mix-blend-mode: screen;
           z-index: 2;
         }
 
-        /* Ring pulse */
+        /* Aura ring (VISIBLE baseline + pulse) */
         .ctaPill::after{
           content:"";
           position:absolute;
-          left: -14px;
-          right: -14px;
-          top: -12px;
-          bottom: -12px;
-          border-radius: calc(var(--np-pill) + 18px);
+          left: -16px;
+          right: -16px;
+          top: -14px;
+          bottom: -14px;
+          border-radius: calc(var(--np-pill) + 22px);
           pointer-events:none;
           z-index: 0;
-          opacity: 0;
-          transform: scale(0.92);
+          opacity: 0.18;            /* baseline visibility even if animations are blocked */
+          transform: scale(1.02);   /* baseline */
         }
 
         .ctaPill.fire{
           background: var(--fire);
           color: #fff;
           border-color: rgba(0,0,0,0.10);
-          box-shadow: 0 18px 44px rgba(225,6,0,0.20);
-          animation: ctaHeart 2.6s ease-in-out infinite, ctaGlowFire 2.6s ease-in-out infinite;
+          box-shadow: 0 18px 44px rgba(225,6,0,0.22);
+          animation: ctaHeart 2.6s ease-in-out infinite, glowFire 2.6s ease-in-out infinite;
         }
         .ctaPill.fire::after{
           border: 2px solid rgba(225,6,0,0.18);
-          box-shadow:
-            0 0 0 1px rgba(255,255,255,0.10) inset,
-            0 18px 70px rgba(225,6,0,0.22);
-          background: radial-gradient(closest-side at 50% 50%, rgba(225,6,0,0.12), transparent 66%);
-          animation: ctaRingFire 2.6s ease-in-out infinite;
+          background: radial-gradient(closest-side at 50% 50%, rgba(225,6,0,0.16), transparent 66%);
+          box-shadow: 0 18px 70px rgba(225,6,0,0.24);
+          animation: auraPulse 2.6s ease-in-out infinite;
         }
 
-        /* ✅ Door 2 CTA: ink button, stronger teal aura ring */
+        /* Door 2 CTA: ink + teal life */
         .ctaPill.ink{
           background: var(--ink);
           color: #fff;
-          border-color: rgba(0,0,0,0.10);
+          border-color: rgba(255,255,255,0.08);
           box-shadow: 0 18px 46px rgba(0,0,0,0.18);
-          animation: ctaHeart 2.8s ease-in-out infinite, ctaGlowInk 2.8s ease-in-out infinite;
+          animation: ctaHeart 2.8s ease-in-out infinite, glowInkTeal 2.8s ease-in-out infinite;
         }
         .ctaPill.ink::after{
-          border: 2px solid rgba(25,211,197,0.28);
-          box-shadow:
-            0 0 0 1px rgba(255,255,255,0.06) inset,
-            0 22px 92px rgba(25,211,197,0.24);
-          background: radial-gradient(closest-side at 50% 50%, var(--cipher-ring), transparent 64%);
-          animation: ctaRingInk 2.8s ease-in-out infinite;
+          border: 2px solid rgba(25,211,197,0.26);
+          background: radial-gradient(closest-side at 50% 50%, rgba(25,211,197,0.22), transparent 64%);
+          box-shadow: 0 22px 92px rgba(25,211,197,0.22);
+          animation: auraPulse 2.8s ease-in-out infinite;
         }
 
-        /* ✅ NEW: Living rim (stable, non-distracting) */
+        /* ✅ Rim: REAL BORDER + GLOW (works everywhere) */
         .ctaRim{
           position:absolute;
-          inset:-3px;
-          border-radius: calc(var(--np-pill) + 18px);
+          inset: -3px;
+          border-radius: calc(var(--np-pill) + 22px);
           pointer-events:none;
           z-index: 1;
 
-          /* Border-only masking */
-          -webkit-mask:
-            linear-gradient(#000 0 0) content-box,
-            linear-gradient(#000 0 0);
-          -webkit-mask-composite: xor;
-          mask-composite: exclude;
-          padding: 2px;
+          /* always visible baseline */
+          border: 2px solid rgba(25,211,197,0.52);
 
-          /* Rim + corner sparks (no movement) */
+          /* corner sparks + rim glow */
+          box-shadow:
+            0 0 0 1px rgba(255,255,255,0.05) inset,
+            0 0 22px rgba(25,211,197,0.26),
+            0 0 48px rgba(25,211,197,0.14);
+
           background:
-            radial-gradient(22% 140% at 0% 50%, rgba(25,211,197,0.64), transparent 62%),
-            radial-gradient(22% 140% at 100% 50%, rgba(25,211,197,0.64), transparent 62%),
-            radial-gradient(18% 120% at 18% 0%, rgba(25,211,197,0.34), transparent 60%),
-            radial-gradient(18% 120% at 82% 100%, rgba(25,211,197,0.34), transparent 60%),
-            linear-gradient(90deg, rgba(25,211,197,0.10), rgba(25,211,197,0.52), rgba(25,211,197,0.10));
-
-          opacity: 0.34;
+            radial-gradient(24% 140% at 0% 50%, rgba(25,211,197,0.44), transparent 62%),
+            radial-gradient(24% 140% at 100% 50%, rgba(25,211,197,0.44), transparent 62%),
+            radial-gradient(18% 120% at 18% 0%, rgba(25,211,197,0.22), transparent 60%),
+            radial-gradient(18% 120% at 82% 100%, rgba(25,211,197,0.22), transparent 60%);
+          opacity: 0.55;
           animation: rimBreath 2.6s ease-in-out infinite;
         }
 
         @media (max-width: 820px){
-          .doorVisual{
-            flex-direction: column;
-            align-items: stretch;
-            justify-content: flex-start;
-          }
+          .doorVisual{ flex-direction: column; align-items: stretch; justify-content: flex-start; }
           .visualLeft{ width: 100%; }
           .ctaPill{
             width: 100%;
             max-width: 100%;
             white-space: normal;
             height: auto;
-            min-height: 56px;
-            padding: 15px 18px;
+            min-height: 58px;
+            padding: 16px 18px;
             line-height: 1.2;
             font-size: 14px;
           }
-          .ctaPill::after{
-            left: -16px;
-            right: -16px;
-            top: -14px;
-            bottom: -14px;
-          }
-          .ctaRim{ inset: -4px; padding: 2px; }
-          .visualTitle, .visualSub{
-            white-space: normal;
-            overflow: visible;
-            text-overflow: clip;
-          }
-          .doorSelectBtn{
-            padding: 16px 14px;
-          }
+          .visualTitle, .visualSub{ white-space: normal; overflow: visible; text-overflow: clip; }
+          .doorSelectBtn{ padding: 16px 14px; }
           .doorSelectTitle{ font-size: 17px; }
         }
 
@@ -787,12 +514,10 @@ export default function Page() {
           0%, 100% { transform: scale(1); opacity: 0.78; }
           50%      { transform: scale(1.05); opacity: 0.98; }
         }
-
         @keyframes cipherBreathDesktop{
           0%, 100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 22px 48px rgba(0,0,0,0.22)); }
           50%      { transform: translateY(-2px) scale(1.015); filter: drop-shadow(0 26px 58px rgba(25,211,197,0.20)); }
         }
-
         @media (max-width: 820px){
           .cipherGlow{ animation-duration: 3.8s; }
           .cipherEmblem{ animation: cipherBreathMobile 3.2s ease-in-out infinite; }
@@ -850,6 +575,7 @@ export default function Page() {
           background: rgba(225,6,0,0.48);
         }
 
+        /* Mini guide */
         .miniGuide{
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(0,0,0,0.015);
@@ -862,48 +588,23 @@ export default function Page() {
           background: linear-gradient(180deg, rgba(25,211,197,0.10), rgba(0,0,0,0.012));
           border-color: rgba(25,211,197,0.16);
         }
-        .miniGuideHead{
-          display: grid;
-          gap: 6px;
-        }
-        .miniGuideTitleRow{
-          display:flex;
-          align-items:baseline;
-          justify-content: space-between;
-          gap: 10px;
-        }
-        .miniGuideTitle{
-          font-weight: 950;
-          letter-spacing: -0.01em;
-          color: rgba(0,0,0,0.92);
-          font-size: 16px;
-        }
+        .miniGuideHead{ display: grid; gap: 6px; }
+        .miniGuideTitleRow{ display:flex; align-items:baseline; justify-content: space-between; gap: 10px; }
+        .miniGuideTitle{ font-weight: 950; letter-spacing: -0.01em; color: rgba(0,0,0,0.92); font-size: 16px; }
         .miniGuideHint{
-          font-size: 12px;
-          font-weight: 900;
-          color: rgba(15,23,42,0.60);
-          border: 1px solid rgba(0,0,0,0.10);
-          background: rgba(255,255,255,0.80);
-          padding: 6px 10px;
-          border-radius: 999px;
-          white-space: nowrap;
+          font-size: 12px; font-weight: 900; color: rgba(15,23,42,0.60);
+          border: 1px solid rgba(0,0,0,0.10); background: rgba(255,255,255,0.80);
+          padding: 6px 10px; border-radius: 999px; white-space: nowrap;
         }
-        .miniGuideSub{
-          color: rgba(15,23,42,0.70);
-          font-size: 13px;
-          line-height: 1.4;
-          font-weight: 700;
-        }
+        .miniGuideSub{ color: rgba(15,23,42,0.70); font-size: 13px; line-height: 1.4; font-weight: 700; }
 
         .miniGuideList{ display: grid; gap: 10px; }
-
         .miniItemDetails{
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(255,255,255,0.92);
           border-radius: 16px;
           overflow: hidden;
         }
-
         .miniSummary{
           list-style: none;
           cursor: pointer;
@@ -915,86 +616,34 @@ export default function Page() {
           user-select: none;
         }
         .miniSummary::-webkit-details-marker { display:none; }
-
-        .miniSummaryLeft{
-          display:flex;
-          align-items:flex-start;
-          gap: 10px;
-          min-width: 0;
-        }
+        .miniSummaryLeft{ display:flex; align-items:flex-start; gap: 10px; min-width: 0; }
         .miniStepNum{
-          width: 28px;
-          height: 28px;
-          border-radius: 10px;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-weight: 950;
-          color: #fff;
-          background: var(--fire);
-          flex: 0 0 auto;
-          font-size: 13px;
+          width: 28px; height: 28px; border-radius: 10px;
+          display:flex; align-items:center; justify-content:center;
+          font-weight: 950; color: #fff; background: var(--fire);
+          flex: 0 0 auto; font-size: 13px;
         }
         .miniGuide.cipher .miniStepNum{ background: var(--ink); }
-
         .miniSummaryText{ display:grid; gap: 2px; min-width: 0; }
-        .miniLabel{
-          font-weight: 950;
-          color: rgba(0,0,0,0.92);
-          letter-spacing: -0.01em;
-          font-size: 14px;
-          line-height: 1.2;
-        }
-        .miniSummaryLine{
-          font-size: 13px;
-          font-weight: 750;
-          color: rgba(15,23,42,0.70);
-          line-height: 1.3;
-        }
+        .miniLabel{ font-weight: 950; color: rgba(0,0,0,0.92); letter-spacing: -0.01em; font-size: 14px; line-height: 1.2; }
+        .miniSummaryLine{ font-size: 13px; font-weight: 750; color: rgba(15,23,42,0.70); line-height: 1.3; }
         .miniCaret{
-          width: 34px;
-          height: 34px;
-          border-radius: 12px;
-          border: 1px solid rgba(0,0,0,0.10);
-          background: rgba(255,255,255,0.92);
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-weight: 950;
-          color: rgba(15,23,42,0.70);
-          flex: 0 0 auto;
-          font-size: 18px;
+          width: 34px; height: 34px; border-radius: 12px;
+          border: 1px solid rgba(0,0,0,0.10); background: rgba(255,255,255,0.92);
+          display:flex; align-items:center; justify-content:center;
+          font-weight: 950; color: rgba(15,23,42,0.70); flex: 0 0 auto; font-size: 18px;
         }
-
-        .miniExpand{
-          padding: 0 12px 12px 12px;
-          display: grid;
-          gap: 10px;
-        }
-
+        .miniExpand{ padding: 0 12px 12px 12px; display: grid; gap: 10px; }
         .miniGrid{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         @media (max-width: 820px){ .miniGrid{ grid-template-columns: 1fr; } }
-
         .miniBox{
           border: 1px solid rgba(0,0,0,0.08);
           background: rgba(0,0,0,0.02);
           border-radius: 14px;
           padding: 10px 10px;
         }
-        .miniBoxTitle{
-          font-weight: 950;
-          font-size: 12px;
-          color: rgba(0,0,0,0.86);
-          margin-bottom: 6px;
-          letter-spacing: 0.02em;
-        }
-        .miniBoxBody{
-          font-size: 13px;
-          line-height: 1.45;
-          color: rgba(15,23,42,0.74);
-          font-weight: 700;
-        }
-
+        .miniBoxTitle{ font-weight: 950; font-size: 12px; color: rgba(0,0,0,0.86); margin-bottom: 6px; letter-spacing: 0.02em; }
+        .miniBoxBody{ font-size: 13px; line-height: 1.45; color: rgba(15,23,42,0.74); font-weight: 700; }
         .miniOneMove{
           border: 1px solid rgba(225,6,0,0.18);
           background: rgba(225,6,0,0.04);
@@ -1005,20 +654,8 @@ export default function Page() {
           border-color: rgba(25,211,197,0.22);
           background: rgba(25,211,197,0.08);
         }
-
-        .miniOneMoveTitle{
-          font-weight: 950;
-          font-size: 12px;
-          color: rgba(0,0,0,0.86);
-          margin-bottom: 6px;
-          letter-spacing: 0.02em;
-        }
-        .miniOneMoveBody{
-          font-size: 13px;
-          line-height: 1.45;
-          color: rgba(15,23,42,0.74);
-          font-weight: 750;
-        }
+        .miniOneMoveTitle{ font-weight: 950; font-size: 12px; color: rgba(0,0,0,0.86); margin-bottom: 6px; letter-spacing: 0.02em; }
+        .miniOneMoveBody{ font-size: 13px; line-height: 1.45; color: rgba(15,23,42,0.74); font-weight: 750; }
       `}</style>
 
       <header className="heroStage">
@@ -1027,11 +664,7 @@ export default function Page() {
             <div className="container">
               <div className="nav">
                 <div className="brand" style={{ gap: 12 }}>
-                  <img
-                    src="/brand/newpath-auto-finance.png"
-                    alt="New Path Auto Finance"
-                    className="npLogo"
-                  />
+                  <img src="/brand/newpath-auto-finance.png" alt="New Path Auto Finance" className="npLogo" />
                 </div>
               </div>
 
@@ -1063,11 +696,7 @@ export default function Page() {
       <Section id="doors" title="Choose your door" desc="">
         <div className="decisionStage" aria-label="Decision stage">
           <div className="doorSelect" aria-label="Door selector">
-            <a
-              className="doorSelectBtn"
-              href="#door-1"
-              aria-label="Door 1: Start your New Path today"
-            >
+            <a className="doorSelectBtn" href="#door-1" aria-label="Door 1: Start your New Path today">
               <div className="doorSelectLeft">
                 <span className="doorTag fire">DOOR 1</span>
                 <div className="doorSelectText">
@@ -1163,27 +792,6 @@ export default function Page() {
                     <span className="ctaText">Start my approval path →</span>
                   </a>
                 </div>
-
-                <ul className="miniList" aria-label="Door 1 points">
-                  <li className="miniItem">
-                    <span className="miniMark fire" aria-hidden="true" />
-                    <span>
-                      <strong>One move:</strong> start the application.
-                    </span>
-                  </li>
-                  <li className="miniItem">
-                    <span className="miniMark fire" aria-hidden="true" />
-                    <span>
-                      <strong>Today’s rules:</strong> focus on what lenders care about now.
-                    </span>
-                  </li>
-                  <li className="miniItem">
-                    <span className="miniMark fire" aria-hidden="true" />
-                    <span>
-                      <strong>Clean path:</strong> simple, clear, and direct.
-                    </span>
-                  </li>
-                </ul>
 
                 <div className="muted" style={{ fontSize: 13, color: "rgba(15,23,42,0.66)" }}>
                   This is the direct “today” door. No extra decisions.
@@ -1302,20 +910,6 @@ export default function Page() {
                   ]}
                 />
               </div>
-
-              <div
-                style={{
-                  border: "1px solid rgba(0,0,0,0.10)",
-                  borderRadius: 18,
-                  background: "rgba(0,0,0,0.02)",
-                  padding: "14px 14px",
-                }}
-              >
-                <div style={{ fontWeight: 950, color: "rgba(15,23,42,0.90)", marginBottom: 6 }}>What it isn’t</div>
-                <div style={{ color: "rgba(15,23,42,0.74)", lineHeight: 1.55, fontSize: 14 }}>
-                  Not shame. Not lectures. Not “do 20 things.” Just clarity—then one move at a time.
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -1327,10 +921,7 @@ export default function Page() {
               src="/brand/balance-cipher-emblem.png"
               alt="BALANCE Cipher emblem"
               className="cipherEmblem"
-              style={{
-                width: "min(460px, 92vw)",
-                height: "auto",
-              }}
+              style={{ width: "min(460px, 92vw)", height: "auto" }}
             />
 
             <h3 className="cipherTitle">
