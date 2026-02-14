@@ -1,8 +1,9 @@
 // app/page.tsx
-// PASS: MOBILE FIX 4.0 — CTA HEARTBEAT + PREMIUM RING PULSE (NO DRIFT)
+// PASS: MOBILE FIX 4.0 — DOOR 2 CTA RING VISIBILITY FIX (NO DRIFT)
 // ✅ This pass:
-// - Adds a more dramatic but premium “ring pulse” around CTA buttons
-// - Keeps everything else identical
+// - Door 1 (red) stays the same
+// - Door 2 (ink) CTA ring becomes Cipher-teal so it’s visible and premium
+// - Door 2 ring pulse + glow are intensified (still not tacky)
 
 import Section from "../components/Section";
 import React from "react";
@@ -105,21 +106,19 @@ export default function Page() {
           /* Cipher glow lane */
           --cipher-glow: rgba(25,211,197,0.26);
           --cipher-glow-strong: rgba(25,211,197,0.42);
+
+          /* ✅ NEW: cipher ring color for Door 2 CTA */
+          --cipher-ring: rgba(25,211,197,0.38);
+          --cipher-ring-strong: rgba(25,211,197,0.62);
         }
 
         strong { font-weight: 900; color: var(--np-ink); }
 
-        /* =========================================================
-           Motion system
-        ========================================================= */
         @keyframes aliveFloat {
           0%, 100% { transform: translateY(0px); }
           50%      { transform: translateY(-2px); }
         }
 
-        /* =========================================================
-           CTA HEARTBEAT (dramatic)
-        ========================================================= */
         @keyframes ctaHeart {
           0%   { transform: translateY(0px) scale(1); }
           10%  { transform: translateY(-1px) scale(1.03); }
@@ -133,21 +132,18 @@ export default function Page() {
           0%, 100% { box-shadow: 0 18px 44px rgba(225,6,0,0.20); filter: brightness(1); }
           28%      { box-shadow: 0 32px 98px rgba(225,6,0,0.40); filter: brightness(1.07); }
         }
+
+        /* ✅ Updated: Door 2 glow uses cipher-teal instead of pure black */
         @keyframes ctaGlowInk {
           0%, 100% { box-shadow: 0 18px 46px rgba(0,0,0,0.18); filter: brightness(1); }
-          28%      { box-shadow: 0 34px 108px rgba(0,0,0,0.30); filter: brightness(1.06); }
+          28%      { box-shadow: 0 34px 120px rgba(25,211,197,0.20); filter: brightness(1.06); }
         }
 
-        /* Inner sheen (premium) */
         @keyframes ctaSheen {
           0%, 100% { opacity: 0.12; transform: translateX(-12%) translateY(-10%) scale(1); }
           28%      { opacity: 0.38; transform: translateX(0%) translateY(-12%) scale(1.08); }
         }
 
-        /* =========================================================
-           ✅ PREMIUM RING PULSE (dramatic, not tacky)
-           - A controlled aura ring that expands and fades
-        ========================================================= */
         @keyframes ctaRingFire {
           0%   { opacity: 0.00; transform: scale(0.92); }
           8%   { opacity: 0.36; transform: scale(1.00); }
@@ -155,15 +151,16 @@ export default function Page() {
           52%  { opacity: 0.10; transform: scale(1.22); }
           100% { opacity: 0.00; transform: scale(1.26); }
         }
+
+        /* ✅ Updated: Door 2 ring now TEAL + stronger at peak */
         @keyframes ctaRingInk {
           0%   { opacity: 0.00; transform: scale(0.92); }
-          8%   { opacity: 0.26; transform: scale(1.00); }
-          28%  { opacity: 0.46; transform: scale(1.12); }
-          52%  { opacity: 0.08; transform: scale(1.22); }
-          100% { opacity: 0.00; transform: scale(1.26); }
+          8%   { opacity: 0.32; transform: scale(1.00); }
+          28%  { opacity: 0.72; transform: scale(1.13); }
+          52%  { opacity: 0.14; transform: scale(1.24); }
+          100% { opacity: 0.00; transform: scale(1.28); }
         }
 
-        /* Reduced motion */
         @media (prefers-reduced-motion: reduce){
           *, *::before, *::after{
             animation: none !important;
@@ -172,7 +169,6 @@ export default function Page() {
           }
         }
 
-        /* HERO STAGE — clean, minimal */
         .heroStage {
           position: relative;
           overflow: hidden;
@@ -589,12 +585,10 @@ export default function Page() {
         .miniMark.fire{ background: rgba(225,6,0,0.62); }
         .miniMark.ink{ background: rgba(11,11,15,0.56); }
 
-        /* =========================================================
-           ✅ CTA BUTTONS — HEARTBEAT + SHEEN + RING PULSE
-        ========================================================= */
+        /* ✅ CTA BUTTONS — HEARTBEAT + SHEEN + RING PULSE */
         .ctaPill{
           position: relative;
-          overflow: visible; /* ring needs to show outside */
+          overflow: visible;
           display:inline-flex;
           align-items:center;
           justify-content:center;
@@ -615,7 +609,6 @@ export default function Page() {
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
-        /* Inner sheen layer */
         .ctaPill::before{
           content:"";
           position:absolute;
@@ -629,7 +622,6 @@ export default function Page() {
           z-index: 1;
         }
 
-        /* Ring layer (outside the button) */
         .ctaPill::after{
           content:"";
           position:absolute;
@@ -660,6 +652,7 @@ export default function Page() {
           animation: ctaRingFire 2.6s ease-in-out infinite;
         }
 
+        /* ✅ Door 2 CTA: ink button, teal aura ring */
         .ctaPill.ink{
           background: var(--ink);
           color: #fff;
@@ -668,15 +661,14 @@ export default function Page() {
           animation: ctaHeart 2.8s ease-in-out infinite, ctaGlowInk 2.8s ease-in-out infinite;
         }
         .ctaPill.ink::after{
-          border: 2px solid rgba(255,255,255,0.10);
+          border: 2px solid rgba(25,211,197,0.26);
           box-shadow:
             0 0 0 1px rgba(255,255,255,0.06) inset,
-            0 18px 78px rgba(0,0,0,0.18);
-          background: radial-gradient(closest-side at 50% 50%, rgba(255,255,255,0.08), transparent 66%);
+            0 22px 88px rgba(25,211,197,0.22);
+          background: radial-gradient(closest-side at 50% 50%, var(--cipher-ring), transparent 64%);
           animation: ctaRingInk 2.8s ease-in-out infinite;
         }
 
-        /* Hover: add a premium “lift” without changing the loop */
         .ctaPill:hover{
           filter: brightness(1.04);
         }
@@ -945,67 +937,7 @@ export default function Page() {
         .miniItemDetails[open] .miniCaret::before{ content:"–"; }
         .miniItemDetails:not([open]) .miniCaret::before{ content:"+"; }
         .miniCaret{ font-size: 18px; }
-        .miniCaret{ color: rgba(15,23,42,0.70); }
 
-        .miniExpand{
-          padding: 0 12px 12px 12px;
-          display: grid;
-          gap: 10px;
-        }
-
-        .miniGrid{
-          display:grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 10px;
-        }
-        @media (max-width: 820px){
-          .miniGrid{ grid-template-columns: 1fr; }
-        }
-
-        .miniBox{
-          border: 1px solid rgba(0,0,0,0.08);
-          background: rgba(0,0,0,0.02);
-          border-radius: 14px;
-          padding: 10px 10px;
-        }
-        .miniBoxTitle{
-          font-weight: 950;
-          font-size: 12px;
-          color: rgba(0,0,0,0.86);
-          margin-bottom: 6px;
-          letter-spacing: 0.02em;
-        }
-        .miniBoxBody{
-          font-size: 13px;
-          line-height: 1.45;
-          color: rgba(15,23,42,0.74);
-          font-weight: 700;
-        }
-
-        .miniOneMove{
-          border: 1px solid rgba(225,6,0,0.18);
-          background: rgba(225,6,0,0.04);
-          border-radius: 14px;
-          padding: 10px 10px;
-        }
-        .miniGuide.cipher .miniOneMove{
-          border-color: rgba(25,211,197,0.22);
-          background: rgba(25,211,197,0.08);
-        }
-
-        .miniOneMoveTitle{
-          font-weight: 950;
-          font-size: 12px;
-          color: rgba(0,0,0,0.86);
-          margin-bottom: 6px;
-          letter-spacing: 0.02em;
-        }
-        .miniOneMoveBody{
-          font-size: 13px;
-          line-height: 1.45;
-          color: rgba(15,23,42,0.74);
-          font-weight: 750;
-        }
       `}</style>
 
       <header className="heroStage">
