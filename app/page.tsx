@@ -1,7 +1,7 @@
 // app/page.tsx
-// PASS: MOBILE FIX 4.0 — CTA HEARTBEAT BOOST (NO DRIFT)
+// PASS: MOBILE FIX 4.0 — CTA HEARTBEAT + PREMIUM RING PULSE (NO DRIFT)
 // ✅ This pass:
-// - Makes CTA buttons dramatically more “alive” (bigger heartbeat + visible glow)
+// - Adds a more dramatic but premium “ring pulse” around CTA buttons
 // - Keeps everything else identical
 
 import Section from "../components/Section";
@@ -110,9 +110,7 @@ export default function Page() {
         strong { font-weight: 900; color: var(--np-ink); }
 
         /* =========================================================
-           ✅ CONSISTENT “ALIVE” PULSE SYSTEM (page-wide)
-           - Subtle on desktop, a bit more present on mobile
-           - Respects reduced motion
+           Motion system
         ========================================================= */
         @keyframes aliveFloat {
           0%, 100% { transform: translateY(0px); }
@@ -120,31 +118,52 @@ export default function Page() {
         }
 
         /* =========================================================
-           ✅ CTA HEARTBEAT (MORE DRAMATIC)
-           - Big “thump” + visible glow + inner sheen pulse
+           CTA HEARTBEAT (dramatic)
         ========================================================= */
         @keyframes ctaHeart {
           0%   { transform: translateY(0px) scale(1); }
           10%  { transform: translateY(-1px) scale(1.03); }
           18%  { transform: translateY(0px) scale(0.995); }
-          28%  { transform: translateY(-2px) scale(1.045); }
+          28%  { transform: translateY(-2px) scale(1.048); }
           40%  { transform: translateY(0px) scale(1); }
           100% { transform: translateY(0px) scale(1); }
         }
+
         @keyframes ctaGlowFire {
           0%, 100% { box-shadow: 0 18px 44px rgba(225,6,0,0.20); filter: brightness(1); }
-          28%      { box-shadow: 0 30px 90px rgba(225,6,0,0.38); filter: brightness(1.06); }
+          28%      { box-shadow: 0 32px 98px rgba(225,6,0,0.40); filter: brightness(1.07); }
         }
         @keyframes ctaGlowInk {
           0%, 100% { box-shadow: 0 18px 46px rgba(0,0,0,0.18); filter: brightness(1); }
-          28%      { box-shadow: 0 32px 96px rgba(0,0,0,0.28); filter: brightness(1.06); }
-        }
-        @keyframes ctaSheen {
-          0%, 100% { opacity: 0.12; transform: translateX(-10%) translateY(-8%) scale(1); }
-          28%      { opacity: 0.34; transform: translateX(0%) translateY(-10%) scale(1.06); }
+          28%      { box-shadow: 0 34px 108px rgba(0,0,0,0.30); filter: brightness(1.06); }
         }
 
-        /* Reduced motion: kill all non-essential animations */
+        /* Inner sheen (premium) */
+        @keyframes ctaSheen {
+          0%, 100% { opacity: 0.12; transform: translateX(-12%) translateY(-10%) scale(1); }
+          28%      { opacity: 0.38; transform: translateX(0%) translateY(-12%) scale(1.08); }
+        }
+
+        /* =========================================================
+           ✅ PREMIUM RING PULSE (dramatic, not tacky)
+           - A controlled aura ring that expands and fades
+        ========================================================= */
+        @keyframes ctaRingFire {
+          0%   { opacity: 0.00; transform: scale(0.92); }
+          8%   { opacity: 0.36; transform: scale(1.00); }
+          28%  { opacity: 0.58; transform: scale(1.12); }
+          52%  { opacity: 0.10; transform: scale(1.22); }
+          100% { opacity: 0.00; transform: scale(1.26); }
+        }
+        @keyframes ctaRingInk {
+          0%   { opacity: 0.00; transform: scale(0.92); }
+          8%   { opacity: 0.26; transform: scale(1.00); }
+          28%  { opacity: 0.46; transform: scale(1.12); }
+          52%  { opacity: 0.08; transform: scale(1.22); }
+          100% { opacity: 0.00; transform: scale(1.26); }
+        }
+
+        /* Reduced motion */
         @media (prefers-reduced-motion: reduce){
           *, *::before, *::after{
             animation: none !important;
@@ -571,11 +590,11 @@ export default function Page() {
         .miniMark.ink{ background: rgba(11,11,15,0.56); }
 
         /* =========================================================
-           ✅ CTA BUTTONS — NOW VERY ALIVE (heartbeat + sheen)
+           ✅ CTA BUTTONS — HEARTBEAT + SHEEN + RING PULSE
         ========================================================= */
         .ctaPill{
           position: relative;
-          overflow: hidden;
+          overflow: visible; /* ring needs to show outside */
           display:inline-flex;
           align-items:center;
           justify-content:center;
@@ -592,20 +611,37 @@ export default function Page() {
           flex: 0 0 auto;
           will-change: transform, box-shadow, filter;
           transform: translateZ(0);
+          isolation: isolate;
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
 
-        /* Inner sheen layer so the pulse is visible even if shadows are subtle */
+        /* Inner sheen layer */
         .ctaPill::before{
           content:"";
           position:absolute;
           inset:-40%;
-          background: radial-gradient(closest-side at 30% 30%, rgba(255,255,255,0.35), transparent 62%);
+          background: radial-gradient(closest-side at 30% 30%, rgba(255,255,255,0.38), transparent 62%);
           pointer-events:none;
           opacity: 0.14;
-          transform: translateX(-10%) translateY(-8%) scale(1);
-          animation: ctaSheen 2.8s ease-in-out infinite;
+          transform: translateX(-12%) translateY(-10%) scale(1);
+          animation: ctaSheen 2.6s ease-in-out infinite;
           mix-blend-mode: screen;
+          z-index: 1;
+        }
+
+        /* Ring layer (outside the button) */
+        .ctaPill::after{
+          content:"";
+          position:absolute;
+          left: -14px;
+          right: -14px;
+          top: -12px;
+          bottom: -12px;
+          border-radius: calc(var(--np-pill) + 18px);
+          pointer-events:none;
+          z-index: 0;
+          opacity: 0;
+          transform: scale(0.92);
         }
 
         .ctaPill.fire{
@@ -613,29 +649,39 @@ export default function Page() {
           color: #fff;
           border-color: rgba(0,0,0,0.10);
           box-shadow: 0 18px 44px rgba(225,6,0,0.20);
-          animation: ctaHeart 2.8s ease-in-out infinite, ctaGlowFire 2.8s ease-in-out infinite;
+          animation: ctaHeart 2.6s ease-in-out infinite, ctaGlowFire 2.6s ease-in-out infinite;
         }
+        .ctaPill.fire::after{
+          border: 2px solid rgba(225,6,0,0.18);
+          box-shadow:
+            0 0 0 1px rgba(255,255,255,0.10) inset,
+            0 18px 70px rgba(225,6,0,0.22);
+          background: radial-gradient(closest-side at 50% 50%, rgba(225,6,0,0.12), transparent 66%);
+          animation: ctaRingFire 2.6s ease-in-out infinite;
+        }
+
         .ctaPill.ink{
           background: var(--ink);
           color: #fff;
           border-color: rgba(0,0,0,0.10);
           box-shadow: 0 18px 46px rgba(0,0,0,0.18);
-          animation: ctaHeart 3.0s ease-in-out infinite, ctaGlowInk 3.0s ease-in-out infinite;
+          animation: ctaHeart 2.8s ease-in-out infinite, ctaGlowInk 2.8s ease-in-out infinite;
+        }
+        .ctaPill.ink::after{
+          border: 2px solid rgba(255,255,255,0.10);
+          box-shadow:
+            0 0 0 1px rgba(255,255,255,0.06) inset,
+            0 18px 78px rgba(0,0,0,0.18);
+          background: radial-gradient(closest-side at 50% 50%, rgba(255,255,255,0.08), transparent 66%);
+          animation: ctaRingInk 2.8s ease-in-out infinite;
         }
 
-        /* Mobile: slightly stronger because it’s harder to perceive */
-        @media (max-width: 820px){
-          .ctaPill.fire{
-            animation-duration: 2.3s;
-          }
-          .ctaPill.ink{
-            animation-duration: 2.5s;
-          }
-          .ctaPill::before{
-            animation-duration: 2.3s;
-            opacity: 0.18;
-          }
+        /* Hover: add a premium “lift” without changing the loop */
+        .ctaPill:hover{
+          filter: brightness(1.04);
+        }
 
+        @media (max-width: 820px){
           .doorVisual{
             flex-direction: column;
             align-items: stretch;
@@ -647,10 +693,16 @@ export default function Page() {
             max-width: 100%;
             white-space: normal;
             height: auto;
-            min-height: 54px;
-            padding: 14px 18px;
+            min-height: 56px;
+            padding: 15px 18px;
             line-height: 1.2;
             font-size: 14px;
+          }
+          .ctaPill::after{
+            left: -16px;
+            right: -16px;
+            top: -14px;
+            bottom: -14px;
           }
           .visualTitle, .visualSub{
             white-space: normal;
@@ -956,7 +1008,6 @@ export default function Page() {
         }
       `}</style>
 
-      {/* ======== CONTENT (unchanged) ======== */}
       <header className="heroStage">
         <div className="heroInner">
           <header className="hero">
