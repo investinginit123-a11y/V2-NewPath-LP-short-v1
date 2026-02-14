@@ -1,8 +1,8 @@
 // app/page.tsx
-// PASS: MOBILE FIX 4.0 — CONSISTENT PULSE + DOOR 2 COPY (NO DRIFT)
+// PASS: MOBILE FIX 4.0 — CTA HEARTBEAT BOOST (NO DRIFT)
 // ✅ This pass:
-// - Adds consistent “alive” pulse across Door selectors + both CTA pills + subtle door rails (respects reduced motion)
-// - Updates Door 2 selector copy to: “By completing Door 1 today, you unlocked Door 2.” + “Door 2 is for tomorrow — see a preview.”
+// - Makes CTA buttons dramatically more “alive” (bigger heartbeat + visible glow)
+// - Keeps everything else identical
 
 import Section from "../components/Section";
 import React from "react";
@@ -118,21 +118,30 @@ export default function Page() {
           0%, 100% { transform: translateY(0px); }
           50%      { transform: translateY(-2px); }
         }
-        @keyframes aliveGlowFire {
-          0%, 100% { box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
-          50%      { box-shadow: 0 26px 78px rgba(225,6,0,0.16); }
+
+        /* =========================================================
+           ✅ CTA HEARTBEAT (MORE DRAMATIC)
+           - Big “thump” + visible glow + inner sheen pulse
+        ========================================================= */
+        @keyframes ctaHeart {
+          0%   { transform: translateY(0px) scale(1); }
+          10%  { transform: translateY(-1px) scale(1.03); }
+          18%  { transform: translateY(0px) scale(0.995); }
+          28%  { transform: translateY(-2px) scale(1.045); }
+          40%  { transform: translateY(0px) scale(1); }
+          100% { transform: translateY(0px) scale(1); }
         }
-        @keyframes aliveGlowInk {
-          0%, 100% { box-shadow: 0 20px 60px rgba(0,0,0,0.12); }
-          50%      { box-shadow: 0 26px 82px rgba(0,0,0,0.18); }
+        @keyframes ctaGlowFire {
+          0%, 100% { box-shadow: 0 18px 44px rgba(225,6,0,0.20); filter: brightness(1); }
+          28%      { box-shadow: 0 30px 90px rgba(225,6,0,0.38); filter: brightness(1.06); }
         }
-        @keyframes railShimmerFire {
-          0%, 100% { filter: brightness(1); opacity: 0.92; }
-          50%      { filter: brightness(1.12); opacity: 1; }
+        @keyframes ctaGlowInk {
+          0%, 100% { box-shadow: 0 18px 46px rgba(0,0,0,0.18); filter: brightness(1); }
+          28%      { box-shadow: 0 32px 96px rgba(0,0,0,0.28); filter: brightness(1.06); }
         }
-        @keyframes railShimmerInk {
-          0%, 100% { filter: brightness(1); opacity: 0.90; }
-          50%      { filter: brightness(1.10); opacity: 1; }
+        @keyframes ctaSheen {
+          0%, 100% { opacity: 0.12; transform: translateX(-10%) translateY(-8%) scale(1); }
+          28%      { opacity: 0.34; transform: translateX(0%) translateY(-10%) scale(1.06); }
         }
 
         /* Reduced motion: kill all non-essential animations */
@@ -176,13 +185,12 @@ export default function Page() {
         }
         .heroInner { position: relative; z-index: 2; }
 
-        .h1 {
+        .h1 { 
           letter-spacing: -0.03em;
           color: var(--ink-strong);
           font-weight: 950;
         }
 
-        /* ✅ Hero copy = stacked steps */
         .subStack{
           display: grid;
           gap: 10px;
@@ -222,7 +230,6 @@ export default function Page() {
           object-fit: contain;
         }
 
-        /* DOORS */
         #doors .sectionTitle{
           font-size: clamp(34px, 5vw, 54px);
           line-height: 1.04;
@@ -236,7 +243,6 @@ export default function Page() {
           background: transparent;
         }
 
-        /* ✅ SIMPLE DOOR SELECTORS */
         .doorSelect{
           display:grid;
           gap: 12px;
@@ -257,14 +263,10 @@ export default function Page() {
           gap: 14px;
           transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
           will-change: transform, box-shadow;
+          animation: aliveFloat 6.4s ease-in-out infinite;
         }
         .doorSelectBtn:active{ transform: translateY(1px) scale(0.99); }
         .doorSelectBtn:hover{ box-shadow: 0 28px 84px rgba(0,0,0,0.16); }
-
-        /* ✅ Alive pulse on door selectors */
-        .doorSelectBtn{
-          animation: aliveFloat 6.4s ease-in-out infinite;
-        }
 
         .doorSelectLeft{
           display:flex;
@@ -328,7 +330,6 @@ export default function Page() {
           color: rgba(15,23,42,0.70);
         }
 
-        /* DETAIL CARDS */
         .doorStack{
           display:grid;
           gap: 18px;
@@ -370,11 +371,11 @@ export default function Page() {
         }
         .doorRail.fire{
           background: linear-gradient(90deg, rgba(225,6,0,0.22), rgba(225,6,0,0.06), transparent);
-          animation: railShimmerFire 5.8s ease-in-out infinite;
+          opacity: 0.95;
         }
         .doorRail.ink{
           background: linear-gradient(90deg, rgba(11,11,15,0.22), rgba(11,11,15,0.06), transparent);
-          animation: railShimmerInk 6.2s ease-in-out infinite;
+          opacity: 0.92;
         }
 
         .doorInner{
@@ -449,6 +450,7 @@ export default function Page() {
           max-width: 100%;
           min-width: 0;
         }
+
         .visualLeft{
           display:flex;
           align-items:center;
@@ -507,7 +509,6 @@ export default function Page() {
           border: 1px solid rgba(225,6,0,0.14);
         }
 
-        /* Door 2 “Discover the pattern” highlight */
         .doorCard.ink .doorVisual{
           background: linear-gradient(90deg, rgba(25,211,197,0.16), rgba(255,255,255,0.96) 55%);
           border-color: rgba(0,0,0,0.10);
@@ -569,8 +570,12 @@ export default function Page() {
         .miniMark.fire{ background: rgba(225,6,0,0.62); }
         .miniMark.ink{ background: rgba(11,11,15,0.56); }
 
-        /* Outbound CTAs (still only 2 total) */
+        /* =========================================================
+           ✅ CTA BUTTONS — NOW VERY ALIVE (heartbeat + sheen)
+        ========================================================= */
         .ctaPill{
+          position: relative;
+          overflow: hidden;
           display:inline-flex;
           align-items:center;
           justify-content:center;
@@ -585,30 +590,51 @@ export default function Page() {
           white-space: nowrap;
           max-width: 100%;
           flex: 0 0 auto;
-          will-change: transform, box-shadow;
+          will-change: transform, box-shadow, filter;
+          transform: translateZ(0);
         }
         .ctaPill:active{ transform: translateY(1px) scale(0.99); }
+
+        /* Inner sheen layer so the pulse is visible even if shadows are subtle */
+        .ctaPill::before{
+          content:"";
+          position:absolute;
+          inset:-40%;
+          background: radial-gradient(closest-side at 30% 30%, rgba(255,255,255,0.35), transparent 62%);
+          pointer-events:none;
+          opacity: 0.14;
+          transform: translateX(-10%) translateY(-8%) scale(1);
+          animation: ctaSheen 2.8s ease-in-out infinite;
+          mix-blend-mode: screen;
+        }
 
         .ctaPill.fire{
           background: var(--fire);
           color: #fff;
           border-color: rgba(0,0,0,0.10);
           box-shadow: 0 18px 44px rgba(225,6,0,0.20);
-          animation: aliveFloat 6.8s ease-in-out infinite, aliveGlowFire 6.8s ease-in-out infinite;
+          animation: ctaHeart 2.8s ease-in-out infinite, ctaGlowFire 2.8s ease-in-out infinite;
         }
         .ctaPill.ink{
           background: var(--ink);
           color: #fff;
           border-color: rgba(0,0,0,0.10);
           box-shadow: 0 18px 46px rgba(0,0,0,0.18);
-          animation: aliveFloat 7.2s ease-in-out infinite, aliveGlowInk 7.2s ease-in-out infinite;
+          animation: ctaHeart 3.0s ease-in-out infinite, ctaGlowInk 3.0s ease-in-out infinite;
         }
 
+        /* Mobile: slightly stronger because it’s harder to perceive */
         @media (max-width: 820px){
-          /* Slightly more present on mobile */
-          .doorSelectBtn{ animation-duration: 4.6s; }
-          .ctaPill.fire{ animation-duration: 4.9s; }
-          .ctaPill.ink{ animation-duration: 5.2s; }
+          .ctaPill.fire{
+            animation-duration: 2.3s;
+          }
+          .ctaPill.ink{
+            animation-duration: 2.5s;
+          }
+          .ctaPill::before{
+            animation-duration: 2.3s;
+            opacity: 0.18;
+          }
 
           .doorVisual{
             flex-direction: column;
@@ -659,7 +685,6 @@ export default function Page() {
           animation: glowPulse 5.6s ease-in-out infinite;
         }
 
-        /* Cipher emblem “alive” */
         .cipherEmblem{
           display:block;
           margin: 6px auto 0;
@@ -679,7 +704,6 @@ export default function Page() {
           50%      { transform: translateY(-2px) scale(1.015); filter: drop-shadow(0 26px 58px rgba(25,211,197,0.20)); }
         }
 
-        /* ✅ Mobile: 50%+ more obvious */
         @media (max-width: 820px){
           .cipherGlow{
             animation-duration: 3.8s;
@@ -741,7 +765,6 @@ export default function Page() {
           background: rgba(225,6,0,0.48);
         }
 
-        /* ✅ Mini Guide Accordion */
         .miniGuide{
           border: 1px solid rgba(0,0,0,0.10);
           background: rgba(0,0,0,0.015);
@@ -750,7 +773,6 @@ export default function Page() {
           display: grid;
           gap: 12px;
         }
-        /* Door 2 variant (subtle cipher tint) */
         .miniGuide.cipher{
           background: linear-gradient(180deg, rgba(25,211,197,0.10), rgba(0,0,0,0.012));
           border-color: rgba(25,211,197,0.16);
@@ -831,7 +853,6 @@ export default function Page() {
           flex: 0 0 auto;
           font-size: 13px;
         }
-        /* Door 2 step number uses premium ink (not red) */
         .miniGuide.cipher .miniStepNum{
           background: var(--ink);
         }
@@ -915,7 +936,6 @@ export default function Page() {
           border-radius: 14px;
           padding: 10px 10px;
         }
-        /* Door 2 one-move uses cipher tint instead of red */
         .miniGuide.cipher .miniOneMove{
           border-color: rgba(25,211,197,0.22);
           background: rgba(25,211,197,0.08);
@@ -936,6 +956,7 @@ export default function Page() {
         }
       `}</style>
 
+      {/* ======== CONTENT (unchanged) ======== */}
       <header className="heroStage">
         <div className="heroInner">
           <header className="hero">
@@ -977,7 +998,6 @@ export default function Page() {
 
       <Section id="doors" title="Choose your door" desc="">
         <div className="decisionStage" aria-label="Decision stage">
-          {/* ✅ Door 1 selector ONLY */}
           <div className="doorSelect" aria-label="Door selector">
             <a
               className="doorSelectBtn"
@@ -999,7 +1019,6 @@ export default function Page() {
             </a>
           </div>
 
-          {/* Door 1 detail card */}
           <div className="doorStack">
             <div className="doorCard fire" id="door-1" aria-label="Door 1: Today">
               <div className="doorRail fire" aria-hidden="true" />
@@ -1016,7 +1035,6 @@ export default function Page() {
                   lender-aligned path—without overwhelm.
                 </p>
 
-                {/* ✅ Door 1 mini-guide (subtitle removed per markup) */}
                 <MiniAccordion
                   title="Learn the 4 moves (no noise)"
                   items={[
@@ -1072,7 +1090,6 @@ export default function Page() {
                     </div>
                   </div>
 
-                  {/* ✅ CTA #1 (Outbound) */}
                   <a
                     className="ctaPill fire"
                     href="https://capture-of-application.vercel.app/apply?utm_source=newpath-landing&utm_medium=door&utm_campaign=two-door"
@@ -1117,9 +1134,7 @@ export default function Page() {
         </div>
       </Section>
 
-      {/* ✅ Reframed as “for your tomorrow” (without repeating "tomorrow" everywhere) */}
       <Section id="cipher" title="The BALANCE Cipher" desc="For your tomorrow.">
-        {/* ✅ Door 2 selector moved HERE */}
         <div className="doorSelect" aria-label="Door 2 selector" style={{ marginBottom: 14 }}>
           <a
             className="doorSelectBtn"
@@ -1141,7 +1156,6 @@ export default function Page() {
           </a>
         </div>
 
-        {/* Door 2 detail */}
         <div style={{ marginBottom: 18 }}>
           <div className="doorCard ink" id="door-2" aria-label="Door 2: Cipher door">
             <div className="doorRail ink" aria-hidden="true" />
@@ -1167,7 +1181,6 @@ export default function Page() {
                   </div>
                 </div>
 
-                {/* ✅ CTA #2 (Outbound) */}
                 <a className="ctaPill ink" href="https://app.balancecipher.com/" target="_blank" rel="noopener noreferrer">
                   Open the Cipher →
                 </a>
@@ -1242,7 +1255,6 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Cipher content */}
         <div className="cipherCard">
           <div className="cipherGlow" aria-hidden="true" />
           <div className="cipherInner">
